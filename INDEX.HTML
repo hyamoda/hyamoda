@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>HYA Moda</title>
+
+<style>
+*{box-sizing:border-box}
+
+body{
+    margin:0;
+    font-family:Arial,sans-serif;
+}
+
+/* HERO */
+.hero{
+    background:#111;
+    color:white;
+    text-align:center;
+    padding:30px 10px;
+}
+
+.hero h1{
+    margin-bottom:20px;
+}
+
+/* CARRUSEL SUPERIOR */
+.carousel{
+    width:25%;
+    margin:auto;
+    overflow:hidden;
+    border-radius:15px;
+}
+
+.carousel-track{
+    display:flex;
+    transition:transform .5s ease;
+}
+
+.carousel img{
+    width:100%;
+    object-fit:cover;
+}
+
+/* ===== SEGUNDO CARRUSEL ===== */
+.productos{
+    padding:40px 20px;
+    text-align:center;
+}
+
+.productos h2{
+    margin-bottom:20px;
+}
+
+/* CONTENEDOR */
+.slider-container{
+    position:relative;
+    width:90%;        /* más ancho */
+    height:350px;     /* MÁS ALTO */
+    margin:auto;
+    overflow:hidden;
+}
+
+/* TRACK */
+.slider-track{
+    display:flex;
+    gap:20px;
+    transition:transform .4s ease;
+    padding:20px 0;
+    align-items:center; /* 👈 IMPORTANTE */
+}
+
+/* ITEM */
+.slider-item{
+    flex:0 0 180px;
+    position:relative;
+    cursor:pointer;
+    z-index:1;
+}
+
+.slider-item img{
+    width:100%;
+    border-radius:10px;
+    transition:transform .3s ease;
+
+}
+
+/* HOVER CORRECTO */
+.slider-item:hover{
+    z-index:100;
+}
+
+.slider-item:hover img{
+    transform: scale(1.4);
+}
+
+/* FLECHAS */
+.arrow{
+    position:absolute;
+    top:50%;
+    transform:translateY(-50%);
+    background:black;
+    color:white;
+    border:none;
+    font-size:30px;
+    padding:10px 15px;
+    cursor:pointer;
+    opacity:.8;
+    z-index:20;
+}
+
+.arrow.left{left:0}
+.arrow.right{right:0}
+
+/* MODAL */
+.modal{
+    display:none;
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.9);
+    justify-content:center;
+    align-items:center;
+    z-index:9999;
+}
+
+.modal img{
+    max-width:80%;
+}
+
+.cerrar{
+    position:absolute;
+    top:20px;
+    right:30px;
+    font-size:40px;
+    color:white;
+    cursor:pointer;
+}
+
+/* WHATSAPP */
+.whatsapp{
+    position:fixed;
+    bottom:20px;
+    right:20px;
+    background:#25D366;
+    color:white;
+    font-size:30px;
+    padding:15px;
+    border-radius:50%;
+    text-decoration:none;
+}
+
+/* TEXTO HOVER "VER MÁS MODELOS" */
+.slider-item{
+    position: relative;
+}
+
+.slider-item::after{
+    content: "Ver más modelos";
+    position: absolute;
+    top: 10 px;              /* 👈 posición del texto */
+    left: 50%;
+    transform: translateX(-50%);
+    color: white;
+    font-size: 17px;
+    font-weight: bold;
+    opacity: 0;
+    transition: opacity .3s ease;
+    pointer-events: none;
+    text-shadow:
+    0 1px 2px rgba(0,0,0,.9),
+    1px 0 2px rgba(0,0,0,.9),
+   -1px 0 2px rgba(0,0,0,.9),
+    0 -1px 2px rgba(0,0,0,.9);
+}
+
+
+.slider-item:hover::after{
+    opacity: 1;
+}
+
+}
+</style>
+</head>
+
+<body>
+
+<section class="hero">
+    <h1>Bienvenido a HYA Moda</h1>
+
+    <div class="carousel">
+        <div class="carousel-track" id="carousel-track"></div>
+    </div>
+</section>
+
+<section class="productos">
+    <h2>Nuestras Zapatillas</h2>
+
+    <div class="slider-container">
+        <button class="arrow left" onclick="mover(-1)">‹</button>
+        <div class="slider-track" id="slider-track"></div>
+        <button class="arrow right" onclick="mover(1)">›</button>
+    </div>
+</section>
+
+<div class="modal" id="modal">
+    <span class="cerrar" onclick="cerrarGaleria()">×</span>
+    <img id="modal-img">
+</div>
+
+<a href="https://wa.me/51974309455" class="whatsapp" target="_blank">💬</a>
+
+<script>
+const carpeta="imagenes/carrusel/";
+const imagenes=[
+"1.jpeg","2.jpeg","3.jpeg","4.jpeg","5.jpeg",
+"6.jpeg","7.jpeg","8.jpeg","9.jpeg","10.jpeg","11.jpeg","12.jpeg","13.jpeg","14.jpeg","15.jpeg","16.jpeg","17.jpeg","18.jpeg","19.jpeg","20.jpeg","21.jpeg","22.jpeg"
+];
+
+/* CARRUSEL SUPERIOR */
+const track=document.getElementById("carousel-track");
+let index=0;
+
+imagenes.forEach(img=>{
+    const i=document.createElement("img");
+    i.src=carpeta+img;
+    track.appendChild(i);
+});
+
+setInterval(()=>{
+    index=(index+1)%imagenes.length;
+    track.style.transform=`translateX(-${index*100}%)`;
+},1000);
+
+/* SEGUNDO CARRUSEL */
+const sliderTrack=document.getElementById("slider-track");
+let pos=0;
+
+imagenes.forEach((img, i)=>{
+    const div=document.createElement("div");
+    div.className="slider-item";
+
+    div.innerHTML = `
+        <a href="MODEL${i+1}/${i+1}.html">
+            <img src="${carpeta + img}">
+        </a>
+    `;
+
+    sliderTrack.appendChild(div);
+});
+
+
+/* ===== SEGUNDO CARRUSEL INFINITO ===== */
+const itemWidth = 200; // 180px + gap
+const container = document.querySelector(".slider-container");
+
+let currentIndex = 0;
+
+function mover(dir){
+    const visibleItems = Math.floor(container.offsetWidth / itemWidth);
+
+    currentIndex += dir * 1; // avanza 2 imágenes
+
+    if(currentIndex < 0){
+        currentIndex = imagenes.length - visibleItems;
+    }
+
+    if(currentIndex > imagenes.length - visibleItems){
+        currentIndex = 0;
+    }
+
+    sliderTrack.style.transform =
+        `translateX(-${currentIndex * itemWidth}px)`;
+}
+
+function abrirGaleria(src){
+    document.getElementById("modal-img").src=src;
+    document.getElementById("modal").style.display="flex";
+}
+
+function cerrarGaleria(){
+    document.getElementById("modal").style.display="none";
+}
+</script>
+
+</body>
+</html>

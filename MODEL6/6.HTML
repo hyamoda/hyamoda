@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Zapatilla Urbana - HYA Moda</title>
+
+<style>
+*{box-sizing:border-box;}
+body{
+    margin:0;
+    font-family:Arial,sans-serif;
+    background:#f5f5f5;
+    color:#333;
+}
+
+/* HEADER */
+header{
+    background:#111;
+    color:white;
+    padding:20px;
+    text-align:center;
+}
+
+/* CARRUSEL MODELO */
+.carrusel-modelo{
+    width:90%;
+    max-width:800px;
+    margin:30px auto;
+    overflow:hidden;
+    border-radius:15px;
+    position:relative;
+}
+
+.carrusel-track{
+    display:flex;
+    transition:transform .4s ease;
+}
+
+.carrusel-track img{
+    width:100%;
+    object-fit:cover;
+    border-radius:10px;
+}
+
+/* FLECHAS */
+.arrow{
+    position:absolute;
+    top:50%;
+    transform:translateY(-50%);
+    background:black;
+    color:white;
+    border:none;
+    font-size:30px;
+    padding:10px 15px;
+    cursor:pointer;
+    opacity:.8;
+    z-index:10;
+}
+
+.arrow.left{left:0;}
+.arrow.right{right:0;}
+
+/* DESCRIPCIÓN */
+.descripcion{
+    width:90%;
+    max-width:800px;
+    margin:auto;
+    background:white;
+    padding:20px;
+    border-radius:10px;
+    margin-top:20px;
+}
+
+.descripcion h2{
+    margin-top:0;
+}
+
+/* VIDEO */
+.video-modelo{
+    width:90%;
+    max-width:800px;
+    margin:20px auto;
+    display:flex;
+    justify-content:center;
+}
+
+/* WHATSAPP */
+.whatsapp{
+    position:fixed;
+    bottom:20px;
+    right:20px;
+    background:#25D366;
+    color:white;
+    font-size:30px;
+    padding:15px;
+    border-radius:50%;
+    text-decoration:none;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <h1>Zapatilla Urbana</h1>
+    <p>Explora todas las fotos y el video de este modelo</p>
+</header>
+
+<!-- CARRUSEL DE FOTOS -->
+<div class="carrusel-modelo">
+    <button class="arrow left" onclick="mover(-1)">‹</button>
+    <div class="carrusel-track" id="carrusel-track">
+        <img src="imagenes/productos/zap1_1.jpg">
+        <img src="imagenes/productos/zap1_2.jpg">
+        <img src="imagenes/productos/zap1_3.jpg">
+        <img src="imagenes/productos/zap1_4.jpg">
+    </div>
+    <button class="arrow right" onclick="mover(1)">›</button>
+</div>
+
+<!-- VIDEO -->
+<div class="video-modelo">
+    <video width="100%" controls>
+        <source src="imagenes/productos/zap1_video.mp4" type="video/mp4">
+        Tu navegador no soporta el video.
+    </video>
+</div>
+
+<!-- DESCRIPCIÓN -->
+<div class="descripcion">
+    <h2>Detalles del Modelo</h2>
+    <p>Esta zapatilla urbana es perfecta para tu día a día. Cómoda, ligera y con diseño moderno. Disponible en varios colores y tallas.</p>
+</div>
+
+<!-- WHATSAPP -->
+<a href="https://wa.me/51999999999?text=Hola,%20quiero%20este%20modelo" class="whatsapp" target="_blank">💬</a>
+
+<script>
+const track=document.getElementById("carrusel-track");
+let index=0;
+
+function mover(dir){
+    const ancho=track.children[0].offsetWidth + 20; // ancho + gap
+    index += dir;
+    if(index < 0) index = 0;
+    if(index > track.children.length-1) index = track.children.length-1;
+    track.style.transform=`translateX(-${index*ancho}px)`;
+}
+</script>
+
+</body>
+</html>
