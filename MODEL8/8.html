@@ -6,11 +6,42 @@
 
 <style>
 *{box-sizing:border-box;}
+
 body{
     margin:0;
     font-family:Arial,sans-serif;
     background:#f5f5f5;
     color:#333;
+}
+
+/* ===== PANTALLA DE CARGA ===== */
+#loader{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background:#fff;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    z-index:10000;
+}
+
+#loader img{
+    width:120px;
+    animation:pulse 1.2s infinite;
+}
+
+@keyframes pulse{
+    0%{transform:scale(1);}
+    50%{transform:scale(1.1);}
+    100%{transform:scale(1);}
+}
+
+/* OCULTA CONTENIDO AL INICIO */
+#contenido{
+    display:none;
 }
 
 /* HEADER */
@@ -21,131 +52,242 @@ header{
     text-align:center;
 }
 
-/* CARRUSEL MODELO */
-.carrusel-modelo{
+/* ===== CONTENEDOR GENERAL 2 COLUMNAS ===== */
+.producto{
     width:90%;
-    max-width:800px;
+    max-width:1200px;
     margin:30px auto;
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    gap:40px;
+}
+
+/* ===== COLUMNA IZQUIERDA ===== */
+.producto-fotos{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+}
+
+/* VISOR */
+.visor{
+    position:relative;
     overflow:hidden;
     border-radius:15px;
-    position:relative;
+    cursor:zoom-in;
+    display:inline-flex;
+    justify-content:center;
+    align-items:center;
 }
 
-.carrusel-track{
+.visor img{
+    max-height:450px;
+    width:auto;
+    height:auto;
+    object-fit:contain;
+    transition:transform .15s ease;
+    transform-origin:center;
+}
+
+/* MINIATURAS */
+.galeria{
+    margin-top:15px;
     display:flex;
-    transition:transform .4s ease;
+    gap:15px;
+    justify-content:center;
+    flex-wrap:wrap;
 }
 
-.carrusel-track img{
-    width:100%;
-    object-fit:cover;
+.galeria img{
+    width:65px;
     border-radius:10px;
-}
-
-/* FLECHAS */
-.arrow{
-    position:absolute;
-    top:50%;
-    transform:translateY(-50%);
-    background:black;
-    color:white;
-    border:none;
-    font-size:30px;
-    padding:10px 15px;
     cursor:pointer;
-    opacity:.8;
-    z-index:10;
+    transition:transform .2s ease;
 }
 
-.arrow.left{left:0;}
-.arrow.right{right:0;}
+.galeria img:hover{
+    transform:scale(1.1);
+}
 
-/* DESCRIPCIÓN */
+/* ===== COLUMNA DERECHA ===== */
+.producto-info{
+    display:flex;
+    flex-direction:column;
+    gap:25px;
+}
+
 .descripcion{
-    width:90%;
-    max-width:800px;
-    margin:auto;
     background:white;
     padding:20px;
     border-radius:10px;
-    margin-top:20px;
 }
 
-.descripcion h2{
-    margin-top:0;
-}
-
-/* VIDEO */
 .video-modelo{
-    width:90%;
-    max-width:800px;
-    margin:20px auto;
+    width:100%;
     display:flex;
     justify-content:center;
 }
 
+.video-modelo video{
+    width:60%;
+    max-width:500px;
+    border-radius:10px;
+}
+
 /* WHATSAPP */
-.whatsapp{
+.whatsapp-box{
     position:fixed;
     bottom:20px;
     right:20px;
-    background:#25D366;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:6px;
+    z-index:9999;
+}
+
+.whatsapp-text{
+    background:#111;
     color:white;
-    font-size:30px;
-    padding:15px;
+    font-size:13px;
+    padding:6px 10px;
+    border-radius:8px;
+    white-space:nowrap;
+    box-shadow:0 4px 10px rgba(0,0,0,.3);
+}
+
+.whatsapp-btn{
+    background:#25D366;
+    width:56px;
+    height:56px;
     border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
     text-decoration:none;
+    box-shadow:0 6px 15px rgba(0,0,0,.35);
+}
+
+.whatsapp-btn img{
+    width:32px;
+    height:32px;
+}
+
+/* ===== RESPONSIVE ===== */
+@media(max-width:768px){
+    .producto{
+        grid-template-columns:1fr;
+    }
+
+    .visor img{
+        max-height:320px;
+    }
+
+    .galeria img{
+        width:55px;
+    }
+
+    .video-modelo video{
+        width:100%;
+    }
 }
 </style>
 </head>
 
 <body>
 
+<!-- PANTALLA DE CARGA -->
+<div id="loader">
+    <img src="IMAGEN/cargando.jpg" alt="Cargando">
+</div>
+
+<!-- CONTENIDO REAL -->
+<div id="contenido">
+
 <header>
     <h1>Zapatilla Urbana</h1>
-    <p>Explora todas las fotos y el video de este modelo</p>
+    <p>Explora cada detalle del modelo</p>
 </header>
 
-<!-- CARRUSEL DE FOTOS -->
-<div class="carrusel-modelo">
-    <button class="arrow left" onclick="mover(-1)">‹</button>
-    <div class="carrusel-track" id="carrusel-track">
-        <img src="imagenes/productos/zap1_1.jpg">
-        <img src="imagenes/productos/zap1_2.jpg">
-        <img src="imagenes/productos/zap1_3.jpg">
-        <img src="imagenes/productos/zap1_4.jpg">
+<div class="producto">
+
+    <div class="producto-fotos">
+        <div class="visor" id="visor">
+            <img id="visor-img">
+        </div>
+
+        <div class="galeria">
+            <img src="IMAGEN/1.jpeg" onclick="mostrar(this)">
+            <img src="IMAGEN/2.jpeg" onclick="mostrar(this)">
+            <img src="IMAGEN/3.jpeg" onclick="mostrar(this)">
+            <img src="IMAGEN/4.jpeg" onclick="mostrar(this)">
+        </div>
     </div>
-    <button class="arrow right" onclick="mover(1)">›</button>
+
+    <div class="producto-info">
+        <div class="descripcion">
+            <h2>Detalles del Modelo</h2>
+            <p>
+                Zapatilla urbana cómoda, ligera y moderna.
+                Ideal para uso diario y disponible en varias tallas.
+            </p>
+        </div>
+
+        <div class="video-modelo">
+            <video controls>
+                <source src="IMAGEN/1.mp4" type="video/mp4">
+            </video>
+        </div>
+    </div>
+
 </div>
 
-<!-- VIDEO -->
-<div class="video-modelo">
-    <video width="100%" controls>
-        <source src="imagenes/productos/zap1_video.mp4" type="video/mp4">
-        Tu navegador no soporta el video.
-    </video>
+<div class="whatsapp-box">
+    <div class="whatsapp-text">Chatea con nosotros</div>
+    <a href="https://wa.me/51974309455" class="whatsapp-btn" target="_blank">
+        <img src="IMAGEN/whatsapp.png" alt="WhatsApp">
+    </a>
 </div>
 
-<!-- DESCRIPCIÓN -->
-<div class="descripcion">
-    <h2>Detalles del Modelo</h2>
-    <p>Esta zapatilla urbana es perfecta para tu día a día. Cómoda, ligera y con diseño moderno. Disponible en varios colores y tallas.</p>
 </div>
-
-<!-- WHATSAPP -->
-<a href="https://wa.me/51999999999?text=Hola,%20quiero%20este%20modelo" class="whatsapp" target="_blank">💬</a>
 
 <script>
-const track=document.getElementById("carrusel-track");
-let index=0;
+/* ===== PANTALLA DE CARGA ===== */
+window.addEventListener("load", ()=>{
+    setTimeout(()=>{
+        document.getElementById("loader").style.display="none";
+        document.getElementById("contenido").style.display="block";
+    },1500);
+});
 
-function mover(dir){
-    const ancho=track.children[0].offsetWidth + 20; // ancho + gap
-    index += dir;
-    if(index < 0) index = 0;
-    if(index > track.children.length-1) index = track.children.length-1;
-    track.style.transform=`translateX(-${index*ancho}px)`;
+/* ZOOM IMAGEN */
+const visor = document.getElementById("visor");
+const visorImg = document.getElementById("visor-img");
+
+function mostrar(img){
+    visorImg.src = img.src;
+    visorImg.style.transform = "scale(1)";
 }
+
+visor.addEventListener("mousemove", e=>{
+    if(!visorImg.src) return;
+
+    visorImg.style.transform = "scale(2.5)";
+    const rect = visor.getBoundingClientRect();
+    const x = ((e.clientX - rect.left) / rect.width) * 100;
+    const y = ((e.clientY - rect.top) / rect.height) * 100;
+    visorImg.style.transformOrigin = `${x}% ${y}%`;
+});
+
+visor.addEventListener("mouseleave", ()=>{
+    visorImg.style.transform = "scale(1)";
+    visorImg.style.transformOrigin = "center";
+});
+
+window.addEventListener("DOMContentLoaded", ()=>{
+    const primera = document.querySelector(".galeria img");
+    if(primera) mostrar(primera);
+});
 </script>
 
 </body>
