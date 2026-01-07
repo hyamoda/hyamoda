@@ -107,15 +107,20 @@ body{
 
     /* MOVER FLECHAS SOLO EN CELULAR */
     .arrow{
-        top: auto !important;        /* eliminamos top original */
-        bottom: -60px;               /* un poco más lejos del slider, ajusta si quieres */
-        left: 50%;                   /* centradas horizontal */
-        transform: translateX(-50%); /* centrarlas perfectamente */
-        font-size: 32px;             /* un poco más grandes */
-        padding: 14px 20px;          /* más gruesas */
+        top: auto !important;        /* quitamos top */
+        bottom: -60px;               /* debajo del slider, ajusta si quieres */
+        font-size: 32px;             /* tamaño más grueso */
+        padding: 14px 20px;          /* más “gruesas” */
     }
-    .arrow.left { transform: translateX(-50px); }   /* mover un poco a la izquierda */
-    .arrow.right { transform: translateX(50px); }   /* mover un poco a la derecha */
+    .arrow.left {
+        left: 40%;                   /* un poco a la izquierda del centro */
+        transform: translateX(0);    /* ya no necesitamos desplazar */
+    }
+
+    .arrow.right {
+        left: 60%;                   /* un poco a la derecha del centro */
+        transform: translateX(0);    /* ya no necesitamos desplazar */
+    }
 }
 
 
