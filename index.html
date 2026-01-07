@@ -76,37 +76,45 @@ body{
 }
 
 /* CELULAR */
-/* ===== CELULAR ===== */
 @media(max-width:768px){
-    .hero h1{font-size:26px}
-    .carousel{width:100%; max-width:330px}
+    .hero-content{
+        flex-direction:column;
+        text-align:center;
+    }
+    .hero-text{
+        text-align:center; 
+        margin-top:20px;
+    }
+    .hero-carousel{
+        margin-right:0; 
+        margin-bottom:20px;
+    }
 
-    /* slider items más grandes y consistentes */
-    .slider-item{flex:0 0 45%;} /* se ven 2 imágenes completas */
+    /* ajustar tamaño de título */
+    .hero h1{
+        font-size:26px; /* antes 40px, más pequeño en celular */
+    }
 
-    /* quitar hover/zoom en móvil */
+    /* ===== CAMBIO SLIDER CELULAR ===== */
+    .slider-item{
+        flex:0 0 45%; /* mostrar 2 imágenes completas */
+    }
+
+    /* quitar hover/zoom solo en móvil */
     .slider-item:hover img{
         transform: scale(1);
     }
 
-    /* mover flechas arriba y abajo */
+    /* mover flechas arriba y abajo solo en móvil */
     .arrow{
-        left:50%; /* centradas horizontal */
-        top:auto;  /* reinicia top */
+        left:50%;        /* centradas horizontal */
+        top:auto;        /* reinicia top */
         transform:translateX(-50%);
     }
-    .arrow.left{top:10px;}  /* flecha arriba */
+    .arrow.left{top:10px;}    /* flecha arriba */
     .arrow.right{bottom:10px;} /* flecha abajo */
 }
 
-
-
-.hero h1{
-    font-family:'Playfair Display', serif;
-    font-size:40px;
-    letter-spacing:1.5px;
-    margin-bottom:45px;
-}
 
 /* ===== CARRUSEL SUPERIOR ===== */
 
