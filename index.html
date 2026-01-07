@@ -603,6 +603,16 @@ mask-size: cover;
         height: 50px;
     }
 }
+/* Parpadeo / atención del icono de WhatsApp */
+@keyframes parpadeo {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.6; transform: scale(1.1); }
+}
+
+.whatsapp img {
+    animation: parpadeo 1.5s infinite ease-in-out;
+}
+
 
 </style>
 
