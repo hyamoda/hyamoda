@@ -481,6 +481,42 @@ mask-size: cover;
     }
 
 }
+@media (max-width: 768px){
+
+    /* CONTENEDOR DEL TEXTO */
+    .hero-text{
+        max-width: 100%;
+        padding: 0 12px;
+    }
+
+    .hero-text-carousel{
+        height: auto;              /* 🔥 clave */
+        min-height: unset;
+    }
+
+    /* TÍTULO */
+    .hero-message h1{
+        font-size: 24px;            /* ↓ más chico */
+        line-height: 1.15;          /* compacto */
+        margin-bottom: 8px;
+        word-break: break-word;     /* evita desborde */
+        text-wrap: balance;         /* si el navegador soporta */
+        -webkit-text-stroke: 0.6px rgba(0,0,0,0.5);
+    }
+
+    /* DESCRIPCIÓN */
+    .hero-message p{
+        font-size: 14px;
+        line-height: 1.35;
+        margin: 0;
+        word-break: break-word;
+    }
+
+    /* MENSAJE */
+    .hero-message{
+        padding: 0;
+    }
+}
 
 
 
