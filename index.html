@@ -108,10 +108,11 @@ body{
     /* MOVER FLECHAS SOLO EN CELULAR */
     .arrow{
         position: absolute;     /* se mantiene absoluta */
-        bottom: -50px;          /* ambas flechas debajo del slider */
+        bottom: -10px;          /* ambas flechas debajo del slider */
         top: auto !important;   /* aseguramos que top no afecte */
         font-size: 28px;        /* tamaño más grande */
         padding: 12px 16px;     /* más gruesas */
+        z-index: 20;            /* aseguramos que esté arriba de todo */
     }
     .arrow.left {
         left: 35%;                   /* un poco a la izquierda del centro */
