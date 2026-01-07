@@ -453,16 +453,17 @@ sliderTrack.addEventListener('mouseleave', ()=>{
 });
 
 // ===== AJUSTE CARRUSEL MÓVIL =====
-if(window.innerWidth <= 768){ // solo móviles
-    const MOBILE_DRAG_THRESHOLD = 20; // aumentar sensibilidad solo en móvil
+if(window.innerWidth <= 768){
+    const MOBILE_DRAG_THRESHOLD = 20;
     let touchStartX = 0;
     let touchScrollLeft = 0;
-    let touchMoved = false;
+    let isDragging = false;
 
     sliderTrack.addEventListener('touchstart', e => {
-        touchMoved = false;
+        isDragging = false;
         touchStartX = e.touches[0].pageX - sliderTrack.offsetLeft;
         touchScrollLeft = -currentIndex * itemWidth;
+        sliderTrack.style.transition = "none"; // quita transición mientras arrastras
     });
 
     sliderTrack.addEventListener('touchmove', e => {
@@ -470,19 +471,27 @@ if(window.innerWidth <= 768){ // solo móviles
         const walk = x - touchStartX;
 
         if(Math.abs(walk) > MOBILE_DRAG_THRESHOLD){
-            touchMoved = true; // solo si hay arrastre real
+            isDragging = true;
         }
 
-        sliderTrack.style.transform = `translateX(${touchScrollLeft + walk}px)`; 
+        sliderTrack.style.transform = `translateX(${touchScrollLeft + walk}px)`;
     });
 
     sliderTrack.addEventListener('touchend', e => {
-        // actualizar currentIndex según desplazamiento final
-        const movedPixels = -parseInt(sliderTrack.style.transform.replace('translateX(', '').replace('px)',''));
-        currentIndex = Math.round(movedPixels / itemWidth);
+        // Al soltar, volvemos a poner transición suave
+        sliderTrack.style.transition = "transform 0.4s ease";
 
-        // si no hubo arrastre, abrir link
-        if(!touchMoved){
+        if(isDragging){
+            const movedPixels = -parseInt(sliderTrack.style.transform.replace('translateX(','').replace('px)',''));
+            currentIndex = Math.round(movedPixels / itemWidth);
+            
+            // límites para que no se salga
+            if(currentIndex < 0) currentIndex = 0;
+            if(currentIndex >= imagenes.length) currentIndex = imagenes.length - 1;
+
+            sliderTrack.style.transform = `translateX(-${currentIndex * itemWidth}px)`;
+        } else {
+            // Si no hubo arrastre, abre el link tocado
             const touch = e.changedTouches[0];
             const element = document.elementFromPoint(touch.clientX, touch.clientY);
             const link = element.closest('a');
@@ -490,7 +499,6 @@ if(window.innerWidth <= 768){ // solo móviles
         }
     });
 }
-
 
 
 </script>
