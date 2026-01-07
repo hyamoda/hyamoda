@@ -77,6 +77,7 @@ body{
 
 /* CELULAR */
 @media(max-width:768px){
+    /* HERO */
     .hero-content{
         flex-direction:column;
         text-align:center;
@@ -89,35 +90,41 @@ body{
         margin-right:0; 
         margin-bottom:20px;
     }
-
-    /* ajustar tamaño de título */
     .hero h1{
-        font-size:26px; /* antes 40px, más pequeño en celular */
+        font-size:26px; /* más pequeño en celular */
     }
 
-    /* ===== CAMBIO SLIDER CELULAR ===== */
+    /* SLIDER MÓVIL */
     .slider-item{
         flex:0 0 45%; /* mostrar 2 imágenes completas */
     }
 
-    /* QUITAR HOVER/ZOOM completamente */
-    .slider-item img{
+    /* ===== ANULAR HOVER SOLO EN CELULAR ===== */
+    .slider-item:hover img{
         transform: scale(1) !important;
         transition: none !important;
     }
 
-    /* mover flechas arriba y abajo solo en móvil */
+    /* MOVER FLECHAS SOLO EN CELULAR */
     .arrow{
-        left:50%;                /* centradas horizontal */
+        left:50%;         /* centradas horizontal */
+        top:auto;         /* reinicia top */
         transform:translateX(-50%);
-        width:40px;              /* ancho fijo */
-        height:40px;             /* alto fijo */
-        font-size:24px;          /* tamaño de símbolo */
-        padding:0;               /* quitar padding extra */
     }
-    .arrow.left{top:5px;}       /* flecha arriba */
-    .arrow.right{bottom:5px;}   /* flecha abajo */
+    .arrow.left{
+        top:10px;        /* flecha arriba */
+        bottom:auto;     /* aseguramos que no afecte bottom */
+        font-size:24px;  /* tamaño uniforme */
+        padding:12px 16px;
+    }
+    .arrow.right{
+        bottom:10px;     /* flecha abajo */
+        top:auto;        /* aseguramos que no afecte top */
+        font-size:24px;  /* tamaño uniforme */
+        padding:12px 16px;
+    }
 }
+
 
 
 /* ===== CARRUSEL SUPERIOR ===== */
