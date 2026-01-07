@@ -510,7 +510,7 @@ if(window.innerWidth <= 768){
 
     sliderTrack.addEventListener('touchmove', e => {
         const x = e.touches[0].pageX - sliderTrack.offsetLeft;
-        const walk = x - touchStartX;
+        const walk = (x - touchStartX) * 2; // <-- multiplicador para velocidad
 
         if(Math.abs(walk) > MOBILE_DRAG_THRESHOLD){
             isDragging = true;
