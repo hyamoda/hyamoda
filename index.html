@@ -110,7 +110,7 @@ body{
         display: flex;           /* filas de flechas */
         justify-content: center; /* centradas horizontal */
         gap: 20px;               /* espacio entre ellas */
-        margin-top: 15px;        /* separadas del slider */
+        margin-top: 5px;        /* separadas del slider */
     }
 
     .slider-arrows-mobile .arrow {
@@ -496,7 +496,7 @@ sliderTrack.addEventListener('mouseleave', ()=>{
 
 // ===== AJUSTE CARRUSEL MÓVIL =====
 if(window.innerWidth <= 768){
-    const MOBILE_DRAG_THRESHOLD = 20;
+    const MOBILE_DRAG_THRESHOLD = 12;
     let touchStartX = 0;
     let touchScrollLeft = 0;
     let isDragging = false;
