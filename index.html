@@ -98,6 +98,9 @@ body{
     .slider-item{
         flex:0 0 45%; /* mostrar 2 imágenes completas */
     }
+    .slider-container > .arrow { 
+        display: none; /* Ocultamos solo las flechas de PC en móvil */
+    }
 
     /* ===== ANULAR HOVER SOLO EN CELULAR ===== */
     .slider-item:hover img{
@@ -109,19 +112,16 @@ body{
     .slider-arrows-mobile {
         display: flex;           /* filas de flechas */
         justify-content: center; /* centradas horizontal */
-        gap: 20px;               /* espacio entre ellas */
-        margin-top: 5px;        /* separadas del slider */
+        gap: 50px;               /* espacio entre ellas */
+        margin-top: 0px;        /* separadas del slider */
     }
 
     .slider-arrows-mobile .arrow {
-        position: relative;  /* no flotan sobre el slider */
-        top: auto;
-        left: auto;
-        bottom: auto;
-        transform: none;
-        font-size: 26px;     /* tamaño más grande */
-        padding: 14px 18px;  /* más gruesas */
-        z-index: 20;         /* encima de todo */
+        position: relative;  
+        font-size: 36px;      /* más grande */
+        padding: 18px 24px;   /* más gruesas */
+        z-index: 20;         
+        border-radius: 20px;  /* opcional: más redondeadas */
     }
 }
 
@@ -496,7 +496,7 @@ sliderTrack.addEventListener('mouseleave', ()=>{
 
 // ===== AJUSTE CARRUSEL MÓVIL =====
 if(window.innerWidth <= 768){
-    const MOBILE_DRAG_THRESHOLD = 12;
+    const MOBILE_DRAG_THRESHOLD = 1;
     let touchStartX = 0;
     let touchScrollLeft = 0;
     let isDragging = false;
