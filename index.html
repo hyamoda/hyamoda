@@ -107,22 +107,15 @@ body{
 
     /* MOVER FLECHAS SOLO EN CELULAR */
     .arrow{
-        left:50%;         /* centradas horizontal */
-        top:auto;         /* reinicia top */
-        transform:translateX(-50%);
+        top: auto !important;        /* eliminamos top original */
+        bottom: -60px;               /* un poco más lejos del slider, ajusta si quieres */
+        left: 50%;                   /* centradas horizontal */
+        transform: translateX(-50%); /* centrarlas perfectamente */
+        font-size: 32px;             /* un poco más grandes */
+        padding: 14px 20px;          /* más gruesas */
     }
-    .arrow.left{
-        top:10px;        /* flecha arriba */
-        bottom:auto;     /* aseguramos que no afecte bottom */
-        font-size:24px;  /* tamaño uniforme */
-        padding:12px 16px;
-    }
-    .arrow.right{
-        bottom:10px;     /* flecha abajo */
-        top:auto;        /* aseguramos que no afecte top */
-        font-size:24px;  /* tamaño uniforme */
-        padding:12px 16px;
-    }
+    .arrow.left { transform: translateX(-50px); }   /* mover un poco a la izquierda */
+    .arrow.right { transform: translateX(50px); }   /* mover un poco a la derecha */
 }
 
 
@@ -258,7 +251,7 @@ mask-size: cover;
 
 .slider-item:hover img{
     transform:scale(1.4);
-}
+*}
 
 /* ===== FLECHAS ===== */
 .arrow{
