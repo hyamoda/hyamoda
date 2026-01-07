@@ -105,25 +105,26 @@ body{
         transition: none !important;
     }
 
-    /* MOVER FLECHAS SOLO EN CELULAR */
-    .arrow{
-        position: absolute;     /* se mantiene absoluta */
-        bottom: -10px;          /* ambas flechas debajo del slider */
-        top: auto !important;   /* aseguramos que top no afecte */
-        font-size: 28px;        /* tamaño más grande */
-        padding: 12px 16px;     /* más gruesas */
-        z-index: 20;            /* aseguramos que esté arriba de todo */
-    }
-    .arrow.left {
-        left: 35%;                   /* un poco a la izquierda del centro */
-        transform: translateX(0);    /* ya no necesitamos desplazar */
+    /* ===== NUEVAS FLECHAS SOLO CELULAR ===== */
+    .slider-arrows-mobile {
+        display: flex;           /* filas de flechas */
+        justify-content: center; /* centradas horizontal */
+        gap: 20px;               /* espacio entre ellas */
+        margin-top: 15px;        /* separadas del slider */
     }
 
-    .arrow.right {
-        left: 65%;                   /* un poco a la derecha del centro */
-        transform: translateX(0);    /* ya no necesitamos desplazar */
+    .slider-arrows-mobile .arrow {
+        position: relative;  /* no flotan sobre el slider */
+        top: auto;
+        left: auto;
+        bottom: auto;
+        transform: none;
+        font-size: 26px;     /* tamaño más grande */
+        padding: 14px 18px;  /* más gruesas */
+        z-index: 20;         /* encima de todo */
     }
 }
+
 
 
 
@@ -327,11 +328,17 @@ mask-size: cover;
 <section class="productos">
     <h2>Nuestras Zapatillas</h2>
 
-    <div class="slider-container">
+    <<div class="slider-container">
+    <button class="arrow left" onclick="mover(-1)">‹</button> <!-- PC -->
+    <div class="slider-track" id="slider-track"></div>
+    <button class="arrow right" onclick="mover(1)">›</button> <!-- PC -->
+
+    <!-- NUEVAS FLECHAS SOLO CELULAR -->
+    <div class="slider-arrows-mobile">
         <button class="arrow left" onclick="mover(-1)">‹</button>
-        <div class="slider-track" id="slider-track"></div>
         <button class="arrow right" onclick="mover(1)">›</button>
     </div>
+</div>
 </section>
 
 <div class="modal" id="modal">
