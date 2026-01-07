@@ -281,16 +281,39 @@ mask-size: cover;
 .arrow.right{right:10px}
 
 /* ===== WHATSAPP ===== */
+/* ===== WHATSAPP FLOTANTE ===== */
 .whatsapp{
     position:fixed;
     bottom:24px;
     right:24px;
-    background:#25D366;
-    color:white;
-    font-size:28px;
-    padding:16px;
-    border-radius:50%;
+    display:flex;
+    flex-direction:column;      /* texto arriba, imagen abajo */
+    align-items:center;
+    text-decoration:none;
+    z-index:999;
 }
+
+/* TEXTO */
+.whatsapp-text{
+    background:#000000;
+    color:white;
+    font-size:14px;
+    font-weight:600;
+    padding:6px 10px;
+    border-radius:12px;
+    margin-bottom:6px;
+    box-shadow:0 6px 15px rgba(0,0,0,.3);
+    white-space:nowrap;
+}
+
+/* IMAGEN */
+.whatsapp img{
+    width:64px;
+    height:64px;
+    border-radius:50%;
+    box-shadow:0 8px 20px rgba(0,0,0,.35);
+}
+
 
 /* ===== CELULAR ===== */
 @media(max-width:768px){
@@ -299,6 +322,136 @@ mask-size: cover;
     .slider-item{flex:0 0 160px}
 
 }
+.hint-catalogo{
+    font-size:14px;
+    color:#e0e0e0;
+    opacity:0.85;
+    margin-bottom:18px;
+    letter-spacing:0.6px;
+}
+
+.catalogo-indicador{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:10px;
+    margin-top:18px;
+    padding:10px 18px;
+    background:rgba(0,0,0,0.55);
+    color:#ffffff;
+    font-size:13px;
+    border-radius:30px;
+    width:max-content;
+    margin-left:auto;
+    margin-right:auto;
+    animation:fadeAttention 2.5s ease-in-out infinite;
+}
+
+.catalogo-indicador .mano{
+    font-size:18px;
+    animation:moveFinger 1.6s ease-in-out infinite;
+}
+
+/* Animación suave de atención */
+@keyframes fadeAttention{
+    0%{opacity:.6}
+    50%{opacity:1}
+    100%{opacity:.6}
+}
+
+/* Movimiento sutil del dedo */
+@keyframes moveFinger{
+    0%{transform:translateY(0)}
+    50%{transform:translateY(-6px)}
+    100%{transform:translateY(0)}
+}
+/* ===== CARRUSEL DE TEXTO HERO ===== */
+.hero-text-carousel{
+    position: relative;
+    height: 55px;
+    margin-bottom: 30px;
+}
+
+.hero-message{
+    position: absolute;
+    left: 0;
+    right: 0;
+    opacity: 0;
+    transition: opacity .8s ease;
+    font-size: 18px;
+}
+
+.hero-message.active{
+    opacity: 1;
+}
+
+/* ===== TEXTO HERO ===== */
+.hero-text {
+    max-width: 520px;
+}
+
+.hero-text-carousel {
+    position: relative;
+}
+
+.hero-message {
+    display: none;
+    animation: fadeSlide 0.6s ease;
+}
+
+.hero-message.active {
+    display: block;
+}
+
+/* TITULOS */
+.hero-message h1 {
+    font-family: 'Poppins', sans-serif;
+    font-size: 45px;
+    font-weight: 800;
+    line-height: 1.15;
+    margin-bottom: 14px;
+    color: #ffffff;
+
+    /* BORDE NEGRO */
+    -webkit-text-stroke: 1px rgba(0,0,0,0.6);
+    text-shadow:
+        0 2px 4px rgba(0,0,0,0.45);
+}
+
+/* DESCRIPCIÓN */
+.hero-message p {
+    font-family: 'Poppins', sans-serif;
+    font-size: 25px;
+    font-weight: 500;
+    color: #ffffff;
+
+    /* BORDE NEGRO SUAVE */
+    text-shadow:
+        0 1px 3px rgba(0,0,0,0.45);
+}
+
+/* ANIMACIÓN */
+@keyframes fadeSlide {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+@media (max-width: 768px) {
+    .hero-message h1 {
+        font-size: 28px;
+    }
+
+    .hero-message p {
+        font-size: 15px;
+    }
+}
+
+
 </style>
 
 
@@ -317,9 +470,31 @@ mask-size: cover;
       </div>
     </div>
     <div class="hero-text">
-      <h1>Descubre la moda que marca tu estilo</h1>
+  <div class="hero-text-carousel">
+
+    <div class="hero-message active">
+      <h1>Eleva tu estilo con lo último en zapatillas</h1>
       <p>Explora nuestra colección 2026 y encuentra tus zapatillas favoritas.</p>
-     
+    </div>
+
+    <div class="hero-message">
+      <h1>Tu próximo par favorito empieza aquí</h1>
+      <p>Diseño moderno pensado para destacar.</p>
+    </div>
+
+    <div class="hero-message">
+      <h1>Diseño, comodidad y actitud en cada paso</h1>
+      <p>Comodidad y estilo que te acompañan todo el día.</p>
+    </div>
+
+    <div class="hero-message">
+      <h1>Zapatillas que hablan por ti</h1>
+      <p>Modelos únicos creados para marcar tendencia.</p>
+    </div>
+
+  </div>
+</div>
+    
     </div>
   </div>
 </section>
@@ -327,8 +502,13 @@ mask-size: cover;
 
 <section class="productos">
     <h2>Nuestras Zapatillas</h2>
-
+    <p class="hint-catalogo">
+    </p>
     <<div class="slider-container">
+    <div class="catalogo-indicador">
+    <span class="mano">👇👇</span>
+    <span class="texto">Toca o haz clic en una imagen para ver el modelo</span>
+    </div>    
     <button class="arrow left" onclick="mover(-1)">‹</button> <!-- PC -->
     <div class="slider-track" id="slider-track"></div>
     <button class="arrow right" onclick="mover(1)">›</button> <!-- PC -->
@@ -346,7 +526,11 @@ mask-size: cover;
     <img id="modal-img">
 </div>
 
-<a href="https://wa.me/51974309455" class="whatsapp" target="_blank">💬</a>
+<a href="https://wa.me/51974309455" class="whatsapp" target="_blank">
+    <span class="whatsapp-text">Chatea con nosotros</span>
+    <img src="whatsapp.png" alt="WhatsApp">
+</a>
+
 
 <script>
 const carpeta="imagenes/carrusel/";
@@ -542,6 +726,15 @@ if(window.innerWidth <= 768){
     });
 }
 
+/* ===== CARRUSEL TEXTO HERO ===== */
+const mensajes = document.querySelectorAll('.hero-message');
+let msgIndex = 0;
+
+setInterval(() => {
+    mensajes[msgIndex].classList.remove('active');
+    msgIndex = (msgIndex + 1) % mensajes.length;
+    mensajes[msgIndex].classList.add('active');
+}, 3500);
 
 </script>
 
