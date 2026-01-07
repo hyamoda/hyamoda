@@ -32,6 +32,9 @@ body{
     padding:80px 20px 110px;
     border-bottom-left-radius:70px;
     border-bottom-right-radius:70px;
+    position: relative;
+    z-index: 2;
+    margin-bottom: -50px; /* ajusta el valor según cuánto quieras superponer */
 }
 
 .hero-content{
@@ -133,12 +136,12 @@ body{
 
     /* 💬 Achicar WhatsApp solo en celular */
     .whatsapp img{
-        width:48px;
-        height:48px;
+        width:38px;
+        height:38px;
     }
 
     .whatsapp-text{
-        font-size:11px;
+        font-size:9px;
         padding:4px 7px;
     }
 
@@ -236,6 +239,8 @@ mask-size: cover;
     background:
         linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), /* oscurece un poco */
         url("fondo2.jpeg") center/cover no-repeat;
+    position: relative;
+    z-index: 1;
 }
 
 
@@ -452,6 +457,7 @@ mask-size: cover;
     /* BORDE NEGRO SUAVE */
     text-shadow:
         0 1px 3px rgba(0,0,0,0.45);
+
 }
 
 /* ANIMACIÓN */
