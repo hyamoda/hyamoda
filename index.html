@@ -442,14 +442,46 @@ mask-size: cover;
     }
 }
 @media (max-width: 768px) {
+
+    .hero-text {
+        max-width: 100%;
+        padding: 0 10px;
+    }
+
     .hero-message h1 {
-        font-size: 28px;
+        font-size: 26px;
+        line-height: 1.2;
+        margin-bottom: 10px;
+        -webkit-text-stroke: 0.8px rgba(0,0,0,0.55);
     }
 
     .hero-message p {
         font-size: 15px;
+        line-height: 1.4;
+        padding: 0 5px;
+    }
+
+    .hero-text-carousel {
+        height: auto; /* 🔥 evita saltos feos */
     }
 }
+@media (max-width:768px){
+
+    /* Ocultamos el texto largo SOLO en móvil */
+    .catalogo-indicador .texto{
+        display:none;
+    }
+
+    /* Insertamos texto corto SOLO en móvil */
+    .catalogo-indicador::after{
+        content:"Toca una imagen";
+        font-size:13px;
+        font-weight:500;
+        letter-spacing:0.4px;
+    }
+
+}
+
 
 
 </style>
