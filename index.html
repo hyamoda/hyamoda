@@ -496,20 +496,26 @@ mask-size: cover;
 
     /* TÍTULO */
     .hero-message h1{
-        font-size: 24px;            /* ↓ más chico */
-        line-height: 1.15;          /* compacto */
+        font-size: 24px;
+        line-height: 1.15;
         margin-bottom: 8px;
-        word-break: break-word;     /* evita desborde */
-        text-wrap: balance;         /* si el navegador soporta */
+
+        /* 🔥 CORRECCIÓN */
+        word-break: normal;      /* ← clave */
+        overflow-wrap: normal;   /* ← clave */
+        white-space: normal;     /* ← clave */
+
         -webkit-text-stroke: 0.6px rgba(0,0,0,0.5);
     }
 
-    /* DESCRIPCIÓN */
     .hero-message p{
         font-size: 14px;
         line-height: 1.35;
-        margin: 0;
-        word-break: break-word;
+
+        /* 🔥 CORRECCIÓN */
+        word-break: normal;
+        overflow-wrap: normal;
+        white-space: normal;
     }
 
     /* MENSAJE */
