@@ -123,28 +123,35 @@ body{
 }
 
 .page img{
-    width:100%;
-    height:100%;
+    width:120%;
+    height:120%;
     position:absolute;
-    top:0;
-    left:0;
+    top:-60px;
+    left:-60px;
     object-fit:cover;
-    border-radius: 50% / 25%; /* óvalo vertical */
     transition: opacity 1.5s ease, transform 1.5s ease;
     backface-visibility:hidden;
 
-    /* ===== EFECTO BORDES DESVANECIDOS ===== */
-    -webkit-mask-image: radial-gradient(circle, rgba(0,0,0,1) 70%, rgba(0,0,0,0) 100%);
-    -webkit-mask-repeat: no-repeat;
-    -webkit-mask-position: center;
-    -webkit-mask-size: cover;
+  /* ===== BORDES DESVANECIDOS RECTANGULAR 10% ===== */
+-webkit-mask-image: 
+    linear-gradient(to top, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 10%, rgba(0,0,0,1) 90%, rgba(0,0,0,0) 100%) /* vertical */
+    , linear-gradient(to right, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 10%, rgba(0,0,0,1) 90%, rgba(0,0,0,0) 100%) /* horizontal */;
+-webkit-mask-composite: destination-in;
+-webkit-mask-repeat: no-repeat;
+-webkit-mask-position: center;
+-webkit-mask-size: cover;
 
-    mask-image: radial-gradient(circle, rgba(0,0,0,1) 70%, rgba(0,0,0,0) 100%);
-    mask-repeat: no-repeat;
-    mask-position: center;
-    mask-size: cover;
-    /* ====================================== */
+mask-image: 
+    linear-gradient(to top, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 10%, rgba(0,0,0,1) 90%, rgba(0,0,0,0) 100%) 
+    , linear-gradient(to right, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 10%, rgba(0,0,0,1) 90%, rgba(0,0,0,0) 100%);
+mask-composite: intersect;
+mask-repeat: no-repeat;
+mask-position: center;
+mask-size: cover;
+
 }
+
+    
 
 
 .carousel::after{
@@ -162,11 +169,16 @@ body{
 .productos{
     padding:100px 20px 80px;
     text-align:center;
-    background:linear-gradient(180deg,#0f0f0f,#151515);
     margin-top:-60px;
     border-top-left-radius:70px;
     border-top-right-radius:70px;
+
+    /* Fondo con imagen + degradado semitransparente */
+    background:
+        linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), /* oscurece un poco */
+        url("fondo2.jpeg") center/cover no-repeat;
 }
+
 
 .productos h2{
     font-family:'Playfair Display', serif;
@@ -184,6 +196,8 @@ body{
     height:420px;
     margin:auto;
     overflow:hidden;
+
+
 }
 
 .slider-track{
@@ -320,7 +334,7 @@ setInterval(() => {
         img.style.opacity = 1;
     }, 1200);
 
-}, 3000);
+}, 3500);
 
 
 
@@ -438,36 +452,45 @@ sliderTrack.addEventListener('mouseleave', ()=>{
     sliderTrack.style.cursor='grab';
 });
 
-/* TOUCH */
-let touchStartX = 0;
-let touchScrollLeft = 0;
-let touchMoved = false;
+// ===== AJUSTE CARRUSEL MÓVIL =====
+if(window.innerWidth <= 768){ // solo móviles
+    const MOBILE_DRAG_THRESHOLD = 20; // aumentar sensibilidad solo en móvil
+    let touchStartX = 0;
+    let touchScrollLeft = 0;
+    let touchMoved = false;
 
-sliderTrack.addEventListener('touchstart', e=>{
-    touchMoved = false;
-    touchStartX = e.touches[0].pageX - sliderTrack.offsetLeft;
-    touchScrollLeft = -currentIndex * itemWidth;
-});
+    sliderTrack.addEventListener('touchstart', e => {
+        touchMoved = false;
+        touchStartX = e.touches[0].pageX - sliderTrack.offsetLeft;
+        touchScrollLeft = -currentIndex * itemWidth;
+    });
 
-sliderTrack.addEventListener('touchmove', e=>{
-    const x = e.touches[0].pageX - sliderTrack.offsetLeft;
-    const walk = x - touchStartX;
-    if(Math.abs(walk) > DRAG_THRESHOLD) touchMoved = true;
-    sliderTrack.style.transform = `translateX(${touchScrollLeft + walk}px)`; 
-});
+    sliderTrack.addEventListener('touchmove', e => {
+        const x = e.touches[0].pageX - sliderTrack.offsetLeft;
+        const walk = x - touchStartX;
 
-sliderTrack.addEventListener('touchend', e=>{
-    // actualizar currentIndex
-    const movedPixels = -parseInt(sliderTrack.style.transform.replace('translateX(', '').replace('px)',''));
-    currentIndex = Math.round(movedPixels / itemWidth);
+        if(Math.abs(walk) > MOBILE_DRAG_THRESHOLD){
+            touchMoved = true; // solo si hay arrastre real
+        }
 
-    if(!touchMoved){
-        const touch = e.changedTouches[0];
-        const element = document.elementFromPoint(touch.clientX, touch.clientY);
-        const link = element.closest('a');
-        if(link) window.location.href = link.href;
-    }
-});
+        sliderTrack.style.transform = `translateX(${touchScrollLeft + walk}px)`; 
+    });
+
+    sliderTrack.addEventListener('touchend', e => {
+        // actualizar currentIndex según desplazamiento final
+        const movedPixels = -parseInt(sliderTrack.style.transform.replace('translateX(', '').replace('px)',''));
+        currentIndex = Math.round(movedPixels / itemWidth);
+
+        // si no hubo arrastre, abrir link
+        if(!touchMoved){
+            const touch = e.changedTouches[0];
+            const element = document.elementFromPoint(touch.clientX, touch.clientY);
+            const link = element.closest('a');
+            if(link) window.location.href = link.href;
+        }
+    });
+}
+
 
 
 </script>
