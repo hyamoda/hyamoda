@@ -2,192 +2,199 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>HYA Moda</title>
 
-<style>
-*{box-sizing:border-box}
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
 
-body{
-    margin:0;
-    font-family:Arial,sans-serif;
+
+<style>
+*{
+    box-sizing:border-box;
+    -webkit-tap-highlight-color: transparent;
 }
 
-/* HERO */
+/* ===== BODY ===== */
+body{
+    margin:0;
+    font-family:'Montserrat', sans-serif;
+    background:#ffffff; /* BLANCO */
+    color:#1e1e1e;
+}
+
+/* ===== HERO (NEGRO) ===== */
 .hero{
-    background:#111;
+    background:#0f0f0f;
     color:white;
     text-align:center;
-    padding:30px 10px;
+    padding:80px 20px 110px;
+    border-bottom-left-radius:70px;
+    border-bottom-right-radius:70px;
 }
 
 .hero h1{
-    margin-bottom:20px;
+    font-family:'Playfair Display', serif;
+    font-size:40px;
+    letter-spacing:1.5px;
+    margin-bottom:45px;
 }
 
-/* CARRUSEL SUPERIOR */
+/* ===== CARRUSEL SUPERIOR ===== */
+
+/* ===== CARRUSEL ESTILO REVISTA ===== */
 .carousel{
-    width:25%;
+    width:28%;
     margin:auto;
     overflow:hidden;
-    border-radius:15px;
+    background:#ffffff;
+    border-radius:18px; /* menos redondo = más editorial */
+    box-shadow:0 40px 80px rgba(0,0,0,.45);
+    border:1px solid #e6e6e6;
 }
 
-.carousel-track{
-    display:flex;
-    transition:transform .5s ease;
+/* IMAGEN ESTILO PORTADA */
+/* ===== REVISTA ===== */
+.magazine{
+    width:300px;
+    height:420px;
+    margin:auto;
+    perspective:1600px;
 }
 
-.carousel img{
+.page{
     width:100%;
-    object-fit:cover;
+    height:100%;
+    position:relative;
+    transform-style:preserve-3d;
 }
 
-/* ===== SEGUNDO CARRUSEL ===== */
+.page img{
+    width:100%;
+    height:100%;
+    position:absolute;
+    top:0;
+    left:0;
+    object-fit:cover;
+    background:white;
+    border-radius:6px;
+    box-shadow:0 25px 60px rgba(0,0,0,.45);
+    backface-visibility:hidden;
+}
+
+.carousel::after{
+    content:"Colección 2026";
+    position:absolute;
+    bottom:20px;
+    left:20px;
+    font-family:'Playfair Display', serif;
+    font-size:22px;
+    color:white;
+    letter-spacing:2px;
+}
+
+/* ===== PRODUCTOS (ROSADO SUAVE) ===== */
 .productos{
-    padding:40px 20px;
+    padding:100px 20px 80px;
     text-align:center;
+    background:#f6e1eb;
+    margin-top:-60px;
+    border-top-left-radius:70px;
+    border-top-right-radius:70px;
 }
 
 .productos h2{
-    margin-bottom:20px;
+    font-family:'Playfair Display', serif;
+    font-size:34px;
+    margin-bottom:50px;
+    color:#c05a8f;
 }
 
-/* CONTENEDOR */
+/* ===== SLIDER ===== */
 .slider-container{
     position:relative;
-    width:90%;
-    height:350px;
+    width:94%;
+    height:420px;
     margin:auto;
     overflow:hidden;
 }
 
-/* TRACK */
 .slider-track{
     display:flex;
-    gap:20px;
-    transition:transform .4s ease;
-    padding:20px 0;
-    align-items:center;
+    gap:35px;
+    padding:35px 0;
+    cursor:grab;
 }
 
-/* ITEM */
+/* ===== ITEM ===== */
 .slider-item{
-    flex:0 0 180px;
-    position:relative;
-    cursor:pointer;
-    z-index:1;
+    flex:0 0 200px;
 }
 
 .slider-item img{
     width:100%;
-    border-radius:10px;
-    transition:transform .3s ease;
-    user-select: none;
-}
-
-/* HOVER CORRECTO */
-.slider-item:hover{
-    z-index:100;
+    background:#ffffff;
+    border-radius:30px;
+    padding:10px;
+    box-shadow:0 20px 45px rgba(0,0,0,.25);
+    transition:.4s;
 }
 
 .slider-item:hover img{
-    transform: scale(1.4);
+    transform:scale(1.4);
 }
 
-/* FLECHAS */
+/* ===== FLECHAS ===== */
 .arrow{
     position:absolute;
     top:50%;
     transform:translateY(-50%);
-    background:black;
-    color:white;
+    background:#0f0f0f;
+    color:#c05a8f;
     border:none;
-    font-size:30px;
-    padding:10px 15px;
+    font-size:28px;
+    padding:14px 18px;
     cursor:pointer;
-    opacity:.8;
-    z-index:20;
+    border-radius:15px;
 }
 
-.arrow.left{left:0}
-.arrow.right{right:0}
+.arrow.left{left:10px}
+.arrow.right{right:10px}
 
-/* MODAL */
-.modal{
-    display:none;
-    position:fixed;
-    inset:0;
-    background:rgba(0,0,0,.9);
-    justify-content:center;
-    align-items:center;
-    z-index:9999;
-}
-
-.modal img{
-    max-width:80%;
-}
-
-.cerrar{
-    position:absolute;
-    top:20px;
-    right:30px;
-    font-size:40px;
-    color:white;
-    cursor:pointer;
-}
-
-/* WHATSAPP */
+/* ===== WHATSAPP ===== */
 .whatsapp{
     position:fixed;
-    bottom:20px;
-    right:20px;
+    bottom:24px;
+    right:24px;
     background:#25D366;
     color:white;
-    font-size:30px;
-    padding:15px;
+    font-size:28px;
+    padding:16px;
     border-radius:50%;
-    text-decoration:none;
 }
 
-/* TEXTO HOVER "VER MÁS MODELOS" */
-.slider-item{
-    position: relative;
+/* ===== CELULAR ===== */
+@media(max-width:768px){
+    .hero h1{font-size:26px}
+    .carousel{width:100%; max-width:330px}
+    .slider-item{flex:0 0 160px}
 }
-
-.slider-item::after{
-    content: "Ver más modelos";
-    position: absolute;
-    top: 10 px;
-    left: 50%;
-    transform: translateX(-50%);
-    color: white;
-    font-size: 17px;
-    font-weight: bold;
-    opacity: 0;
-    transition: opacity .3s ease;
-    pointer-events: none;
-    text-shadow:
-    0 1px 2px rgba(0,0,0,.9),
-    1px 0 2px rgba(0,0,0,.9),
-   -1px 0 2px rgba(0,0,0,.9),
-    0 -1px 2px rgba(0,0,0,.9);
-}
-
-.slider-item:hover::after{
-    opacity: 1;
-}
-
 </style>
+
+
 </head>
 
 <body>
+<!-- HTML + JS quedan exactamente iguales -->
+</body>
+</html>
 
 <section class="hero">
     <h1>Bienvenido a HYA Moda</h1>
 
-    <div class="carousel">
-        <div class="carousel-track" id="carousel-track"></div>
-    </div>
+<div class="magazine">
+    <div class="page" id="page"></div>
+</div>
+
 </section>
 
 <section class="productos">
@@ -214,20 +221,30 @@ const imagenes=[
 "6.jpeg","7.jpeg","8.jpeg","9.jpeg","10.jpeg","11.jpeg","12.jpeg","13.jpeg","14.jpeg","15.jpeg","16.jpeg","17.jpeg","18.jpeg","19.jpeg","20.jpeg","21.jpeg","22.jpeg"
 ];
 
-/* CARRUSEL SUPERIOR */
-const track=document.getElementById("carousel-track");
-let index=0;
+/* ===== CARRUSEL SUPERIOR CLÁSICO ===== */
+const page = document.getElementById("page");
+let index = 0;
 
-imagenes.forEach(img=>{
-    const i=document.createElement("img");
-    i.src=carpeta+img;
-    track.appendChild(i);
-});
+const img = document.createElement("img");
+img.src = carpeta + imagenes[0];
+img.style.opacity = 1;
+img.style.transition = "opacity 1.2s ease, transform 1.2s ease";
+page.appendChild(img);
 
-setInterval(()=>{
-    index=(index+1)%imagenes.length;
-    track.style.transform=`translateX(-${index*100}%)`;
-},1000);
+setInterval(() => {
+    img.style.opacity = 0;
+    img.style.transform = "scale(1.05)";
+
+    setTimeout(() => {
+        index = (index + 1) % imagenes.length;
+        img.src = carpeta + imagenes[index];
+        img.style.transform = "scale(1)";
+        img.style.opacity = 1;
+    }, 1200);
+
+}, 2000);
+
+
 
 /* SEGUNDO CARRUSEL */
 const sliderTrack=document.getElementById("slider-track");
@@ -293,7 +310,7 @@ sliderTrack.addEventListener('mousedown', e=>{
 sliderTrack.addEventListener('mousemove', e=>{
     if(!isDown) return;
     const x = e.pageX - sliderTrack.offsetLeft;
-    const walk = x - startX;
+    const walk = (x - startX) * 1.8;    
     if(Math.abs(walk) > DRAG_THRESHOLD){
         moved = true;
         preventClick = true; // bloqueamos click
