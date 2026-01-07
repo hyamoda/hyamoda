@@ -24,13 +24,67 @@ body{
 
 /* ===== HERO (NEGRO) ===== */
 .hero{
-    background:#0f0f0f;
+    background:
+        linear-gradient(rgba(0,0,0,.45), rgba(0,0,0,.45)),
+        url("fondo1.jpeg") center/cover no-repeat;
     color:white;
     text-align:center;
     padding:80px 20px 110px;
     border-bottom-left-radius:70px;
     border-bottom-right-radius:70px;
 }
+
+.hero-content{
+    display:flex;
+    flex-direction:row;
+    justify-content:space-between;
+    align-items:center;
+    max-width:1200px;
+    margin:auto;
+    padding:40px 20px;
+}
+
+.hero-carousel{
+    flex:1;
+    margin-right:20px;
+}
+
+.hero-text{
+    flex:1;
+    text-align:right; /* texto alineado a la derecha */
+    color:white;
+}
+
+.hero-text h1{
+    font-size:36px;
+    margin-bottom:20px;
+}
+
+.hero-text p{
+    font-size:18px;
+    margin-bottom:30px;
+}
+
+.hero-text .btn{
+    display:inline-block;
+    background:#c05a8f;
+    color:white;
+    padding:12px 25px;
+    border-radius:30px;
+    text-decoration:none;
+    font-weight:bold;
+}
+
+/* CELULAR */
+@media(max-width:768px){
+    .hero-content{
+        flex-direction:column;
+        text-align:center;
+    }
+    .hero-text{text-align:center; margin-top:20px;}
+    .hero-carousel{margin-right:0; margin-bottom:20px;}
+}
+
 
 .hero h1{
     font-family:'Playfair Display', serif;
@@ -75,11 +129,23 @@ body{
     top:0;
     left:0;
     object-fit:cover;
-    background:white;
-    border-radius:6px;
-    box-shadow:0 25px 60px rgba(0,0,0,.45);
+    border-radius: 50% / 25%; /* óvalo vertical */
+    transition: opacity 1.5s ease, transform 1.5s ease;
     backface-visibility:hidden;
+
+    /* ===== EFECTO BORDES DESVANECIDOS ===== */
+    -webkit-mask-image: radial-gradient(circle, rgba(0,0,0,1) 70%, rgba(0,0,0,0) 100%);
+    -webkit-mask-repeat: no-repeat;
+    -webkit-mask-position: center;
+    -webkit-mask-size: cover;
+
+    mask-image: radial-gradient(circle, rgba(0,0,0,1) 70%, rgba(0,0,0,0) 100%);
+    mask-repeat: no-repeat;
+    mask-position: center;
+    mask-size: cover;
+    /* ====================================== */
 }
+
 
 .carousel::after{
     content:"Colección 2026";
@@ -96,7 +162,7 @@ body{
 .productos{
     padding:100px 20px 80px;
     text-align:center;
-    background:#f6e1eb;
+    background:linear-gradient(180deg,#0f0f0f,#151515);
     margin-top:-60px;
     border-top-left-radius:70px;
     border-top-right-radius:70px;
@@ -106,8 +172,10 @@ body{
     font-family:'Playfair Display', serif;
     font-size:34px;
     margin-bottom:50px;
-    color:#c05a8f;
+    color:#f2f2f2;
+    letter-spacing:1.2px;
 }
+
 
 /* ===== SLIDER ===== */
 .slider-container{
@@ -132,12 +200,13 @@ body{
 
 .slider-item img{
     width:100%;
-    background:#ffffff;
     border-radius:30px;
-    padding:10px;
-    box-shadow:0 20px 45px rgba(0,0,0,.25);
-    transition:.4s;
+    padding:0;                 /* ❌ sin borde */
+    background:transparent;    /* ❌ sin fondo blanco */
+    box-shadow:0 25px 55px rgba(0,0,0,.45);
+    transition:transform .4s ease, box-shadow .4s ease;
 }
+
 
 .slider-item:hover img{
     transform:scale(1.4);
@@ -155,7 +224,9 @@ body{
     padding:14px 18px;
     cursor:pointer;
     border-radius:15px;
+    z-index: 10; /* nuevo: siempre delante de las imágenes */
 }
+
 
 .arrow.left{left:10px}
 .arrow.right{right:10px}
@@ -189,13 +260,20 @@ body{
 </html>
 
 <section class="hero">
-    <h1>Bienvenido a HYA Moda</h1>
-
-<div class="magazine">
-    <div class="page" id="page"></div>
-</div>
-
+  <div class="hero-content">
+    <div class="hero-carousel">
+      <div class="magazine">
+        <div class="page" id="page"></div>
+      </div>
+    </div>
+    <div class="hero-text">
+      <h1>Descubre la moda que marca tu estilo</h1>
+      <p>Explora nuestra colección 2026 y encuentra tus zapatillas favoritas.</p>
+     
+    </div>
+  </div>
 </section>
+
 
 <section class="productos">
     <h2>Nuestras Zapatillas</h2>
@@ -242,7 +320,7 @@ setInterval(() => {
         img.style.opacity = 1;
     }, 1200);
 
-}, 2000);
+}, 3000);
 
 
 
@@ -271,12 +349,18 @@ document.querySelectorAll('.slider-item img').forEach(img=>{
 
 /* FUNCION DESPLAZAMIENTO FLECHAS */
 function mover(dir){
-    const visibleItems = Math.floor(container.offsetWidth / itemWidth);
     currentIndex += dir;
-    if(currentIndex < 0) currentIndex = imagenes.length - visibleItems;
-    if(currentIndex > imagenes.length - visibleItems) currentIndex = 0;
+
+    // si llegamos al inicio, volvemos al final
+    if(currentIndex < 0) currentIndex = imagenes.length - 1;
+
+    // si llegamos al final, volvemos al inicio
+    if(currentIndex >= imagenes.length) currentIndex = 0;
+
     sliderTrack.style.transform = `translateX(-${currentIndex * itemWidth}px)`;
 }
+
+
 
 /* MODAL */
 function abrirGaleria(src){
@@ -315,7 +399,19 @@ sliderTrack.addEventListener('mousemove', e=>{
         moved = true;
         preventClick = true; // bloqueamos click
     }
-    sliderTrack.style.transform = `translateX(${scrollLeft + walk}px)`; 
+    // calcular nuevo desplazamiento
+let newX = scrollLeft + walk;
+
+// límites izquierdo y derecho
+const maxScroll = 0; // no se puede mover más a la derecha
+const minScroll = -(sliderTrack.scrollWidth - container.offsetWidth); // no se puede mover más a la izquierda
+
+// aplicar límites
+if(newX > maxScroll) newX = maxScroll;
+if(newX < minScroll) newX = minScroll;
+
+sliderTrack.style.transform = `translateX(${newX}px)`; 
+
 });
 
 sliderTrack.addEventListener('mouseup', e=>{
@@ -372,6 +468,8 @@ sliderTrack.addEventListener('touchend', e=>{
         if(link) window.location.href = link.href;
     }
 });
+
+
 </script>
 
 </body>
