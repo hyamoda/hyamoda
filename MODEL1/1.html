@@ -196,22 +196,16 @@ header {
 /* ===== RESPONSIVE PARA CELULAR ===== */
 @media (max-width: 768px) {
     .producto {
-        display: grid;
-        grid-template-columns: 1fr; /* solo una columna */
-        gap: 20px; /* separación vertical entre columnas */
+        display: flex;          /* cambiar grid a flex */
+        flex-direction: column; /* columnas ahora verticales */
+        gap: 20px;              /* separación vertical */
         width: 95%;
         margin: 20px auto;
     }
 
-    /* Forzar el orden de columnas en celular */
-    .producto-fotos {
-        order: 1; /* primero */
-        width: 100%;
-    }
-
+    .producto-fotos,
     .producto-info {
-        order: 2; /* después */
-        width: 100%;
+        width: 100%;            /* ocupar todo el ancho */
     }
 
     .visor img {
@@ -238,6 +232,7 @@ header {
         padding: 15px;
     }
 }
+
 
 
 </style>
