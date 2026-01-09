@@ -194,53 +194,65 @@ header {
 
 /* ===== RESPONSIVE ===== */
 /* ===== RESPONSIVE PARA CELULAR ===== */
+/* ===== CELULAR: columna única ===== */
 @media (max-width: 768px) {
-    /* FORZAR cambio de grid a flex vertical */
     .producto {
-        display: flex !important;       /* forzar flex */
-        flex-direction: column !important; /* vertical */
-        gap: 20px !important;           /* espacio entre secciones */
-        width: 95% !important;
-        margin: 20px auto !important;
+        display: flex;              /* flex vertical */
+        flex-direction: column;     /* primero fotos, luego info */
+        gap: 20px;                  /* espacio entre secciones */
+        width: 95%;
+        margin: 20px auto;
     }
 
-    /* columnas ocupan todo el ancho */
+    /* ambas columnas ocupan todo el ancho */
     .producto-fotos,
     .producto-info {
-        width: 100% !important;
+        width: 100%;
     }
 
-    /* imágenes del visor se adaptan al ancho */
+    /* visor de fotos ocupa ancho completo */
+    .visor {
+        width: 100%;
+    }
+
     .visor img {
-        max-width: 100% !important;
-        height: auto !important;
+        width: 100%;
+        max-width: 100%;
+        height: auto;
     }
 
-    /* galería de miniaturas centrada y más pequeña */
+    /* galería de miniaturas centrada y desplazable si hay muchas */
     .galeria {
-        justify-content: center !important;
-        gap: 10px !important;
-        flex-wrap: nowrap !important; /* opcional: fila horizontal */
-        overflow-x: auto !important;  /* desplazable si hay muchas */
+        display: flex;
+        justify-content: flex-start;
+        gap: 10px;
+        overflow-x: auto;
+        padding-bottom: 10px;
     }
 
     .galeria img {
-        width: 50px !important;
-        height: auto !important;
+        width: 50px;
+        height: auto;
+        flex-shrink: 0; /* evita que se encojan al ajustar */
     }
 
     /* video ocupa todo el ancho */
-    .video-modelo video {
-        width: 100% !important;
-        max-width: 100% !important;
+    .video-modelo {
+        width: 100%;
+        display: flex;
+        justify-content: center;
     }
 
-    /* descripción con padding */
+    .video-modelo video {
+        width: 100%;
+        max-width: 100%;
+    }
+
+    /* descripción con padding más compacto */
     .descripcion {
-        padding: 15px !important;
+        padding: 15px;
     }
 }
-
 
 
 </style>
