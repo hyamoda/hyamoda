@@ -192,65 +192,50 @@ header {
     height:32px;
 }
 
-/* ===== RESPONSIVE ===== */
-/* ===== RESPONSIVE PARA CELULAR ===== */
-/* ===== CELULAR: columna única ===== */
+
 @media (max-width: 768px) {
     .producto {
-        display: flex;              /* flex vertical */
-        flex-direction: column;     /* primero fotos, luego info */
-        gap: 20px;                  /* espacio entre secciones */
-        width: 95%;
-        margin: 20px auto;
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 20px !important;
+        width: 100% !important;
+        margin: 0 auto !important;
     }
 
-    /* ambas columnas ocupan todo el ancho */
     .producto-fotos,
     .producto-info {
-        width: 100%;
+        width: 100% !important;
+        max-width: 100% !important;
     }
 
-    /* visor de fotos ocupa ancho completo */
     .visor {
-        width: 100%;
+        width: 100% !important;
     }
 
     .visor img {
-        width: 100%;
-        max-width: 100%;
-        height: auto;
+        width: 100% !important;
+        height: auto !important;
     }
 
-    /* galería de miniaturas centrada y desplazable si hay muchas */
     .galeria {
-        display: flex;
-        justify-content: flex-start;
-        gap: 10px;
-        overflow-x: auto;
-        padding-bottom: 10px;
+        display: flex !important;
+        justify-content: flex-start !important;
+        gap: 10px !important;
+        overflow-x: auto !important;
     }
 
     .galeria img {
-        width: 50px;
-        height: auto;
-        flex-shrink: 0; /* evita que se encojan al ajustar */
-    }
-
-    /* video ocupa todo el ancho */
-    .video-modelo {
-        width: 100%;
-        display: flex;
-        justify-content: center;
+        width: 50px !important;
+        flex-shrink: 0 !important;
     }
 
     .video-modelo video {
-        width: 100%;
-        max-width: 100%;
+        width: 100% !important;
+        max-width: 100% !important;
     }
 
-    /* descripción con padding más compacto */
     .descripcion {
-        padding: 15px;
+        padding: 15px !important;
     }
 }
 
