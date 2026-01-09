@@ -195,41 +195,49 @@ header {
 /* ===== RESPONSIVE ===== */
 /* ===== RESPONSIVE PARA CELULAR ===== */
 @media (max-width: 768px) {
+    /* FORZAR cambio de grid a flex vertical */
     .producto {
-        display: flex;          /* cambiar grid a flex */
-        flex-direction: column; /* columnas ahora verticales */
-        gap: 20px;              /* separación vertical */
-        width: 95%;
-        margin: 20px auto;
+        display: flex !important;       /* forzar flex */
+        flex-direction: column !important; /* vertical */
+        gap: 20px !important;           /* espacio entre secciones */
+        width: 95% !important;
+        margin: 20px auto !important;
     }
 
+    /* columnas ocupan todo el ancho */
     .producto-fotos,
     .producto-info {
-        width: 100%;            /* ocupar todo el ancho */
+        width: 100% !important;
     }
 
+    /* imágenes del visor se adaptan al ancho */
     .visor img {
-        max-width: 100%;
-        height: auto;
+        max-width: 100% !important;
+        height: auto !important;
     }
 
+    /* galería de miniaturas centrada y más pequeña */
     .galeria {
-        justify-content: center;
-        gap: 10px;
+        justify-content: center !important;
+        gap: 10px !important;
+        flex-wrap: nowrap !important; /* opcional: fila horizontal */
+        overflow-x: auto !important;  /* desplazable si hay muchas */
     }
 
     .galeria img {
-        width: 50px;
-        height: auto;
+        width: 50px !important;
+        height: auto !important;
     }
 
+    /* video ocupa todo el ancho */
     .video-modelo video {
-        width: 100%;
-        max-width: 100%;
+        width: 100% !important;
+        max-width: 100% !important;
     }
 
+    /* descripción con padding */
     .descripcion {
-        padding: 15px;
+        padding: 15px !important;
     }
 }
 
