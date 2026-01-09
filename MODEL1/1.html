@@ -5,57 +5,60 @@
 <title>Zapatilla Urbana - HYA Moda</title>
 
 <style>
-*{box-sizing:border-box;}
+* { box-sizing: border-box; }
 
 body {
     margin: 0;
     font-family: Arial, sans-serif;
     color: #fff;
     background-image: url('../imagenes/fondo.jpeg');
-    background-repeat: repeat;          
-    background-size: 200px 200px;      
+    background-repeat: repeat;
+    background-size: 200px 200px;
 }
 
 /* PANTALLA DE CARGA */
-#loader{
+#loader {
     position: fixed;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    background-color: #ffffff;
-    display: flex; align-items: center; justify-content: center;
-    z-index: 10000;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background-color:#fff;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    z-index:10000;
 }
-#loader img{
-    width:120px;
-    animation:pulse 1.2s infinite;
-}
-@keyframes pulse{
+
+#loader img { width:120px; animation:pulse 1.2s infinite; }
+
+@keyframes pulse {
     0%{transform:scale(1);}
     50%{transform:scale(1.1);}
     100%{transform:scale(1);}
 }
 
-/* OCULTA CONTENIDO AL INICIO */
-#contenido{ display:none; }
+#contenido { display:none; }
 
-/* HEADER */
 header {
     background: transparent;
     color: white;
-    padding: 20px;
-    text-align: center;
+    padding:20px;
+    text-align:center;
 }
+
 .descripcion {
     background: transparent;
-    padding: 20px;
-    border-radius: 10px;
+    padding:20px;
+    border-radius:10px;
 }
+
 .descripcion p, header h1, header p {
     text-shadow: 1px 1px 4px rgba(0,0,0,0.7);
 }
 
-/* CONTENEDOR GENERAL: desktop dos columnas, móvil apilado */
-.producto{
+/* ===== VERSIÓN PC (2 COLUMNAS) ===== */
+.pc {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 40px;
@@ -63,14 +66,34 @@ header {
     max-width: 1200px;
     margin: 30px auto;
 }
-.producto-fotos, .producto-info{
+
+.pc .producto-fotos,
+.pc .producto-info {
+    width: 100%;
+}
+
+/* ===== VERSIÓN MÓVIL (1 COLUMNA) ===== */
+.mov {
+    display: none; /* oculto por defecto, se muestra solo en móvil */
+    flex-direction: column;
+    width: 95%;
+    margin: 20px auto;
+    gap: 20px;
+}
+
+.mov .producto-fotos,
+.mov .producto-info {
+    width: 100%;
+}
+
+/* VISOR Y MINIATURAS */
+.producto-fotos {
     display:flex;
     flex-direction:column;
     align-items:center;
 }
 
-/* VISOR */
-.visor{
+.visor {
     position:relative;
     overflow:hidden;
     border-radius:15px;
@@ -79,54 +102,66 @@ header {
     justify-content:center;
     align-items:center;
 }
-.visor img{
+
+.visor img {
     max-height:450px;
     width:auto;
     height:auto;
     object-fit:contain;
-    transition:transform .15s ease;
+    transition: transform .15s ease;
     transform-origin:center;
 }
 
-/* MINIATURAS */
-.galeria{
+.galeria {
     margin-top:15px;
     display:flex;
     gap:15px;
     justify-content:center;
     flex-wrap:wrap;
 }
-.galeria img{
+
+.galeria img {
     width:65px;
     border-radius:10px;
     cursor:pointer;
-    transition:transform .2s ease;
+    transition: transform .2s ease;
 }
-.galeria img:hover{ transform:scale(1.1); }
 
-/* VIDEO */
-.video-modelo{
+.galeria img:hover {
+    transform: scale(1.1);
+}
+
+.producto-info {
+    display:flex;
+    flex-direction:column;
+    gap:25px;
+}
+
+.video-modelo {
     width:100%;
     display:flex;
     justify-content:center;
 }
-.video-modelo video{
+
+.video-modelo video {
     width:60%;
     max-width:500px;
     border-radius:10px;
 }
 
 /* WHATSAPP */
-.whatsapp-box{
+.whatsapp-box {
     position:fixed;
-    bottom:20px; right:20px;
+    bottom:20px;
+    right:20px;
     display:flex;
-    flex-direction: column;
+    flex-direction:column;
     align-items:center;
-    gap: 6px;
+    gap:6px;
     z-index:9999;
 }
-.whatsapp-text{
+
+.whatsapp-text {
     background:#111;
     color:white;
     font-size:13px;
@@ -135,9 +170,11 @@ header {
     white-space:nowrap;
     box-shadow:0 4px 10px rgba(0,0,0,.3);
 }
-.whatsapp-btn{
+
+.whatsapp-btn {
     background:#25D366;
-    width:56px; height:56px;
+    width:56px;
+    height:56px;
     border-radius:50%;
     display:flex;
     align-items:center;
@@ -145,35 +182,27 @@ header {
     text-decoration:none;
     box-shadow:0 6px 15px rgba(0,0,0,.35);
 }
-.whatsapp-btn img{ width:32px; height:32px; }
 
-/* RESPONSIVE: móvil apila */
-@media (max-width: 768px){
-    .producto{
-        display:flex;
-        flex-direction: column;
-        width:95%;
-        margin:20px auto;
-        gap:20px;
-    }
-    .producto-fotos, .producto-info{ width:100%; }
-    .visor img{ width:100%; height:auto; }
-    .galeria{ justify-content:flex-start; gap:10px; overflow-x:auto; }
-    .galeria img{ width:50px; flex-shrink:0; }
-    .video-modelo video{ width:100%; max-width:100%; }
-    .descripcion{ padding:15px; }
+.whatsapp-btn img { width:32px; height:32px; }
+
+/* ===== MEDIA QUERIES ===== */
+@media (max-width: 768px) {
+    .pc { display: none; }      /* oculta versión pc */
+    .mov { display: flex; }     /* muestra versión móvil */
+    
+    .visor img { width:100%; height:auto; }
+    .galeria img { width:50px; }
+    .video-modelo video { width:100%; max-width:100%; }
 }
 </style>
 </head>
 
 <body>
 
-<!-- PANTALLA DE CARGA -->
 <div id="loader">
     <img src="IMAGEN/cargando.jpg" alt="Cargando">
 </div>
 
-<!-- CONTENIDO -->
 <div id="contenido">
 
 <header>
@@ -181,16 +210,43 @@ header {
     <p>Explora cada detalle del modelo</p>
 </header>
 
-<div class="producto">
+<!-- VERSIÓN PC -->
+<div class="pc">
     <div class="producto-fotos">
-        <div class="visor" id="visor">
-            <img id="visor-img">
+        <div class="visor" id="visor-pc">
+            <img id="visor-img-pc">
         </div>
         <div class="galeria">
-            <img src="IMAGEN/1.jpeg" onclick="mostrar(this)">
-            <img src="IMAGEN/2.jpeg" onclick="mostrar(this)">
-            <img src="IMAGEN/3.jpeg" onclick="mostrar(this)">
-            <img src="IMAGEN/4.jpeg" onclick="mostrar(this)">
+            <img src="IMAGEN/1.jpeg" onclick="mostrar('pc', this)">
+            <img src="IMAGEN/2.jpeg" onclick="mostrar('pc', this)">
+            <img src="IMAGEN/3.jpeg" onclick="mostrar('pc', this)">
+            <img src="IMAGEN/4.jpeg" onclick="mostrar('pc', this)">
+        </div>
+    </div>
+    <div class="producto-info">
+        <div class="descripcion">
+            <h2>Detalles del Modelo</h2>
+            <p>Zapatilla urbana cómoda, ligera y moderna. Ideal para uso diario y disponible en varias tallas.</p>
+        </div>
+        <div class="video-modelo">
+            <video controls>
+                <source src="IMAGEN/1.mp4" type="video/mp4">
+            </video>
+        </div>
+    </div>
+</div>
+
+<!-- VERSIÓN MÓVIL -->
+<div class="mov">
+    <div class="producto-fotos">
+        <div class="visor" id="visor-mov">
+            <img id="visor-img-mov">
+        </div>
+        <div class="galeria">
+            <img src="IMAGEN/1.jpeg" onclick="mostrar('mov', this)">
+            <img src="IMAGEN/2.jpeg" onclick="mostrar('mov', this)">
+            <img src="IMAGEN/3.jpeg" onclick="mostrar('mov', this)">
+            <img src="IMAGEN/4.jpeg" onclick="mostrar('mov', this)">
         </div>
     </div>
     <div class="producto-info">
@@ -216,42 +272,38 @@ header {
 </div>
 
 <script>
-// PANTALLA DE CARGA
 window.addEventListener("load", ()=>{
     setTimeout(()=>{
         document.getElementById("loader").style.display="none";
         document.getElementById("contenido").style.display="block";
+        
+        // Mostrar primera imagen en visor PC
+        mostrar('pc', document.querySelector('.pc .galeria img'));
+        // Mostrar primera imagen en visor Móvil
+        mostrar('mov', document.querySelector('.mov .galeria img'));
     },1500);
 });
 
-// ZOOM IMAGEN
-const visor = document.getElementById("visor");
-const visorImg = document.getElementById("visor-img");
-
-function mostrar(img){
+// Función de zoom para PC y Móvil
+function mostrar(version, img) {
+    const visorImg = document.getElementById(`visor-img-${version}`);
+    const visor = document.getElementById(`visor-${version}`);
     visorImg.src = img.src;
     visorImg.style.transform = "scale(1)";
+
+    visor.onmousemove = e => {
+        const rect = visor.getBoundingClientRect();
+        const x = ((e.clientX - rect.left) / rect.width) * 100;
+        const y = ((e.clientY - rect.top) / rect.height) * 100;
+        visorImg.style.transform = "scale(2.5)";
+        visorImg.style.transformOrigin = `${x}% ${y}%`;
+    }
+
+    visor.onmouseleave = () => {
+        visorImg.style.transform = "scale(1)";
+        visorImg.style.transformOrigin = "center";
+    }
 }
-
-visor.addEventListener("mousemove", e=>{
-    if(!visorImg.src) return;
-    visorImg.style.transform="scale(2.5)";
-    const rect = visor.getBoundingClientRect();
-    const x = ((e.clientX - rect.left)/rect.width)*100;
-    const y = ((e.clientY - rect.top)/rect.height)*100;
-    visorImg.style.transformOrigin = `${x}% ${y}%`;
-});
-
-visor.addEventListener("mouseleave", ()=>{
-    visorImg.style.transform="scale(1)";
-    visorImg.style.transformOrigin="center";
-});
-
-// Carga inicial primera imagen
-window.addEventListener("DOMContentLoaded", ()=>{
-    const primera = document.querySelector(".galeria img");
-    if(primera) mostrar(primera);
-});
 </script>
 
 </body>
