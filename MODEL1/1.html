@@ -203,8 +203,14 @@ header {
         margin: 20px auto;
     }
 
-    .producto-fotos,
+    /* Forzar el orden de columnas en celular */
+    .producto-fotos {
+        order: 1; /* primero */
+        width: 100%;
+    }
+
     .producto-info {
+        order: 2; /* después */
         width: 100%;
     }
 
@@ -232,6 +238,7 @@ header {
         padding: 15px;
     }
 }
+
 
 </style>
 </head>
