@@ -65,14 +65,33 @@ header {
     text-shadow: 1px 1px 4px rgba(0,0,0,0.7);
 }
 
-/* ===== CONTENEDOR GENERAL 2 COLUMNAS ===== */
-.producto{
-    width:90%;
-    max-width:1200px;
-    margin:30px auto;
-    display:grid;
-    grid-template-columns: 1fr 1fr;
-    gap:40px;
+/* ===== CONTENEDOR GENERAL 2 COLUMNAS / MOVIL ===== */
+
+/* Desktop: dos columnas */
+@media (min-width: 769px) {
+    .producto {
+        display: grid;
+        grid-template-columns: 1fr 1fr; /* dos columnas */
+        gap: 40px;
+        width: 90%;
+        max-width: 1200px;
+        margin: 30px auto;
+    }
+}
+
+/* Móvil: apilar verticalmente */
+@media (max-width: 768px) {
+    .producto {
+        display: block; /* apila las columnas */
+        width: 95%;
+        margin: 20px auto;
+    }
+
+    .producto-fotos,
+    .producto-info {
+        width: 100%;
+        margin-bottom: 20px; /* espacio entre fotos y info */
+    }
 }
 
 /* ===== COLUMNA IZQUIERDA ===== */
