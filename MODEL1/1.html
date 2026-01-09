@@ -7,26 +7,38 @@
 <style>
 *{box-sizing:border-box;}
 
-body{
-    margin:0;
-    font-family:Arial,sans-serif;
-    background:#f5f5f5;
-    color:#333;
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    color: #fff;
+
+    /* Fondo en mosaico */
+    background-image: url('../imagenes/fondo.jpeg');
+    background-repeat: repeat;          /* se repite horizontal y vertical */
+    background-size: 200px 200px;      /* tamaño de cada "bloque" de la imagen */
 }
+
+
 
 /* ===== PANTALLA DE CARGA ===== */
 #loader{
-    position:fixed;
-    top:0;
-    left:0;
-    width:100%;
-    height:100%;
-    background:#fff;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    z-index:10000;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    
+    /* Fondo igual que el body */
+    background-color: #ffffff; /* fondo blanco */
+    background-size: cover;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10000;
 }
+
+ 
 
 #loader img{
     width:120px;
@@ -45,12 +57,24 @@ body{
 }
 
 /* HEADER */
-header{
-    background:#111;
-    color:white;
-    padding:20px;
-    text-align:center;
+
+header {
+    background: transparent;
+    color: white;
+    padding: 20px;
+    text-align: center;
 }
+
+.descripcion {
+    background: transparent;
+    padding: 20px;
+    border-radius: 10px;
+}
+.descripcion p, header h1, header p {
+    text-shadow: 1px 1px 4px rgba(0,0,0,0.7);
+}
+
+
 
 /* ===== CONTENEDOR GENERAL 2 COLUMNAS ===== */
 .producto{
@@ -116,11 +140,6 @@ header{
     gap:25px;
 }
 
-.descripcion{
-    background:white;
-    padding:20px;
-    border-radius:10px;
-}
 
 .video-modelo{
     width:100%;
@@ -174,23 +193,46 @@ header{
 }
 
 /* ===== RESPONSIVE ===== */
-@media(max-width:768px){
-    .producto{
-        grid-template-columns:1fr;
+/* ===== RESPONSIVE PARA CELULAR ===== */
+@media (max-width: 768px) {
+    .producto {
+        display: grid;
+        grid-template-columns: 1fr; /* solo una columna */
+        gap: 20px; /* separación vertical entre columnas */
+        width: 95%;
+        margin: 20px auto;
     }
 
-    .visor img{
-        max-height:320px;
+    .producto-fotos,
+    .producto-info {
+        width: 100%;
     }
 
-    .galeria img{
-        width:55px;
+    .visor img {
+        max-width: 100%;
+        height: auto;
     }
 
-    .video-modelo video{
-        width:100%;
+    .galeria {
+        justify-content: center;
+        gap: 10px;
+    }
+
+    .galeria img {
+        width: 50px;
+        height: auto;
+    }
+
+    .video-modelo video {
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .descripcion {
+        padding: 15px;
     }
 }
+
 </style>
 </head>
 
