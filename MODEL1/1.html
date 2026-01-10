@@ -274,11 +274,18 @@ header {
     font-size:13px;
     opacity:.6;
 }
-.capa-negra{
+.capa-negra {
     background: rgba(0,0,0,0.75);
-    min-height: 100vh;
     width: 100%;
+    min-height: 100vh; /* lo dejamos por seguridad */
+    /* agregar esto */
+    display: flex;
+    flex-direction: column;
 }
+#contenido {
+    flex: 1; /* hace que el contenido estire la capa-negra hasta cubrir todo */
+}
+
     
 /* MARCO LATERAL SOLO PARA EL VISOR */
 .visor-frame{
