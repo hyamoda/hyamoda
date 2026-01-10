@@ -577,14 +577,16 @@ function mostrar(version, img) {
     }
 
     // Mover con el dedo en móvil (solo móvil)
+// Mover con el dedo en móvil (solo móvil)
     if(version === 'mov'){
         visor.ontouchmove = e => {
             if (!zoomActivo) return;
             e.preventDefault(); // evita que la página se desplace al tocar
             const touch = e.touches[0];
             const rect = visor.getBoundingClientRect();
-            const x = ((touch.clientX - rect.left) / rect.width) * 100;
-            const y = ((touch.clientY - rect.top) / rect.height) * 100;
+            // Invertimos las coordenadas
+            const x = 100 - ((touch.clientX - rect.left) / rect.width) * 100; // izquierda/derecha invertido
+            const y = 100 - ((touch.clientY - rect.top) / rect.height) * 100;  // arriba/abajo invertido
             visorImg.style.transformOrigin = `${x}% ${y}%`;
         };
     }
