@@ -545,10 +545,13 @@ function initVisorMovil() {
         const touch = e.touches[0];
         const rect = visorMov.getBoundingClientRect();
 
-        const sensibilidad = 2.8;
+        const sensibilidad = 3.2;
 
         let x = ((touch.clientX - rect.left) / rect.width) * 100;
         let y = ((touch.clientY - rect.top) / rect.height) * 100;
+        // invertido como pediste (abajo → sube)
+        const invX = 100 - x;
+        const invY = 100 - y;
 
         x = 50 + (x - 50) * sensibilidad;
         y = 50 + (y - 50) * sensibilidad;
