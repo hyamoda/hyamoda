@@ -565,13 +565,30 @@ function mostrar(version, img) {
     };
 
     // Mover el mouse mientras está en zoom
-    visor.onmousemove = e => {
-        if (!zoomActivo) return;
-        const rect = visor.getBoundingClientRect();
-        const x = ((e.clientX - rect.left) / rect.width) * 100;
-        const y = ((e.clientY - rect.top) / rect.height) * 100;
-        visorImg.style.transformOrigin = `${x}% ${y}%`;
-    };
+// Mover el mouse mientras está en zoom (solo PC)
+    if(version === 'pc'){
+        visor.onmousemove = e => {
+            if (!zoomActivo) return;
+            const rect = visor.getBoundingClientRect();
+            const x = ((e.clientX - rect.left) / rect.width) * 100;
+            const y = ((e.clientY - rect.top) / rect.height) * 100;
+            visorImg.style.transformOrigin = `${x}% ${y}%`;
+        };
+    }
+
+    // Mover con el dedo en móvil (solo móvil)
+    if(version === 'mov'){
+        visor.ontouchmove = e => {
+            if (!zoomActivo) return;
+            e.preventDefault(); // evita que la página se desplace al tocar
+            const touch = e.touches[0];
+            const rect = visor.getBoundingClientRect();
+            const x = ((touch.clientX - rect.left) / rect.width) * 100;
+            const y = ((touch.clientY - rect.top) / rect.height) * 100;
+            visorImg.style.transformOrigin = `${x}% ${y}%`;
+        };
+    }
+
 }
 
 
