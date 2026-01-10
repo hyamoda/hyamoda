@@ -548,6 +548,26 @@ function initVisorMovil() {
         visorImgMov.style.transformOrigin = `${x}% ${y}%`;
     };
 }
+function cambiarMovil(img){
+    const visor = document.getElementById("visor-img-mov");
+
+    // Si es la misma imagen, NO tocar nada (no matar zoom)
+    if(visor.src === img.src) return;
+
+    // Si es otra imagen, sí se reinicia
+    visor.src = img.src;
+    visor.style.transition = "none";
+    visor.style.transform = "scale(1)";
+    visor.style.transformOrigin = "center";
+    zoomMov = false;
+
+    // forzar repaint
+    visor.offsetHeight;
+
+    // restaurar transición suave
+    visor.style.transition = "opacity 0.35s ease, filter 0.35s ease, transform 0.35s ease";
+}
+
 
 // Función de zoom para PC y Móvil (estilo Alibaba)
 function mostrar(version, img) {
@@ -611,23 +631,6 @@ function mostrar(version, img) {
             visorImg.style.transformOrigin = `${x}% ${y}%`;
         };
     }
-
-    // Mover con el dedo en móvil (solo móvil)
-// Mover con el dedo en móvil (solo móvil)
-// Móvil ya no se toca aquí
-if(version === 'mov'){
-    // Solo cambia la imagen y reinicia zoom si cambió
-    if (visorImg.src !== img.src) {
-        visorImg.src = img.src;
-        visorImg.style.transform = "scale(1)";
-        visorImg.style.opacity = "1";
-        visorImg.style.transformOrigin = "center";
-        visorImg.style.filter = "blur(0px)";
-        zoomMov = false;
-    }
-}
-
-
 }
 
 
