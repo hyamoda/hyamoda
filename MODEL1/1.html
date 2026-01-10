@@ -545,15 +545,20 @@ function initVisorMovil() {
         const touch = e.touches[0];
         const rect = visorMov.getBoundingClientRect();
 
-        const x = ((touch.clientX - rect.left) / rect.width) * 100;
-        const y = ((touch.clientY - rect.top) / rect.height) * 100;
+        const sensibilidad = 2.8;
 
-        // invertido como pediste (abajo → sube)
-        const invX = 100 - x;
-        const invY = 100 - y;
+        let x = ((touch.clientX - rect.left) / rect.width) * 100;
+        let y = ((touch.clientY - rect.top) / rect.height) * 100;
 
-        visorImgMov.style.transformOrigin = `${invX}% ${invY}%`;
-    }, { passive: false });
+        x = 50 + (x - 50) * sensibilidad;
+        y = 50 + (y - 50) * sensibilidad;
+
+        x = Math.max(0, Math.min(100, x));
+        y = Math.max(0, Math.min(100, y));
+
+        visorImgMov.style.transformOrigin = `${x}% ${y}%`;
+    }, { passive:false });
+
 
 }
 function cambiarMovil(img){
