@@ -527,7 +527,7 @@ function initVisorMovil() {
     const visorMov = document.getElementById('visor-mov');
     const visorImgMov = document.getElementById('visor-img-mov');
 
-    visorMov.ontouchstart = e => {
+    visorMov.addEventListener("touchstart", e => {
         if (!zoomMov) {
             visorImgMov.style.transition = "opacity 0.35s ease, filter 0.35s ease, transform 0.35s ease";
             visorImgMov.style.filter = "blur(0px)";
@@ -535,18 +535,26 @@ function initVisorMovil() {
             visorImgMov.style.transform = "scale(2.5)";
             zoomMov = true;
         }
-    };
+    }, { passive: false });
 
-    visorMov.ontouchmove = e => {
+
+    visorMov.addEventListener("touchmove", e => {
         if (!zoomMov) return;
         e.preventDefault();
 
         const touch = e.touches[0];
         const rect = visorMov.getBoundingClientRect();
-        const x = 100 - ((touch.clientX - rect.left) / rect.width) * 100;
-        const y = 100 - ((touch.clientY - rect.top) / rect.height) * 100;
-        visorImgMov.style.transformOrigin = `${x}% ${y}%`;
-    };
+
+        const x = ((touch.clientX - rect.left) / rect.width) * 100;
+        const y = ((touch.clientY - rect.top) / rect.height) * 100;
+
+        // invertido como pediste (abajo → sube)
+        const invX = 100 - x;
+        const invY = 100 - y;
+
+        visorImgMov.style.transformOrigin = `${invX}% ${invY}%`;
+    }, { passive: false });
+
 }
 function cambiarMovil(img){
     const visor = document.getElementById("visor-img-mov");
