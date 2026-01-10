@@ -505,6 +505,7 @@ header {
 
 
 <script>
+let zoomMov = false; // indica si el zoom móvil ya está activo
 window.addEventListener("load", ()=>{
     setTimeout(()=>{
         document.getElementById("loader").style.display="none";
@@ -524,11 +525,16 @@ function mostrar(version, img) {
     const visor = document.getElementById(`visor-${version}`);
 
     // Poner la imagen seleccionada
-    visorImg.src = img.src;
-    visorImg.style.transform = "scale(1)";
-    visorImg.style.opacity = "1";
-    visorImg.style.transformOrigin = "center";
-    visorImg.style.filter = "blur(0px)";
+// Solo reinicia zoom si la imagen cambió
+    if (visorImg.src !== img.src) {
+        visorImg.src = img.src;
+        visorImg.style.transform = "scale(1)";
+        visorImg.style.opacity = "1";
+        visorImg.style.transformOrigin = "center";
+        visorImg.style.filter = "blur(0px)";
+        zoomMov = false; // reinicia estado de zoom solo al cambiar de imagen
+    }
+
 
     let zoomActivo = false;
     let hoverTimer = null;
@@ -579,16 +585,32 @@ function mostrar(version, img) {
     // Mover con el dedo en móvil (solo móvil)
 // Mover con el dedo en móvil (solo móvil)
     if(version === 'mov'){
+// Tocar para activar zoom (solo si no está activo)
+        visor.ontouchstart = e => {
+            if(!zoomMov){
+                visorImg.style.transition = "opacity 0.35s ease, filter 0.35s ease, transform 0.35s ease";
+                visorImg.style.filter = "blur(0px)";
+                visorImg.style.opacity = "1";
+                visorImg.style.transform = "scale(2.5)";
+                zoomMov = true; // marca que ya está en zoom
+            }
+        };
+
+        // Mover el dedo en zoom
         visor.ontouchmove = e => {
-            if (!zoomActivo) return;
+            if (!zoomMov) return; // si no hay zoom, no hace nada
             e.preventDefault(); // evita que la página se desplace al tocar
+
             const touch = e.touches[0];
             const rect = visor.getBoundingClientRect();
-            // Invertimos las coordenadas
-            const x = 100 - ((touch.clientX - rect.left) / rect.width) * 100; // izquierda/derecha invertido
-            const y = 100 - ((touch.clientY - rect.top) / rect.height) * 100;  // arriba/abajo invertido
+
+            // Invertimos la dirección
+            const x = 100 - ((touch.clientX - rect.left) / rect.width) * 100; 
+            const y = 100 - ((touch.clientY - rect.top) / rect.height) * 100;  
+
             visorImg.style.transformOrigin = `${x}% ${y}%`;
         };
+
     }
 
 }
