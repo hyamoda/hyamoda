@@ -515,9 +515,39 @@ window.addEventListener("load", ()=>{
         mostrar('pc', document.querySelector('.pc .galeria img'));
         indicePC = 0;
         // Mostrar primera imagen en visor Móvil
-        mostrar('mov', document.querySelector('.mov .galeria img'));
+        // Inicializar zoom móvil
+        initVisorMovil();
+        // Mostrar primera imagen móvil
+        document.getElementById('visor-img-mov').src = document.querySelector('.mov .galeria img').src;
+
     },1500);
 }); 
+
+function initVisorMovil() {
+    const visorMov = document.getElementById('visor-mov');
+    const visorImgMov = document.getElementById('visor-img-mov');
+
+    visorMov.ontouchstart = e => {
+        if (!zoomMov) {
+            visorImgMov.style.transition = "opacity 0.35s ease, filter 0.35s ease, transform 0.35s ease";
+            visorImgMov.style.filter = "blur(0px)";
+            visorImgMov.style.opacity = "1";
+            visorImgMov.style.transform = "scale(2.5)";
+            zoomMov = true;
+        }
+    };
+
+    visorMov.ontouchmove = e => {
+        if (!zoomMov) return;
+        e.preventDefault();
+
+        const touch = e.touches[0];
+        const rect = visorMov.getBoundingClientRect();
+        const x = 100 - ((touch.clientX - rect.left) / rect.width) * 100;
+        const y = 100 - ((touch.clientY - rect.top) / rect.height) * 100;
+        visorImgMov.style.transformOrigin = `${x}% ${y}%`;
+    };
+}
 
 // Función de zoom para PC y Móvil (estilo Alibaba)
 function mostrar(version, img) {
@@ -584,34 +614,19 @@ function mostrar(version, img) {
 
     // Mover con el dedo en móvil (solo móvil)
 // Mover con el dedo en móvil (solo móvil)
-    if(version === 'mov'){
-// Tocar para activar zoom (solo si no está activo)
-        visor.ontouchstart = e => {
-            if(!zoomMov){
-                visorImg.style.transition = "opacity 0.35s ease, filter 0.35s ease, transform 0.35s ease";
-                visorImg.style.filter = "blur(0px)";
-                visorImg.style.opacity = "1";
-                visorImg.style.transform = "scale(2.5)";
-                zoomMov = true; // marca que ya está en zoom
-            }
-        };
-
-        // Mover el dedo en zoom
-        visor.ontouchmove = e => {
-            if (!zoomMov) return; // si no hay zoom, no hace nada
-            e.preventDefault(); // evita que la página se desplace al tocar
-
-            const touch = e.touches[0];
-            const rect = visor.getBoundingClientRect();
-
-            // Invertimos la dirección
-            const x = 100 - ((touch.clientX - rect.left) / rect.width) * 100; 
-            const y = 100 - ((touch.clientY - rect.top) / rect.height) * 100;  
-
-            visorImg.style.transformOrigin = `${x}% ${y}%`;
-        };
-
+// Móvil ya no se toca aquí
+if(version === 'mov'){
+    // Solo cambia la imagen y reinicia zoom si cambió
+    if (visorImg.src !== img.src) {
+        visorImg.src = img.src;
+        visorImg.style.transform = "scale(1)";
+        visorImg.style.opacity = "1";
+        visorImg.style.transformOrigin = "center";
+        visorImg.style.filter = "blur(0px)";
+        zoomMov = false;
     }
+}
+
 
 }
 
