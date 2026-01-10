@@ -1,9 +1,12 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
 <meta charset="UTF-8">
 <title>Zapatilla Urbana - HYA Moda</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 
 <style>
 * { box-sizing: border-box; }
@@ -12,10 +15,14 @@ body {
     margin: 0;
     font-family: Arial, sans-serif;
     color: #fff;
+
     background-image: url('../imagenes/fondo.jpeg');
     background-repeat: repeat;
     background-size: 200px 200px;
+
+    min-height: 100vh;
 }
+
 
 /* PANTALLA DE CARGA */
 #loader {
@@ -62,9 +69,9 @@ header {
 .pc {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 40px;
-    width: 90%;
-    max-width: 1200px;
+    gap: 30px;
+    width: 85%;
+    max-width: 1000px; /* antes 1200 */
     margin: 30px auto;
 }
 
@@ -90,9 +97,12 @@ header {
 /* VISOR Y MINIATURAS */
 .producto-fotos {
     display:flex;
-    flex-direction:column;
-    align-items:center;
+    flex-direction:row-reverse;  /* ← invierte el orden */
+    gap:15px;
+    width:100%;
+    align-items:flex-start;
 }
+
 
 .visor {
     position:relative;
@@ -104,28 +114,43 @@ header {
     align-items:center;
 }
 
-.visor img {
-    max-height:450px;
+.visor{
+    width:100%;
+    max-width:600px;
+    position:relative;
+    overflow:hidden;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    border-radius:15px;
+}
+
+/* LA IMAGEN MANDA */
+.visor img{
+    max-width:100%;
+    max-height:600px;
     width:auto;
     height:auto;
     object-fit:contain;
-    transition: transform .15s ease;
-    transform-origin:center;
+
+    transition:
+        transform 0.9s cubic-bezier(.15,.7,.15,1),
+        opacity 0.35s ease;
+    
+    will-change: transform, opacity;
 }
 
+
 .galeria {
-    margin-top:15px;
     display:flex;
-    gap:15px;
-    justify-content:center;
-    flex-wrap:wrap;
+    flex-direction:column;
+    gap:12px;
+    width:70px;
 }
 
 .galeria img {
-    width:65px;
-    border-radius:10px;
-    cursor:pointer;
-    transition: transform .2s ease;
+    width:55px;
+    border-radius:8px;
 }
 
 .galeria img:hover {
@@ -195,6 +220,129 @@ header {
     .galeria img { width:50px; }
     .video-modelo video { width:100%; max-width:100%; }
 }
+
+.footer-bg{
+    background:
+        linear-gradient(rgba(0,0,0,0.75), rgba(0,0,0,0.85)),
+        url("../imagenes/fondo10.jpeg");
+    background-repeat: repeat;
+    background-size: 180px 180px; /* tamaño de cada cuadrito */
+    padding: 40px 20px 30px;
+}
+
+.footer{
+    max-width:1100px;
+    margin:auto;
+    text-align:center;
+    color:#f2f2f2;
+}
+
+.footer-confianza{
+    font-size:16px;
+    letter-spacing:0.6px;
+    margin-bottom:28px;
+}
+
+.footer-redes{
+    display:flex;
+    justify-content:center;
+    gap:30px;
+    margin-bottom:28px;
+}
+
+.footer-redes a{
+    width:52px;
+    height:52px;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:rgba(255,255,255,.08);
+    color:white;
+    font-size:22px;
+    text-decoration:none;
+    transition:.35s;
+}
+
+.footer-redes a:hover{
+    background:#c05a8f;
+    transform:translateY(-4px);
+    box-shadow:0 10px 25px rgba(0,0,0,.4);
+}
+
+.footer-copy{
+    font-size:13px;
+    opacity:.6;
+}
+.capa-negra{
+    background: rgba(0,0,0,0.75);
+    min-height: 100vh;
+    width: 100%;
+}
+    
+/* MARCO LATERAL SOLO PARA EL VISOR */
+.visor-frame{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    background: linear-gradient(to right, #5a5a5a, #8a8a8a, #5a5a5a);
+
+
+
+    padding: 0 70px;   /* SOLO lados, no arriba ni abajo */
+    border-radius: 14px;
+}
+
+/* Flechas laterales PC */
+.flecha{
+    position:absolute;
+    top:50%;
+    transform:translateY(-50%);
+    width:52px;
+    height:52px;
+    border-radius:50%;
+    background:rgba(192,90,143,0.18);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    cursor:pointer;
+    z-index:30;
+    transition:.3s;
+    backdrop-filter: blur(4px);
+}
+
+.flecha i{
+    color:#c05a8f;
+    font-size:26px;
+}
+
+.flecha:hover{
+    background:#c05a8f;
+}
+
+.flecha:hover i{
+    color:white;
+}
+
+.flecha-izq{
+    left:10px;
+}
+
+.flecha-der{
+    right:10px;
+}
+
+/* Solo PC */
+.mov .flecha{
+    display:none;
+}
+
+/* Para que las flechas floten dentro del marco */
+.visor-frame{
+    position:relative;
+}
+
 </style>
 </head>
 
@@ -203,8 +351,9 @@ header {
 <div id="loader">
     <img src="IMAGEN/cargando.jpg" alt="Cargando">
 </div>
-
+<div class="capa-negra">
 <div id="contenido">
+
 
 <header>
     <h1>Zapatilla Urbana</h1>
@@ -214,9 +363,23 @@ header {
 <!-- VERSIÓN PC -->
 <div class="pc">
     <div class="producto-fotos">
-        <div class="visor" id="visor-pc">
-            <img id="visor-img-pc">
+        <div class="visor-frame">
+
+            <div class="flecha flecha-izq" onclick="cambiarFotoPC(-1)">
+                <i class="fas fa-chevron-left"></i>
+            </div>
+
+            <div class="visor" id="visor-pc">
+                <img id="visor-img-pc">
+            </div>
+
+            <div class="flecha flecha-der" onclick="cambiarFotoPC(1)">
+                <i class="fas fa-chevron-right"></i>
+            </div>
+
         </div>
+
+
         <div class="galeria">
             <img src="IMAGEN/1.jpeg" onclick="mostrar('pc', this)">
             <img src="IMAGEN/2.jpeg" onclick="mostrar('pc', this)">
@@ -236,6 +399,28 @@ header {
         </div>
     </div>
 </div>
+
+ <section class="footer-bg">
+    <footer class="footer">
+        <p class="footer-confianza">✔ Compra segura por WhatsApp</p>
+
+        <div class="footer-redes">
+            <a href="https://www.facebook.com/HYAMODA" target="_blank">
+                <i class="fab fa-facebook-f"></i>
+            </a>
+
+            <a href="https://www.instagram.com/hya.moda.a.tus.pies/" target="_blank">
+                <i class="fab fa-instagram"></i>
+            </a>
+
+            <a href="https://wa.me/51974309455" target="_blank">
+                <i class="fab fa-whatsapp"></i>
+            </a>
+        </div>
+
+        <p class="footer-copy">© 2026 HYA Moda. Todos los derechos reservados.</p>
+    </footer>
+</section>
 
 <!-- VERSIÓN MÓVIL -->
 <div class="mov">
@@ -272,6 +457,7 @@ header {
 
 </div>
 
+
 <script>
 window.addEventListener("load", ()=>{
     setTimeout(()=>{
@@ -280,31 +466,83 @@ window.addEventListener("load", ()=>{
         
         // Mostrar primera imagen en visor PC
         mostrar('pc', document.querySelector('.pc .galeria img'));
+        indicePC = 0;
         // Mostrar primera imagen en visor Móvil
         mostrar('mov', document.querySelector('.mov .galeria img'));
     },1500);
-});
+}); 
 
-// Función de zoom para PC y Móvil
+// Función de zoom para PC y Móvil (estilo Alibaba)
 function mostrar(version, img) {
     const visorImg = document.getElementById(`visor-img-${version}`);
     const visor = document.getElementById(`visor-${version}`);
+
+    // Poner la imagen seleccionada
     visorImg.src = img.src;
     visorImg.style.transform = "scale(1)";
+    visorImg.style.opacity = "1";
+    visorImg.style.transformOrigin = "center";
+    visorImg.style.filter = "blur(0px)";
 
+    let zoomActivo = false;
+    let hoverTimer = null;
+
+    // Efecto al pasar el mouse
+    visor.onmouseenter = () => {
+        hoverTimer = setTimeout(() => {
+            // ✨ Desvanecer + blur
+            visorImg.style.transition = "opacity 0.35s ease, filter 0.35s ease";
+            visorImg.style.filter = "blur(8px)";
+            visorImg.style.opacity = "0";
+
+            setTimeout(() => {
+                // Aparece ya agrandada y sin blur
+                visorImg.style.transition = "opacity 0.35s ease, filter 0.35s ease, transform 0.35s ease";
+                visorImg.style.filter = "blur(0px)";
+                visorImg.style.opacity = "1";
+                visorImg.style.transform = "scale(2.5)";
+                zoomActivo = true;
+            }, 150); // espera el desvanecimiento
+        }, 200); // 200ms de espera antes de activar
+    };
+
+    visor.onmouseleave = () => {
+        clearTimeout(hoverTimer);
+        hoverTimer = null;
+        zoomActivo = false;
+
+        visorImg.style.transition = "opacity 0.35s ease, filter 0.35s ease, transform 0.35s ease";
+        visorImg.style.opacity = "1";
+        visorImg.style.filter = "blur(0px)";
+        visorImg.style.transform = "scale(1)";
+        visorImg.style.transformOrigin = "center";
+    };
+
+    // Mover el mouse mientras está en zoom
     visor.onmousemove = e => {
+        if (!zoomActivo) return;
         const rect = visor.getBoundingClientRect();
         const x = ((e.clientX - rect.left) / rect.width) * 100;
         const y = ((e.clientY - rect.top) / rect.height) * 100;
-        visorImg.style.transform = "scale(2.5)";
         visorImg.style.transformOrigin = `${x}% ${y}%`;
-    }
-
-    visor.onmouseleave = () => {
-        visorImg.style.transform = "scale(1)";
-        visorImg.style.transformOrigin = "center";
-    }
+    };
 }
+
+
+
+let indicePC = 0;
+const imagenesPC = document.querySelectorAll(".pc .galeria img");
+
+function cambiarFotoPC(direccion){
+    indicePC += direccion;
+
+    if(indicePC < 0) indicePC = imagenesPC.length - 1;
+    if(indicePC >= imagenesPC.length) indicePC = 0;
+
+    mostrar("pc", imagenesPC[indicePC]);
+}
+
+
 </script>
 
 </body>
