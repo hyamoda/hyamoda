@@ -343,6 +343,25 @@ header {
     position:relative;
 }
 
+/* Footer PC */
+.pc-footer { display: block; }
+
+/* Ocultar en móvil */
+@media (max-width: 768px) {
+    .pc-footer { display: none; }
+}
+/* Footer PC ocupa todo el ancho */
+.pc-footer {
+    display: block;
+    width: 100%;  /* <--- Esto hace que sea ancho completo */
+}
+
+/* Ocultar en móvil */
+@media (max-width: 768px) {
+    .pc-footer {
+        display: none;
+    }
+}
 
 </style>
 </head>
@@ -399,29 +418,25 @@ header {
             </video>
         </div>
     </div>
-    <section class="footer-bg">
-     <footer class="footer">
-            <p class="footer-confianza">✔ Compra segura por WhatsApp</p>
-
-            <div class="footer-redes">
-                <a href="https://www.facebook.com/HYAMODA" target="_blank">
-                    <i class="fab fa-facebook-f"></i>
-                </a>
-
-                <a href="https://www.instagram.com/hya.moda.a.tus.pies/" target="_blank">
-                    <i class="fab fa-instagram"></i>
-                </a>
-
-                <a href="https://wa.me/51974309455" target="_blank">
-                   <i class="fab fa-whatsapp"></i>
-              </a>
-         </div>
-
-          <p class="footer-copy">© 2026 HYA Moda. Todos los derechos reservados.</p>
-     </footer>
-    </section>
+   
 </div>
-
+<section class="footer-bg pc-footer">
+    <footer class="footer">
+        <p class="footer-confianza">✔ Compra segura por WhatsApp</p>
+        <div class="footer-redes">
+            <a href="https://www.facebook.com/HYAMODA" target="_blank">
+                <i class="fab fa-facebook-f"></i>
+            </a>
+            <a href="https://www.instagram.com/hya.moda.a.tus.pies/" target="_blank">
+                <i class="fab fa-instagram"></i>
+            </a>
+            <a href="https://wa.me/51974309455" target="_blank">
+                <i class="fab fa-whatsapp"></i>
+            </a>
+        </div>
+        <p class="footer-copy">© 2026 HYA Moda. Todos los derechos reservados.</p>
+    </footer>
+</section>
 
 
 <!-- VERSIÓN MÓVIL -->
