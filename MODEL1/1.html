@@ -408,12 +408,11 @@ header {
 
 
         <div class="galeria">
-            <img src="IMAGEN/1.jpeg" onclick="cambiarMovil(this)">
-            <img src="IMAGEN/2.jpeg" onclick="cambiarMovil(this)">
-            <img src="IMAGEN/3.jpeg" onclick="cambiarMovil(this)">
-            <img src="IMAGEN/4.jpeg" onclick="cambiarMovil(this)">
+            <img src="IMAGEN/1.jpeg" onclick="mostrar('pc', this)">
+            <img src="IMAGEN/2.jpeg" onclick="mostrar('pc', this)">
+            <img src="IMAGEN/3.jpeg" onclick="mostrar('pc', this)">
+            <img src="IMAGEN/4.jpeg" onclick="mostrar('pc', this)">
         </div>
-
     </div>
     <div class="producto-info">
         <div class="descripcion">
@@ -454,10 +453,10 @@ header {
             <img id="visor-img-mov">
         </div>
         <div class="galeria">
-            <img src="IMAGEN/1.jpeg" onclick="mostrar('mov', this)">
-            <img src="IMAGEN/2.jpeg" onclick="mostrar('mov', this)">
-            <img src="IMAGEN/3.jpeg" onclick="mostrar('mov', this)">
-            <img src="IMAGEN/4.jpeg" onclick="mostrar('mov', this)">
+            <img src="IMAGEN/1.jpeg" onclick="cambiarMovil(this)">
+            <img src="IMAGEN/2.jpeg" onclick="cambiarMovil(this)">
+            <img src="IMAGEN/3.jpeg" onclick="cambiarMovil(this)">
+            <img src="IMAGEN/4.jpeg" onclick="cambiarMovil(this)">
         </div>
     </div>
     <div class="producto-info">
@@ -548,16 +547,6 @@ function initVisorMovil() {
         const y = 100 - ((touch.clientY - rect.top) / rect.height) * 100;
         visorImgMov.style.transformOrigin = `${x}% ${y}%`;
     };
-}
-function cambiarMovil(img){
-    const visor = document.getElementById("visor-img-mov");
-
-    if(visor.src !== img.src){
-        visor.src = img.src;
-        visor.style.transform = "scale(1)";
-        visor.style.transformOrigin = "center";
-        zoomMov = false; // solo aquí se reinicia
-    }
 }
 
 // Función de zoom para PC y Móvil (estilo Alibaba)
