@@ -474,6 +474,17 @@ header {
     -webkit-user-drag: none;
     user-drag: none;
 }
+/* Mostrar solo PC */
+.pc-only { display: block; }
+@media (max-width: 768px) {
+    .pc-only { display: none; }
+}
+
+/* Mostrar solo móvil */
+.mov-carrusel { display: block; }
+@media (min-width: 769px) {
+    .mov-carrusel { display: none; }
+}
 
 
 </style>
@@ -512,7 +523,6 @@ header {
 
         </div>
 
-
         <div class="galeria">
             <img src="IMAGEN/1.jpeg" onclick="mostrar('pc', this)">
             <img src="IMAGEN/2.jpeg" onclick="mostrar('pc', this)">
@@ -520,6 +530,7 @@ header {
             <img src="IMAGEN/4.jpeg" onclick="mostrar('pc', this)">
         </div>
     </div>
+
     <div class="producto-info">
         <div class="descripcion">
             <h2>Detalles del Modelo</h2>
@@ -531,8 +542,9 @@ header {
             </video>
         </div>
     </div>
-   
 </div>
+
+<!-- WhatsApp flotante (PC y móvil) -->
 <div class="whatsapp-box">
     <div class="whatsapp-text">Chatea con nosotros</div>
     <a href="https://wa.me/51974309455" class="whatsapp-btn" target="_blank">
@@ -540,8 +552,8 @@ header {
     </a>
 </div>
 
-<!-- ================= OTROS MODELOS ================= -->
-<section class="otros-modelos">
+<!-- ================= OTROS MODELOS PC ================= -->
+<section class="otros-modelos pc-only">
     <h2>Otros modelos</h2>
 
     <div class="otros-slider">
@@ -551,8 +563,9 @@ header {
 
         <button class="otros-arrow right" onclick="moverOtros(1)">›</button>
     </div>
-
 </section>
+
+<!-- Footer PC -->
 <section class="footer-bg pc-footer">
     <footer class="footer">
         <p class="footer-confianza">✔ Compra segura por WhatsApp</p>
@@ -570,7 +583,6 @@ header {
         <p class="footer-copy">© 2026 HYA Moda. Todos los derechos reservados.</p>
     </footer>
 </section>
-
 
 
 
@@ -821,166 +833,191 @@ if (visorPC) {
     visorPC.addEventListener("contextmenu", e => e.preventDefault());
 }
 /* ===== OTROS MODELOS ===== */
-const otrosImagenes = [
-    "../imagenes/carrusel/1.jpeg",
-    "../imagenes/carrusel/2.jpeg",
-    "../imagenes/carrusel/3.jpeg",
-    "../imagenes/carrusel/4.jpeg",
-    "../imagenes/carrusel/5.jpeg",
-    "../imagenes/carrusel/6.jpeg",
-    "../imagenes/carrusel/7.jpeg",
-    "../imagenes/carrusel/8.jpeg",
-    "../imagenes/carrusel/9.jpeg",
-    "../imagenes/carrusel/10.jpeg",
-    "../imagenes/carrusel/11.jpeg",
-    "../imagenes/carrusel/12.jpeg",
-    "../imagenes/carrusel/13.jpeg",
-    "../imagenes/carrusel/14.jpeg",
-    "../imagenes/carrusel/15.jpeg",
-    "../imagenes/carrusel/16.jpeg",
-    "../imagenes/carrusel/17.jpeg",
-    "../imagenes/carrusel/18.jpeg",
-    "../imagenes/carrusel/19.jpeg",
-    "../imagenes/carrusel/20.jpeg",
-    "../imagenes/carrusel/21.jpeg",
-    "../imagenes/carrusel/22.jpeg"
-];
+// ===== CARRUSEL PC =====
+if (window.innerWidth > 768) {
+    const otrosTrackPC = document.getElementById("otros-track");
+    const otrosContainerPC = document.querySelector(".otros-slider.pc-only");
+    const otrosImagenesPC = [
+        "../imagenes/carrusel/1.jpeg",
+        "../imagenes/carrusel/2.jpeg",
+        "../imagenes/carrusel/3.jpeg",
+        "../imagenes/carrusel/4.jpeg",
+        "../imagenes/carrusel/5.jpeg",
+        "../imagenes/carrusel/6.jpeg",
+        "../imagenes/carrusel/7.jpeg",
+        "../imagenes/carrusel/8.jpeg",
+        "../imagenes/carrusel/9.jpeg",
+        "../imagenes/carrusel/10.jpeg",
+        "../imagenes/carrusel/11.jpeg",
+        "../imagenes/carrusel/12.jpeg",
+        "../imagenes/carrusel/13.jpeg",
+        "../imagenes/carrusel/14.jpeg",
+        "../imagenes/carrusel/15.jpeg",
+        "../imagenes/carrusel/16.jpeg",
+        "../imagenes/carrusel/17.jpeg",
+        "../imagenes/carrusel/18.jpeg",
+        "../imagenes/carrusel/19.jpeg",
+        "../imagenes/carrusel/20.jpeg",
+        "../imagenes/carrusel/21.jpeg",
+        "../imagenes/carrusel/22.jpeg"
+    ];
 
+    // Crear items
+    otrosImagenesPC.forEach((img, i) => {
+        const div = document.createElement("div");
+        div.className = "otros-item";
+        div.innerHTML = `
+            <a href="../MODEL${i+1}/${i+1}.html">
+                <img src="${img}">
+            </a>
+        `;
+        otrosTrackPC.appendChild(div);
+    });
 
-const otrosTrack = document.getElementById("otros-track");
-const otrosContainer = document.querySelector(".otros-slider");
+    let pcIndex = 0;
+    let pcTranslate = 0;
+    const itemWidth = 180;
 
-const otrosItemWidth = 180; // igual que CSS
-let otrosIndex = 0;
-let pcTranslate = 0;
-let pcIndex = 0;
+    // Mover con flechas
+    window.moverOtros = function(dir){
+        pcIndex += dir;
+        if(pcIndex < 0) pcIndex = otrosTrackPC.children.length - 1;
+        if(pcIndex >= otrosTrackPC.children.length) pcIndex = 0;
+        pcTranslate = -pcIndex * itemWidth;
+        otrosTrackPC.style.transition = "transform 0.45s ease";
+        otrosTrackPC.style.transform = `translateX(${pcTranslate}px)`;
+    }
 
-otrosImagenes.forEach((img, i)=>{
-    const div = document.createElement("div");
-    div.className = "otros-item";
-    div.innerHTML = `
-        <a href="../MODEL${i+1}/${i+1}.html">
-            <img src="${img}">
-        </a>
-    `;
-    otrosTrack.appendChild(div);
-});
+    // Drag PC
+    let isDown = false, startX = 0, scrollX = 0, velocity = 0, lastX = 0, lastTime = 0;
+    otrosTrackPC.style.cursor = "grab";
 
-// ===== Evitar drag de imágenes =====
-document.addEventListener("dragstart", e => {
-    if(e.target.tagName === "IMG") e.preventDefault();
-});
+    otrosTrackPC.addEventListener("mousedown", e => {
+        e.preventDefault();
+        isDown = true;
+        otrosTrackPC.style.transition = "none";
+        otrosTrackPC.style.cursor = "grabbing";
+        startX = e.pageX;
+        scrollX = pcTranslate;
+        lastX = e.pageX;
+        lastTime = Date.now();
+    });
 
-// ===== Flechas =====
-function moverOtros(dir){
-    pcIndex += dir;
-
-    if(pcIndex < 0) pcIndex = otrosTrack.children.length - 1;
-    if(pcIndex >= otrosTrack.children.length) pcIndex = 0;
-
-    pcTranslate = -pcIndex * otrosItemWidth;
-
-    otrosTrack.style.transition = "transform 0.45s ease";
-    otrosTrack.style.transform = `translateX(${pcTranslate}px)`;
-}
-
-let isDown = false;
-let startX = 0;
-let scrollX = 0;
-let velocity = 0;
-let lastX = 0;
-let lastTime = 0;
-
-otrosTrack.style.cursor = "grab";
-
-otrosTrack.addEventListener("mousedown", e=>{
-    e.preventDefault(); // 🔥 evita que el navegador secuestre el drag
-    isDown = true;
-    otrosTrack.style.transition = "none";
-    otrosTrack.style.cursor = "grabbing";
-    startX = e.pageX;
-    scrollX = pcTranslate;
-    lastX = e.pageX;
-    lastTime = Date.now();
-});
-// 🔥 Bloquear drag nativo del navegador
-otrosTrack.addEventListener("dragstart", e => e.preventDefault());
-
-
-document.addEventListener("mousemove", e=>{
-    if(!isDown) return;
-
-    const dx = e.pageX - startX;
-    pcTranslate = scrollX + dx * 1.6;   // 👈 SENSIBILIDAD REAL
-
-    const maxScroll = otrosContainer.offsetWidth - otrosTrack.scrollWidth;
-    if(pcTranslate > 0) pcTranslate = 0;
-    if(pcTranslate < maxScroll) pcTranslate = maxScroll;
-
-    otrosTrack.style.transform = `translateX(${pcTranslate}px)`;
-
-    // velocidad
-    const now = Date.now();
-    velocity = (e.pageX - lastX) / (now - lastTime);
-    lastX = e.pageX;
-    lastTime = now;
-});
-
-document.addEventListener("mouseup", ()=>{
-    if(!isDown) return;
-    isDown = false;
-    otrosTrack.style.cursor = "grab";
-
-    // inercia suave
-    let momentum = velocity * 150;
-
-    function inertia(){
-        momentum *= 0.92;
-        pcTranslate += momentum;
-
-        const maxScroll = otrosContainer.offsetWidth - otrosTrack.scrollWidth;
+    document.addEventListener("mousemove", e => {
+        if(!isDown) return;
+        const dx = e.pageX - startX;
+        pcTranslate = scrollX + dx * 1.6;
+        const maxScroll = otrosContainerPC.offsetWidth - otrosTrackPC.scrollWidth;
         if(pcTranslate > 0) pcTranslate = 0;
         if(pcTranslate < maxScroll) pcTranslate = maxScroll;
+        otrosTrackPC.style.transform = `translateX(${pcTranslate}px)`;
+        const now = Date.now();
+        velocity = (e.pageX - lastX) / (now - lastTime);
+        lastX = e.pageX;
+        lastTime = now;
+    });
 
-        otrosTrack.style.transform = `translateX(${pcTranslate}px)`;
-
-        if(Math.abs(momentum) > 0.5){
-            requestAnimationFrame(inertia);
+    document.addEventListener("mouseup", () => {
+        if(!isDown) return;
+        isDown = false;
+        otrosTrackPC.style.cursor = "grab";
+        let momentum = velocity * 150;
+        function inertia(){
+            momentum *= 0.92;
+            pcTranslate += momentum;
+            const maxScroll = otrosContainerPC.offsetWidth - otrosTrackPC.scrollWidth;
+            if(pcTranslate > 0) pcTranslate = 0;
+            if(pcTranslate < maxScroll) pcTranslate = maxScroll;
+            otrosTrackPC.style.transform = `translateX(${pcTranslate}px)`;
+            if(Math.abs(momentum) > 0.5){
+                requestAnimationFrame(inertia);
+            }
         }
+        inertia();
+    });
+
+    // Bloquear drag nativo
+    otrosTrackPC.addEventListener("dragstart", e => e.preventDefault());
+}
+// ===== CARRUSEL MÓVIL =====
+if (window.innerWidth <= 768) {
+    const otrosTrackMov = document.getElementById("otros-track-mov");
+    const otrosContainerMov = document.querySelector(".mov-carrusel");
+    const otrosImagenesMov = [
+        "../imagenes/carrusel/1.jpeg",
+        "../imagenes/carrusel/2.jpeg",
+        "../imagenes/carrusel/3.jpeg",
+        "../imagenes/carrusel/4.jpeg",
+        "../imagenes/carrusel/5.jpeg",
+        "../imagenes/carrusel/6.jpeg",
+        "../imagenes/carrusel/7.jpeg",
+        "../imagenes/carrusel/8.jpeg",
+        "../imagenes/carrusel/9.jpeg",
+        "../imagenes/carrusel/10.jpeg",
+        "../imagenes/carrusel/11.jpeg",
+        "../imagenes/carrusel/12.jpeg",
+        "../imagenes/carrusel/13.jpeg",
+        "../imagenes/carrusel/14.jpeg",
+        "../imagenes/carrusel/15.jpeg",
+        "../imagenes/carrusel/16.jpeg",
+        "../imagenes/carrusel/17.jpeg",
+        "../imagenes/carrusel/18.jpeg",
+        "../imagenes/carrusel/19.jpeg",
+        "../imagenes/carrusel/20.jpeg",
+        "../imagenes/carrusel/21.jpeg",
+        "../imagenes/carrusel/22.jpeg"
+    ];
+
+    // Crear items móviles
+    otrosImagenesMov.forEach((img, i) => {
+        const div = document.createElement("div");
+        div.className = "otros-item";
+        div.innerHTML = `
+            <a href="../MODEL${i+1}/${i+1}.html">
+                <img src="${img}">
+            </a>
+        `;
+        otrosTrackMov.appendChild(div);
+    });
+
+    let movIndex = 0;
+    let movTranslate = 0;
+    const itemWidthMov = 140;
+
+    // Flechas móviles
+    window.moverOtrosMov = function(dir){
+        movIndex += dir;
+        if(movIndex < 0) movIndex = otrosTrackMov.children.length - 1;
+        if(movIndex >= otrosTrackMov.children.length) movIndex = 0;
+        movTranslate = -movIndex * itemWidthMov;
+        otrosTrackMov.style.transition = "transform 0.45s ease";
+        otrosTrackMov.style.transform = `translateX(${movTranslate}px)`;
     }
-    inertia();
-});
 
-/* ===== DRAG TÁCTIL (MÓVIL) ===== */
-let touchStartX = 0;
-let touchPrev = 0;
-let touchDown = false;
+    // Drag táctil
+    let touchStartX = 0, touchPrev = 0, touchDown = false;
+    otrosTrackMov.addEventListener("touchstart", e => {
+        touchDown = true;
+        touchStartX = e.touches[0].pageX;
+        touchPrev = movTranslate;
+        otrosTrackMov.style.transition = "none";
+    }, {passive:true});
 
-otrosTrack.addEventListener("touchstart", e=>{
-    touchDown = true;
-    touchStartX = e.touches[0].pageX;
-    touchPrev = pcTranslate;
-    otrosTrack.style.transition = "none";
-}, {passive:true});
+    otrosTrackMov.addEventListener("touchmove", e => {
+        if(!touchDown) return;
+        const x = e.touches[0].pageX;
+        const walk = (x - touchStartX) * 1.4;
+        movTranslate = touchPrev + walk;
+        const maxScroll = otrosContainerMov.offsetWidth - otrosTrackMov.scrollWidth;
+        if(movTranslate > 0) movTranslate = 0;
+        if(movTranslate < maxScroll) movTranslate = maxScroll;
+        otrosTrackMov.style.transform = `translateX(${movTranslate}px)`;
+    }, {passive:true});
 
-otrosTrack.addEventListener("touchmove", e=>{
-    if(!touchDown) return;
-
-    const x = e.touches[0].pageX;
-    const walk = (x - touchStartX) * 1.4;
-
-    pcTranslate = touchPrev + walk;
-
-    const maxScroll = otrosContainer.offsetWidth - otrosTrack.scrollWidth;
-    if(pcTranslate > 0) pcTranslate = 0;
-    if(pcTranslate < maxScroll) pcTranslate = maxScroll;
-
-    otrosTrack.style.transform = `translateX(${pcTranslate}px)`;
-}, {passive:true});
-
-otrosTrack.addEventListener("touchend", ()=>{
-    touchDown = false;
-});
+    otrosTrackMov.addEventListener("touchend", () => {
+        touchDown = false;
+    });
+}
 
 
 </script>
