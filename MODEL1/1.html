@@ -55,15 +55,11 @@ header {
     text-align:center;
 }
 
-.producto-fotos .descripcion {
-    margin-top: 15px;    /* espacio entre visor y descripción */
-    text-align: center;   /* opcional: centrar texto */
-    padding: 10px;        /* un poco más compacto */
-    max-width: 600px;     /* para que no quede muy ancho */
-    margin-left: auto;
-    margin-right: auto;   /* centra el bloque */
+.descripcion {
+    background: transparent;
+    padding:20px;
+    border-radius:10px;
 }
-
 
 .descripcion p, header h1, header p {
     text-shadow: 1px 1px 4px rgba(0,0,0,0.7);
@@ -100,17 +96,11 @@ header {
 
 /* VISOR Y MINIATURAS */
 .producto-fotos {
-    display: flex;
-    flex-direction: column; /* ← ahora todo va verticalmente */
-    align-items: center;    /* centra el contenido */
-    gap: 15px;              /* separación entre visor, descripción y galería */
-}
-
-.descripcion-visormov {
-    text-align: center;
-    max-width: 600px;       /* para que no quede muy ancho */
-    width: 100%;
-    padding: 10px 0;
+    display:flex;
+    flex-direction:row-reverse;  /* ← invierte el orden */
+    gap:15px;
+    width:100%;
+    align-items:flex-start;
 }
 
 
@@ -569,11 +559,6 @@ header {
 
         </div>
 
-        <div class="descripcion-visormov">
-            <h2>Detalles del Modelo</h2>
-            <p>Zapatilla urbana cómoda, ligera y moderna. Ideal para uso diario y disponible en varias tallas.</p>
-        </div>   
-
         <div class="galeria">
             <img src="IMAGEN/1.jpeg" onclick="mostrar('pc', this)">
             <img src="IMAGEN/2.jpeg" onclick="mostrar('pc', this)">
@@ -583,7 +568,10 @@ header {
     </div>
 
     <div class="producto-info">
-
+        <div class="descripcion">
+            <h2>Detalles del Modelo</h2>
+            <p>Zapatilla urbana cómoda, ligera y moderna. Ideal para uso diario y disponible en varias tallas.</p>
+        </div>
         <div class="video-modelo">
             <video controls>
                 <source src="IMAGEN/1.mp4" type="video/mp4">
