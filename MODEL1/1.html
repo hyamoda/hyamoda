@@ -665,54 +665,14 @@ window.addEventListener("load", ()=>{
         indicePC = 0;
         // Mostrar primera imagen en visor Móvil
         // Inicializar zoom móvil
-        initVisorMovil();
+        
         // Mostrar primera imagen móvil
         document.getElementById('visor-img-mov').src = document.querySelector('.mov .galeria img').src;
 
     },600);
 }); 
 
-function initVisorMovil() {
-    const visorMov = document.getElementById('visor-mov');
-    const visorImgMov = document.getElementById('visor-img-mov');
 
-    visorMov.addEventListener("touchstart", e => {
-        if (!zoomMov) {
-            visorImgMov.style.transition = "opacity 0.35s ease, filter 0.35s ease, transform 0.35s ease";
-            visorImgMov.style.filter = "blur(0px)";
-            visorImgMov.style.opacity = "1";
-            visorImgMov.style.transform = "scale(2.5)";
-            zoomMov = true;
-        }
-    }, { passive: false });
-
-
-    visorMov.addEventListener("touchmove", e => {
-        if (!zoomMov) return;
-        e.preventDefault();
-
-        const touch = e.touches[0];
-        const rect = visorMov.getBoundingClientRect();
-
-        const sensibilidad = 3.2;
-
-        let x = ((touch.clientX - rect.left) / rect.width) * 100;
-        let y = ((touch.clientY - rect.top) / rect.height) * 100;
-        // invertido como pediste (abajo → sube)
-        const invX = 100 - x;
-        const invY = 100 - y;
-
-        x = 50 + (x - 50) * sensibilidad;
-        y = 50 + (y - 50) * sensibilidad;
-
-        x = Math.max(0, Math.min(100, x));
-        y = Math.max(0, Math.min(100, y));
-
-        visorImgMov.style.transformOrigin = `${x}% ${y}%`;
-    }, { passive:false });
-
-
-}
 function cambiarMovil(img){
     const visor = document.getElementById("visor-img-mov");
 
@@ -922,7 +882,7 @@ track.forEach((t, idx)=>{
             }
         });
     });
-        
+
 
     t.addEventListener("mouseup", e=>{
         isDown = false;
@@ -946,7 +906,7 @@ track.forEach((t, idx)=>{
     }, {passive:true});
     t.addEventListener("touchmove", e=>{
         const dx = e.touches[0].pageX - startX;
-        translateX = scrollStart + dx * 1.5; // se mueve 1.5 veces más rápido
+        translateX = scrollStart + dx * 2; // se mueve 1.5 veces más rápido
         update();
     }, {passive:true});
 
