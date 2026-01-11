@@ -409,8 +409,9 @@ header {
 .otros-track{
     display:flex;
     gap:20px;
-    transition:transform .45s ease;
+    transition:none;   /* 👈 nunca animar el drag */
 }
+
 
 .otros-item{
     flex:0 0 180px;
@@ -465,6 +466,15 @@ header {
     user-select: none;
     pointer-events: auto;
 }
+/* 🔥 DRAG REAL EN PC */
+.otros-track,
+.otros-track *{
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-user-drag: none;
+    user-drag: none;
+}
+
 
 </style>
 </head>
@@ -523,19 +533,14 @@ header {
     </div>
    
 </div>
-<!-- ================= OTROS MODELOS ================= -->
-<section class="otros-modelos">
-    <h2>Otros modelos</h2>
+<div class="whatsapp-box">
+    <div class="whatsapp-text">Chatea con nosotros</div>
+    <a href="https://wa.me/51974309455" class="whatsapp-btn" target="_blank">
+        <img src="IMAGEN/whatsapp.png" alt="WhatsApp">
+    </a>
+</div>
 
-    <div class="otros-slider">
-        <button class="otros-arrow left" onclick="moverOtros(-1)">‹</button>
 
-        <div class="otros-track" id="otros-track"></div>
-
-        <button class="otros-arrow right" onclick="moverOtros(1)">›</button>
-    </div>
-
-</section>
 <section class="footer-bg pc-footer">
     <footer class="footer">
         <p class="footer-confianza">✔ Compra segura por WhatsApp</p>
@@ -581,6 +586,19 @@ header {
             </video>
         </div>
     </div>
+    <!-- ================= OTROS MODELOS ================= -->
+    <section class="otros-modelos">
+        <h2>Otros modelos</h2>
+
+        <div class="otros-slider">
+            <button class="otros-arrow left" onclick="moverOtros(-1)">‹</button>
+
+            <div class="otros-track" id="otros-track"></div>
+
+            <button class="otros-arrow right" onclick="moverOtros(1)">›</button>
+        </div>
+
+    </section>
 
     <!-- 👇 Footer del móvil, dejar solo este al final -->
     <section class="footer-bg">
@@ -602,16 +620,14 @@ header {
     </section>
 </div> <!-- fin de .mov -->
 
-
-
+</div> <!-- CIERRA #contenido -->
 <div class="whatsapp-box">
     <div class="whatsapp-text">Chatea con nosotros</div>
     <a href="https://wa.me/51974309455" class="whatsapp-btn" target="_blank">
         <img src="IMAGEN/whatsapp.png" alt="WhatsApp">
     </a>
 </div>
-
-</div>
+</div> <!-- fin de .capa-negra -->
 
 
 <script>
@@ -825,6 +841,8 @@ const otrosContainer = document.querySelector(".otros-slider");
 
 const otrosItemWidth = 180; // igual que CSS
 let otrosIndex = 0;
+let pcTranslate = 0;
+let pcIndex = 0;
 
 otrosImagenes.forEach((img, i)=>{
     const div = document.createElement("div");
@@ -844,94 +862,113 @@ document.addEventListener("dragstart", e => {
 
 // ===== Flechas =====
 function moverOtros(dir){
-    otrosIndex += dir;
-    if(otrosIndex < 0) otrosIndex = 0;
+    pcIndex += dir;
 
-    const maxIndex = Math.max(0, otrosTrack.children.length - Math.floor(otrosContainer.offsetWidth / otrosItemWidth));
-    if(otrosIndex > maxIndex) otrosIndex = maxIndex;
+    if(pcIndex < 0) pcIndex = otrosTrack.children.length - 1;
+    if(pcIndex >= otrosTrack.children.length) pcIndex = 0;
+
+    pcTranslate = -pcIndex * otrosItemWidth;
 
     otrosTrack.style.transition = "transform 0.45s ease";
-    otrosTrack.style.transform = `translateX(-${otrosIndex * otrosItemWidth}px)`;
+    otrosTrack.style.transform = `translateX(${pcTranslate}px)`;
 }
 
-/* ===== ARRASTRE PC ===== */
 let isDown = false;
 let startX = 0;
-let scrollLeft = 0;
-let preventClick = false;
+let scrollX = 0;
+let velocity = 0;
+let lastX = 0;
+let lastTime = 0;
 
-otrosTrack.addEventListener("mousedown", e => {
+otrosTrack.style.cursor = "grab";
+
+otrosTrack.addEventListener("mousedown", e=>{
+    e.preventDefault(); // 🔥 evita que el navegador secuestre el drag
     isDown = true;
-    preventClick = false;
-    startX = e.pageX - otrosTrack.offsetLeft;
-    scrollLeft = -otrosIndex * otrosItemWidth;
     otrosTrack.style.transition = "none";
     otrosTrack.style.cursor = "grabbing";
+    startX = e.pageX;
+    scrollX = pcTranslate;
+    lastX = e.pageX;
+    lastTime = Date.now();
 });
+// 🔥 Bloquear drag nativo del navegador
+otrosTrack.addEventListener("dragstart", e => e.preventDefault());
 
-otrosTrack.addEventListener("mousemove", e => {
+
+document.addEventListener("mousemove", e=>{
     if(!isDown) return;
-    const x = e.pageX - otrosTrack.offsetLeft;
-    const walk = (x - startX) * 1.8;
 
-    if(Math.abs(walk) > 10) preventClick = true;
+    const dx = e.pageX - startX;
+    pcTranslate = scrollX + dx * 1.6;   // 👈 SENSIBILIDAD REAL
 
-    otrosTrack.style.transform = `translateX(${scrollLeft + walk}px)`;
+    const maxScroll = otrosContainer.offsetWidth - otrosTrack.scrollWidth;
+    if(pcTranslate > 0) pcTranslate = 0;
+    if(pcTranslate < maxScroll) pcTranslate = maxScroll;
+
+    otrosTrack.style.transform = `translateX(${pcTranslate}px)`;
+
+    // velocidad
+    const now = Date.now();
+    velocity = (e.pageX - lastX) / (now - lastTime);
+    lastX = e.pageX;
+    lastTime = now;
 });
 
-otrosTrack.addEventListener("mouseup", () => {
+document.addEventListener("mouseup", ()=>{
+    if(!isDown) return;
     isDown = false;
     otrosTrack.style.cursor = "grab";
 
-    const moved = -parseInt(otrosTrack.style.transform.replace("translateX(",""));
-    otrosIndex = Math.round(moved / otrosItemWidth);
+    // inercia suave
+    let momentum = velocity * 150;
 
-    const maxIndex = Math.max(0, otrosTrack.children.length - Math.floor(otrosContainer.offsetWidth / otrosItemWidth));
-    if(otrosIndex < 0) otrosIndex = 0;
-    if(otrosIndex > maxIndex) otrosIndex = maxIndex;
+    function inertia(){
+        momentum *= 0.92;
+        pcTranslate += momentum;
 
-    otrosTrack.style.transition = "transform 0.4s ease";
-    otrosTrack.style.transform = `translateX(-${otrosIndex * otrosItemWidth}px)`;
+        const maxScroll = otrosContainer.offsetWidth - otrosTrack.scrollWidth;
+        if(pcTranslate > 0) pcTranslate = 0;
+        if(pcTranslate < maxScroll) pcTranslate = maxScroll;
+
+        otrosTrack.style.transform = `translateX(${pcTranslate}px)`;
+
+        if(Math.abs(momentum) > 0.5){
+            requestAnimationFrame(inertia);
+        }
+    }
+    inertia();
 });
 
-otrosTrack.addEventListener("mouseleave", ()=>{ isDown=false; });
-
-otrosTrack.addEventListener("click", e=>{
-    if(preventClick) e.preventDefault();
-});
-
-/* ===== ARRASTRE MÓVIL ===== */
+/* ===== DRAG TÁCTIL (MÓVIL) ===== */
 let touchStartX = 0;
-let touchScrollLeft = 0;
-let isDragging = false;
+let touchPrev = 0;
+let touchDown = false;
 
 otrosTrack.addEventListener("touchstart", e=>{
-    isDragging = false;
+    touchDown = true;
     touchStartX = e.touches[0].pageX;
-    touchScrollLeft = -otrosIndex * otrosItemWidth;
-    otrosTrack.style.transition="none";
-});
+    touchPrev = pcTranslate;
+    otrosTrack.style.transition = "none";
+}, {passive:true});
 
 otrosTrack.addEventListener("touchmove", e=>{
+    if(!touchDown) return;
+
     const x = e.touches[0].pageX;
-    const walk = (x - touchStartX) * 2;
-    if(Math.abs(walk) > 3) isDragging = true;
-    otrosTrack.style.transform = `translateX(${touchScrollLeft + walk}px)`;
-});
+    const walk = (x - touchStartX) * 1.4;
 
-otrosTrack.addEventListener("touchend", e=>{
-    otrosTrack.style.transition="transform 0.4s ease";
+    pcTranslate = touchPrev + walk;
 
-    if(isDragging){
-        const moved = -parseInt(otrosTrack.style.transform.replace("translateX(",""));
-        otrosIndex = Math.round(moved / otrosItemWidth);
+    const maxScroll = otrosContainer.offsetWidth - otrosTrack.scrollWidth;
+    if(pcTranslate > 0) pcTranslate = 0;
+    if(pcTranslate < maxScroll) pcTranslate = maxScroll;
 
-        const maxIndex = Math.max(0, otrosTrack.children.length - Math.floor(otrosContainer.offsetWidth / otrosItemWidth));
-        if(otrosIndex < 0) otrosIndex = 0;
-        if(otrosIndex > maxIndex) otrosIndex = maxIndex;
+    otrosTrack.style.transform = `translateX(${pcTranslate}px)`;
+}, {passive:true});
 
-        otrosTrack.style.transform = `translateX(-${otrosIndex * otrosItemWidth}px)`;
-    }
+otrosTrack.addEventListener("touchend", ()=>{
+    touchDown = false;
 });
 
 
