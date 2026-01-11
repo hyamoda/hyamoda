@@ -1,76 +1,110 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
 <meta charset="UTF-8">
 <title>Zapatilla Urbana - HYA Moda</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 
 <style>
-*{box-sizing:border-box;}
+* { box-sizing: border-box; }
 
-body{
-    margin:0;
-    font-family:Arial,sans-serif;
-    background:#f5f5f5;
-    color:#333;
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    color: #fff;
+
+    background-image: url('../imagenes/fondo.jpeg');
+    background-repeat: repeat;
+    background-size: 200px 200px;
+
+    min-height: 100vh;
 }
 
-/* ===== PANTALLA DE CARGA ===== */
-#loader{
-    position:fixed;
+
+/* PANTALLA DE CARGA */
+#loader {
+    position: fixed;
     top:0;
     left:0;
     width:100%;
     height:100%;
-    background:#fff;
+    background-color:#fff;
     display:flex;
     align-items:center;
     justify-content:center;
     z-index:10000;
 }
 
-#loader img{
-    width:120px;
-    animation:pulse 1.2s infinite;
-}
+#loader img { width:120px; animation:pulse 1.2s infinite; }
 
-@keyframes pulse{
+@keyframes pulse {
     0%{transform:scale(1);}
     50%{transform:scale(1.1);}
     100%{transform:scale(1);}
 }
 
-/* OCULTA CONTENIDO AL INICIO */
-#contenido{
-    display:none;
-}
+#contenido { display:none; }
 
-/* HEADER */
-header{
-    background:#111;
-    color:white;
+header {
+    background: transparent;
+    color: white;
     padding:20px;
     text-align:center;
 }
 
-/* ===== CONTENEDOR GENERAL 2 COLUMNAS ===== */
-.producto{
-    width:90%;
-    max-width:1200px;
-    margin:30px auto;
-    display:grid;
+.descripcion {
+    background: transparent;
+    padding:20px;
+    border-radius:10px;
+}
+
+.descripcion p, header h1, header p {
+    text-shadow: 1px 1px 4px rgba(0,0,0,0.7);
+}
+
+/* ===== VERSIÓN PC (2 COLUMNAS) ===== */
+.pc {
+    display: grid;
     grid-template-columns: 1fr 1fr;
-    gap:40px;
+    gap: 30px;
+    width: 85%;
+    max-width: 1000px; /* antes 1200 */
+    margin: 30px auto;
 }
 
-/* ===== COLUMNA IZQUIERDA ===== */
-.producto-fotos{
+.pc .producto-fotos,
+.pc .producto-info {
+    width: 100%;
+}
+
+/* ===== VERSIÓN MÓVIL (1 COLUMNA) ===== */
+.mov {
+    display: none; /* oculto por defecto, se muestra solo en móvil */
+    flex-direction: column;
+    width: 95%;
+    margin: 20px auto;
+    gap: 20px;
+}
+
+.mov .producto-fotos,
+.mov .producto-info {
+    width: 100%;
+}
+
+/* VISOR Y MINIATURAS */
+.producto-fotos {
     display:flex;
-    flex-direction:column;
-    align-items:center;
+    flex-direction:row-reverse;  /* ← invierte el orden */
+    gap:15px;
+    width:100%;
+    align-items:flex-start;
 }
 
-/* VISOR */
-.visor{
+
+.visor {
     position:relative;
     overflow:hidden;
     border-radius:15px;
@@ -80,62 +114,69 @@ header{
     align-items:center;
 }
 
+.visor{
+    width:100%;
+    max-width:600px;
+    position:relative;
+    overflow:hidden;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    border-radius:15px;
+}
+
+/* LA IMAGEN MANDA */
 .visor img{
-    max-height:450px;
+    max-width:100%;
+    max-height:600px;
     width:auto;
     height:auto;
     object-fit:contain;
-    transition:transform .15s ease;
-    transform-origin:center;
+
+    transition:
+        transform 0.9s cubic-bezier(.15,.7,.15,1),
+        opacity 0.35s ease;
+    
+    will-change: transform, opacity;
 }
 
-/* MINIATURAS */
-.galeria{
-    margin-top:15px;
+
+.galeria {
     display:flex;
-    gap:15px;
-    justify-content:center;
-    flex-wrap:wrap;
+    flex-direction:column;
+    gap:12px;
+    width:70px;
 }
 
-.galeria img{
-    width:65px;
-    border-radius:10px;
-    cursor:pointer;
-    transition:transform .2s ease;
+.galeria img {
+    width:55px;
+    border-radius:8px;
 }
 
-.galeria img:hover{
-    transform:scale(1.1);
+.galeria img:hover {
+    transform: scale(1.1);
 }
 
-/* ===== COLUMNA DERECHA ===== */
-.producto-info{
+.producto-info {
     display:flex;
     flex-direction:column;
     gap:25px;
 }
 
-.descripcion{
-    background:white;
-    padding:20px;
-    border-radius:10px;
-}
-
-.video-modelo{
+.video-modelo {
     width:100%;
     display:flex;
     justify-content:center;
 }
 
-.video-modelo video{
+.video-modelo video {
     width:60%;
     max-width:500px;
     border-radius:10px;
 }
 
 /* WHATSAPP */
-.whatsapp-box{
+.whatsapp-box {
     position:fixed;
     bottom:20px;
     right:20px;
@@ -146,7 +187,7 @@ header{
     z-index:9999;
 }
 
-.whatsapp-text{
+.whatsapp-text {
     background:#111;
     color:white;
     font-size:13px;
@@ -156,7 +197,7 @@ header{
     box-shadow:0 4px 10px rgba(0,0,0,.3);
 }
 
-.whatsapp-btn{
+.whatsapp-btn {
     background:#25D366;
     width:56px;
     height:56px;
@@ -168,80 +209,360 @@ header{
     box-shadow:0 6px 15px rgba(0,0,0,.35);
 }
 
-.whatsapp-btn img{
-    width:32px;
-    height:32px;
+.whatsapp-btn img { width:32px; height:32px; }
+
+/* ===== MEDIA QUERIES ===== */
+@media (max-width: 768px) {
+    .pc { display: none; }      /* oculta versión pc */
+    .mov { display: flex; }     /* muestra versión móvil */
+    
+    .visor img { width:100%; height:auto; }
+    .galeria img { width:50px; }
+    .video-modelo video { width:100%; max-width:100%; }
 }
 
-/* ===== RESPONSIVE ===== */
+.footer-bg{
+    background:
+        linear-gradient(rgba(0,0,0,0.75), rgba(0,0,0,0.85)),
+        url("../imagenes/fondo10.jpeg");
+    background-repeat: repeat;
+    background-size: 180px 180px; /* tamaño de cada cuadrito */
+    padding: 40px 20px 30px;
+}
+
+.footer{
+    max-width:1100px;
+    margin:auto;
+    text-align:center;
+    color:#f2f2f2;
+}
+
+.footer-confianza{
+    font-size:16px;
+    letter-spacing:0.6px;
+    margin-bottom:28px;
+}
+
+.footer-redes{
+    display:flex;
+    justify-content:center;
+    gap:30px;
+    margin-bottom:28px;
+}
+
+.footer-redes a{
+    width:52px;
+    height:52px;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:rgba(255,255,255,.08);
+    color:white;
+    font-size:22px;
+    text-decoration:none;
+    transition:.35s;
+}
+
+.footer-redes a:hover{
+    background:#c05a8f;
+    transform:translateY(-4px);
+    box-shadow:0 10px 25px rgba(0,0,0,.4);
+}
+
+.footer-copy{
+    font-size:13px;
+    opacity:.6;
+}
+.capa-negra {
+    background: rgba(0,0,0,0.75);
+    width: 100%;
+    min-height: 100vh; /* lo dejamos por seguridad */
+    /* agregar esto */
+    display: flex;
+    flex-direction: column;
+}
+#contenido {
+    flex: 1; /* hace que el contenido estire la capa-negra hasta cubrir todo */
+}
+
+    
+/* MARCO LATERAL SOLO PARA EL VISOR */
+.visor-frame{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    background: linear-gradient(to right, #5a5a5a, #8a8a8a, #5a5a5a);
+
+
+
+    padding: 0 70px;   /* SOLO lados, no arriba ni abajo */
+    border-radius: 14px;
+}
+
+/* Flechas laterales PC */
+.flecha{
+    position:absolute;
+    top:50%;
+    transform:translateY(-50%);
+    width:52px;
+    height:52px;
+    border-radius:50%;
+    background:rgba(192,90,143,0.18);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    cursor:pointer;
+    z-index:30;
+    transition:.3s;
+    backdrop-filter: blur(4px);
+}
+
+.flecha i{
+    color:#c05a8f;
+    font-size:26px;
+}
+
+.flecha:hover{
+    background:#c05a8f;
+}
+
+.flecha:hover i{
+    color:white;
+}
+
+.flecha-izq{
+    left:10px;
+}
+
+.flecha-der{
+    right:10px;
+}
+
+/* Solo PC */
+.mov .flecha{
+    display:none;
+}
+
+/* Para que las flechas floten dentro del marco */
+.visor-frame{
+    position:relative;
+}
+
+/* Footer PC */
+.pc-footer { display: block; }
+
+/* Ocultar en móvil */
+@media (max-width: 768px) {
+    .pc-footer { display: none; }
+}
+/* Footer PC ocupa todo el ancho */
+.pc-footer {
+    display: block;
+    width: 100%;  /* <--- Esto hace que sea ancho completo */
+}
+
+/* Ocultar en móvil */
+@media (max-width: 768px) {
+    .pc-footer {
+        display: none;
+    }
+}
+/* Ocultar el texto de WhatsApp solo en móvil */
+@media (max-width: 768px) {
+    .whatsapp-text {
+        display: none;
+    }
+}
+@keyframes whatsappBlink {
+    0%   { transform: scale(1);   box-shadow: 0 0 0 rgba(37,211,102,0.0); }
+    50%  { transform: scale(1.15); box-shadow: 0 0 25px rgba(37,211,102,0.9); }
+    100% { transform: scale(1);   box-shadow: 0 0 0 rgba(37,211,102,0.0); }
+}
+@media (max-width: 768px) {
+    .whatsapp-btn {
+        animation: whatsappBlink 1.2s infinite;
+    }
+}
+/* ===== OTROS MODELOS ===== */
+.otros-modelos{
+    margin:60px auto 40px;
+    width:100%;
+    max-width:1100px;
+    padding:0 20px;
+    text-align:center;
+}
+
+.otros-modelos h2{
+    font-size:26px;
+    margin-bottom:25px;
+    color:#fff;
+    text-shadow:0 2px 5px rgba(0,0,0,.7);
+}
+
+.otros-slider{
+    position:relative;
+    overflow:hidden;
+}
+
+.otros-track{
+    display:flex;
+    gap:20px;
+    transition:none;   /* 👈 nunca animar el drag */
+}
+
+
+.otros-item{
+    flex:0 0 180px;
+}
+
+.otros-item img{
+    width:100%;
+    border-radius:14px;
+    box-shadow:0 15px 35px rgba(0,0,0,.6);
+    transition:transform .3s ease;
+}
+
+.otros-item img:hover{
+    transform:scale(1.08);
+}
+
+/* Flechas */
+.otros-arrow{
+    position:absolute;
+    top:50%;
+    transform:translateY(-50%);
+    background:rgba(192,90,143,0.25);
+    color:#c05a8f;
+    border:none;
+    font-size:32px;
+    padding:10px 16px;
+    border-radius:12px;
+    cursor:pointer;
+    z-index:20;
+}
+
+.otros-arrow.left{ left:5px; }
+.otros-arrow.right{ right:5px; }
+
+.otros-arrow:hover{
+    background:#c05a8f;
+    color:white;
+}
+
+/* Móvil */
 @media(max-width:768px){
-    .producto{
-        grid-template-columns:1fr;
-    }
-
-    .visor img{
-        max-height:320px;
-    }
-
-    .galeria img{
-        width:55px;
-    }
-
-    .video-modelo video{
-        width:100%;
+    .otros-item{ flex:0 0 140px; }
+    .otros-arrow{
+        font-size:40px;
+        padding:14px 20px;
     }
 }
+
+.otros-item img{
+    -webkit-user-drag: none;
+    user-drag: none;
+    user-select: none;
+    pointer-events: auto;
+}
+/* 🔥 DRAG REAL EN PC */
+.otros-track,
+.otros-track *{
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-user-drag: none;
+    user-drag: none;
+}
+/* Mostrar solo PC */
+.pc-only { display: block; }
+@media (max-width: 768px) {
+    .pc-only { display: none; }
+}
+
+/* Mostrar solo móvil */
+.mov-carrusel { display: block; }
+@media (min-width: 769px) {
+    .mov-carrusel { display: none; }
+}
+
+/* Flechas móviles debajo del carrusel */
+.otros-flechas-mov {
+    display: flex;
+    justify-content: center;  /* centrarlas horizontalmente */
+    gap: 40px;                /* espacio entre las flechas */
+    margin-top: 10px;         /* separación del carrusel */
+}
+
+/* Cambiar tamaño de flechas solo en móvil */
+@media (max-width: 768px) {
+    .otros-arrow {
+        position: static;     /* quita position absolute */
+        font-size: 36px;
+        padding: 10px 18px;
+        background: rgba(192,90,143,0.25);
+        border-radius: 10px;
+    }
+}
+
 </style>
 </head>
 
 <body>
 
-<!-- PANTALLA DE CARGA -->
 <div id="loader">
     <img src="IMAGEN/cargando.jpg" alt="Cargando">
 </div>
-
-<!-- CONTENIDO REAL -->
+<div class="capa-negra">
 <div id="contenido">
+
 
 <header>
     <h1>Zapatilla Urbana</h1>
     <p>Explora cada detalle del modelo</p>
 </header>
 
-<div class="producto">
-
+<!-- VERSIÓN PC -->
+<div class="pc">
     <div class="producto-fotos">
-        <div class="visor" id="visor">
-            <img id="visor-img">
+        <div class="visor-frame">
+
+            <div class="flecha flecha-izq" onclick="cambiarFotoPC(-1)">
+                <i class="fas fa-chevron-left"></i>
+            </div>
+
+            <div class="visor" id="visor-pc">
+                <img id="visor-img-pc">
+            </div>
+
+            <div class="flecha flecha-der" onclick="cambiarFotoPC(1)">
+                <i class="fas fa-chevron-right"></i>
+            </div>
+
         </div>
 
         <div class="galeria">
-            <img src="IMAGEN/1.jpeg" onclick="mostrar(this)">
-            <img src="IMAGEN/2.jpeg" onclick="mostrar(this)">
-            <img src="IMAGEN/3.jpeg" onclick="mostrar(this)">
-            <img src="IMAGEN/4.jpeg" onclick="mostrar(this)">
+            <img src="IMAGEN/1.jpeg" onclick="mostrar('pc', this)">
+            <img src="IMAGEN/2.jpeg" onclick="mostrar('pc', this)">
+            <img src="IMAGEN/3.jpeg" onclick="mostrar('pc', this)">
+            <img src="IMAGEN/4.jpeg" onclick="mostrar('pc', this)">
         </div>
     </div>
 
     <div class="producto-info">
         <div class="descripcion">
             <h2>Detalles del Modelo</h2>
-            <p>
-                Zapatilla urbana cómoda, ligera y moderna.
-                Ideal para uso diario y disponible en varias tallas.
-            </p>
+            <p>Zapatilla urbana cómoda, ligera y moderna. Ideal para uso diario y disponible en varias tallas.</p>
         </div>
-
         <div class="video-modelo">
             <video controls>
                 <source src="IMAGEN/1.mp4" type="video/mp4">
             </video>
         </div>
     </div>
-
 </div>
 
+<!-- WhatsApp flotante (PC y móvil) -->
 <div class="whatsapp-box">
     <div class="whatsapp-text">Chatea con nosotros</div>
     <a href="https://wa.me/51974309455" class="whatsapp-btn" target="_blank">
@@ -249,45 +570,463 @@ header{
     </a>
 </div>
 
+<!-- ================= OTROS MODELOS PC ================= -->
+<section class="otros-modelos pc-only">
+    <h2>Otros modelos</h2>
+
+    <div class="otros-slider">
+        <button class="otros-arrow left" onclick="moverOtros(-1)">‹</button>
+
+        <div class="otros-track" id="otros-track"></div>
+
+        <button class="otros-arrow right" onclick="moverOtros(1)">›</button>
+    </div>
+</section>
+
+<!-- Footer PC -->
+<section class="footer-bg pc-footer">
+    <footer class="footer">
+        <p class="footer-confianza">✔ Compra segura por WhatsApp</p>
+        <div class="footer-redes">
+            <a href="https://www.facebook.com/HYAMODA" target="_blank">
+                <i class="fab fa-facebook-f"></i>
+            </a>
+            <a href="https://www.instagram.com/hya.moda.a.tus.pies/" target="_blank">
+                <i class="fab fa-instagram"></i>
+            </a>
+            <a href="https://wa.me/51974309455" target="_blank">
+                <i class="fab fa-whatsapp"></i>
+            </a>
+        </div>
+        <p class="footer-copy">© 2026 HYA Moda. Todos los derechos reservados.</p>
+    </footer>
+</section>
+
+
+
+<!-- VERSIÓN MÓVIL -->
+<div class="mov">
+    <div class="producto-fotos">
+        <div class="visor" id="visor-mov">
+            <img id="visor-img-mov">
+        </div>
+        <div class="galeria">
+            <img src="IMAGEN/1.jpeg" onclick="cambiarMovil(this)">
+            <img src="IMAGEN/2.jpeg" onclick="cambiarMovil(this)">
+            <img src="IMAGEN/3.jpeg" onclick="cambiarMovil(this)">
+            <img src="IMAGEN/4.jpeg" onclick="cambiarMovil(this)">
+        </div>
+    </div>
+    <div class="producto-info">
+        <div class="descripcion">
+            <h2>Detalles del Modelo</h2>
+            <p>Zapatilla urbana cómoda, ligera y moderna. Ideal para uso diario y disponible en varias tallas.</p>
+        </div>
+        <div class="video-modelo">
+            <video controls>
+                <source src="IMAGEN/1.mp4" type="video/mp4">
+            </video>
+        </div>
+    </div>
+
+<!-- ========== OTROS MODELOS MÓVIL ========== -->
+<section class="otros-modelos mov-carrusel">
+    <h2>Otros modelos</h2>
+
+    <div class="otros-slider">
+        <div class="otros-track" id="otros-track-mov"></div>
+    </div>
+
+    <!-- Flechas móviles debajo -->
+    <div class="otros-flechas-mov">
+        <button class="otros-arrow left" onclick="moverOtrosMov(-1)">‹</button>
+        <button class="otros-arrow right" onclick="moverOtrosMov(1)">›</button>
+    </div>
+
+</section>
+    <!-- 👇 Footer del móvil, dejar solo este al final -->
+    <section class="footer-bg">
+        <footer class="footer">
+            <p class="footer-confianza">✔ Compra segura por WhatsApp</p>
+            <div class="footer-redes">
+                <a href="https://www.facebook.com/HYAMODA" target="_blank">
+                    <i class="fab fa-facebook-f"></i>
+                </a>
+                <a href="https://www.instagram.com/hya.moda.a.tus.pies/" target="_blank">
+                    <i class="fab fa-instagram"></i>
+                </a>
+                <a href="https://wa.me/51974309455" target="_blank">
+                    <i class="fab fa-whatsapp"></i>
+                </a>
+            </div>
+            <p class="footer-copy">© 2026 HYA Moda. Todos los derechos reservados.</p>
+        </footer>
+    </section>
+</div> <!-- fin de .mov -->
+
+</div> <!-- CIERRA #contenido -->
+<div class="whatsapp-box">
+    <div class="whatsapp-text">Chatea con nosotros</div>
+    <a href="https://wa.me/51974309455" class="whatsapp-btn" target="_blank">
+        <img src="IMAGEN/whatsapp.png" alt="WhatsApp">
+    </a>
 </div>
+</div> <!-- fin de .capa-negra -->
+
 
 <script>
-/* ===== PANTALLA DE CARGA ===== */
+let zoomMov = false; // indica si el zoom móvil ya está activo
 window.addEventListener("load", ()=>{
     setTimeout(()=>{
         document.getElementById("loader").style.display="none";
         document.getElementById("contenido").style.display="block";
-    },1500);
-});
+        
+        // Mostrar primera imagen en visor PC
+        mostrar('pc', document.querySelector('.pc .galeria img'));
+        indicePC = 0;
+        // Mostrar primera imagen en visor Móvil
+        // Inicializar zoom móvil
+        
+        // Mostrar primera imagen móvil
+        document.getElementById('visor-img-mov').src = document.querySelector('.mov .galeria img').src;
 
-/* ZOOM IMAGEN */
-const visor = document.getElementById("visor");
-const visorImg = document.getElementById("visor-img");
+    },200);
+}); 
 
-function mostrar(img){
-    visorImg.src = img.src;
-    visorImg.style.transform = "scale(1)";
+
+function cambiarMovil(img){
+    const visor = document.getElementById("visor-img-mov");
+
+    // Si es la misma imagen, NO tocar nada (no matar zoom)
+    if(visor.src === img.src) return;
+
+    // Si es otra imagen, sí se reinicia
+    visor.src = img.src;
+    visor.style.transition = "none";
+    visor.style.transform = "scale(1)";
+    visor.style.transformOrigin = "center";
+    zoomMov = false;
+
+    // forzar repaint
+    visor.offsetHeight;
+
+    // restaurar transición suave
+    visor.style.transition = "opacity 0.35s ease, filter 0.35s ease, transform 0.35s ease";
 }
 
-visor.addEventListener("mousemove", e=>{
-    if(!visorImg.src) return;
 
-    visorImg.style.transform = "scale(2.5)";
-    const rect = visor.getBoundingClientRect();
-    const x = ((e.clientX - rect.left) / rect.width) * 100;
-    const y = ((e.clientY - rect.top) / rect.height) * 100;
-    visorImg.style.transformOrigin = `${x}% ${y}%`;
+// Función de zoom para PC y Móvil (estilo Alibaba)
+function mostrar(version, img) {
+    const visorImg = document.getElementById(`visor-img-${version}`);
+    const visor = document.getElementById(`visor-${version}`);
+
+    // Poner la imagen seleccionada
+// Solo reinicia zoom si la imagen cambió
+    if (visorImg.src !== img.src) {
+        visorImg.src = img.src;
+        visorImg.style.transform = "scale(1)";
+        visorImg.style.opacity = "1";
+        visorImg.style.transformOrigin = "center";
+        visorImg.style.filter = "blur(0px)";
+        zoomMov = false; // reinicia estado de zoom solo al cambiar de imagen
+    }
+
+
+    let zoomActivo = false;
+    let hoverTimer = null;
+
+    // Efecto al pasar el mouse
+    visor.onmouseenter = () => {
+        hoverTimer = setTimeout(() => {
+            // ✨ Desvanecer + blur
+            visorImg.style.transition = "opacity 0.35s ease, filter 0.35s ease";
+            visorImg.style.filter = "blur(8px)";
+            visorImg.style.opacity = "0";
+
+            setTimeout(() => {
+                // Aparece ya agrandada y sin blur
+                visorImg.style.transition = "opacity 0.35s ease, filter 0.35s ease, transform 0.35s ease";
+                visorImg.style.filter = "blur(0px)";
+                visorImg.style.opacity = "1";
+                visorImg.style.transform = "scale(2.5)";
+                zoomActivo = true;
+            }, 150); // espera el desvanecimiento
+        }, 200); // 200ms de espera antes de activar
+    };
+
+    visor.onmouseleave = () => {
+        clearTimeout(hoverTimer);
+        hoverTimer = null;
+        zoomActivo = false;
+
+        visorImg.style.transition = "opacity 0.35s ease, filter 0.35s ease, transform 0.35s ease";
+        visorImg.style.opacity = "1";
+        visorImg.style.filter = "blur(0px)";
+        visorImg.style.transform = "scale(1)";
+        visorImg.style.transformOrigin = "center";
+    };
+
+    // Mover el mouse mientras está en zoom
+// Mover el mouse mientras está en zoom (solo PC)
+    if(version === 'pc'){
+        visor.onmousemove = e => {
+            if (!zoomActivo) return;
+            const rect = visor.getBoundingClientRect();
+            const x = ((e.clientX - rect.left) / rect.width) * 100;
+            const y = ((e.clientY - rect.top) / rect.height) * 100;
+            visorImg.style.transformOrigin = `${x}% ${y}%`;
+        };
+    }
+}
+
+
+
+let indicePC = 0;
+
+const imagenesPC = document.querySelectorAll(".pc .galeria img");
+
+function cambiarFotoPC(direccion){
+    indicePC += direccion;
+
+    if(indicePC < 0) indicePC = imagenesPC.length - 1;
+    if(indicePC >= imagenesPC.length) indicePC = 0;
+
+    mostrar("pc", imagenesPC[indicePC]);
+}
+
+// BLOQUEAR menú de mantener presionado SOLO EN MÓVIL
+if (window.innerWidth <= 768) {
+    const visor = document.getElementById("visor-img-mov");
+
+    if (visor) {
+        // Bloquea menú "copiar imagen" (esto no afecta zoom)
+        visor.addEventListener("contextmenu", e => e.preventDefault());
+
+        // QUITAR e.preventDefault() en touchstart
+        // para permitir pinch-zoom
+        // visor.addEventListener("touchstart", e => {
+        //     e.preventDefault();
+        // }, { passive: false });
+    }
+}
+
+// BLOQUEAR clic derecho en visor PC
+const visorPC = document.getElementById("visor-img-pc");
+
+if (visorPC) {
+    visorPC.addEventListener("contextmenu", e => e.preventDefault());
+}
+/* ===== OTROS MODELOS ===== */
+// ===== CARRUSEL PC =====
+// ===== CARRUSEL UNIVERSAL (PC + MÓVIL) =====
+const track = document.querySelectorAll(".otros-track");
+const containers = document.querySelectorAll(".otros-slider");
+
+const images = [
+    "../imagenes/carrusel/1.jpeg","../imagenes/carrusel/2.jpeg","../imagenes/carrusel/3.jpeg",
+    "../imagenes/carrusel/4.jpeg","../imagenes/carrusel/5.jpeg","../imagenes/carrusel/6.jpeg",
+    "../imagenes/carrusel/7.jpeg","../imagenes/carrusel/8.jpeg","../imagenes/carrusel/9.jpeg",
+    "../imagenes/carrusel/10.jpeg","../imagenes/carrusel/11.jpeg","../imagenes/carrusel/12.jpeg",
+    "../imagenes/carrusel/13.jpeg","../imagenes/carrusel/14.jpeg","../imagenes/carrusel/15.jpeg",
+    "../imagenes/carrusel/16.jpeg","../imagenes/carrusel/17.jpeg","../imagenes/carrusel/18.jpeg",
+    "../imagenes/carrusel/19.jpeg","../imagenes/carrusel/20.jpeg","../imagenes/carrusel/21.jpeg",
+    "../imagenes/carrusel/22.jpeg"
+];
+
+// Crear items dinámicamente
+track.forEach(t=>{
+    t.innerHTML = "";
+    images.forEach((src,i)=>{
+        const div = document.createElement("div");
+        div.className = "otros-item";
+        div.innerHTML = `<a href="../MODEL${i+1}/${i+1}.html"><img src="${src}"></a>`;
+        t.appendChild(div);
+    });
 });
 
-visor.addEventListener("mouseleave", ()=>{
-    visorImg.style.transform = "scale(1)";
-    visorImg.style.transformOrigin = "center";
+// Función universal de carrusel
+track.forEach((t, idx)=>{
+    const container = containers[idx];
+    let translateX = 0;
+    let isDown = false, startX = 0, scrollStart = 0;
+
+    const itemWidth = window.innerWidth <= 768 ? 140 : 180;
+
+    // Actualizar posición y límites
+    function update(){
+        const maxScroll = Math.max(t.scrollWidth - container.offsetWidth,0);
+        if(translateX > 0) translateX = 0;
+        if(translateX < -maxScroll) translateX = -maxScroll;
+        t.style.transform = `translateX(${translateX}px)`;
+    }
+
+    // Flechas
+    container.querySelectorAll(".otros-arrow").forEach(arrow=>{
+        arrow.addEventListener("click", ()=>{
+            if(arrow.classList.contains("left")){
+                translateX += itemWidth;
+                // si ya estamos al principio, ir al final
+                const maxScroll = Math.max(t.scrollWidth - container.offsetWidth,0);
+                if(translateX > 0) translateX = -maxScroll;
+            } else {
+                translateX -= itemWidth;
+                const maxScroll = Math.max(t.scrollWidth - container.offsetWidth,0);
+                if(translateX < -maxScroll) translateX = 0;
+            }
+
+            t.style.transition = "transform 0.45s ease";
+            t.style.transform = `translateX(${translateX}px)`;
+        });
+    });
+
+
+    // Drag con mouse
+    t.style.cursor = "grab";
+    let isDragging = false; // detecta si hubo arrastre
+
+    t.addEventListener("mousedown", e=>{
+        isDown = true;
+        startX = e.pageX;
+        scrollStart = translateX;
+        t.style.transition = "none";
+        t.style.cursor = "grabbing";
+    });
+    t.addEventListener("mousemove", e=>{
+        if(!isDown) return;
+        const dx = e.pageX - startX;
+        if(Math.abs(dx) > 1) isDragging = true; // si se mueve más de 5px, es arrastre
+        translateX = scrollStart + dx;
+        update();
+    });
+    t.querySelectorAll("a").forEach(a => {
+        a.addEventListener("click", e => {
+            if (isDragging) {
+                e.preventDefault();  // cancela el click
+            }
+        });
+    });
+
+
+    t.addEventListener("mouseup", e=>{
+        isDown = false;
+        t.style.cursor = "grab";
+
+        setTimeout(()=>{ isDragging = false; }, 50); // reinicia para el próximo drag
+    });
+
+
+    t.addEventListener("mouseleave", e=>{
+        if(isDown) { isDown = false; }
+        isDragging = false; // ← reinicia
+        t.style.cursor = "grab";
+    });
+
+
+    // Drag táctil
+    t.addEventListener("touchstart", e=>{
+        startX = e.touches[0].pageX;
+        scrollStart = translateX;
+    }, {passive:true});
+    t.addEventListener("touchmove", e=>{
+        const dx = e.touches[0].pageX - startX;
+        translateX = scrollStart + dx * 2; // se mueve 1.5 veces más rápido
+        update();
+    }, {passive:true});
+
+    // Prevenir drag nativo
+    t.addEventListener("dragstart", e=>e.preventDefault());
+
+    // Redimensionar ventana
+    window.addEventListener("resize", ()=>{
+        update();
+    });
+
+    // Inicializar
+    update();
 });
 
-window.addEventListener("DOMContentLoaded", ()=>{
-    const primera = document.querySelector(".galeria img");
-    if(primera) mostrar(primera);
-});
+
+// ===== CARRUSEL MÓVIL =====
+if (window.innerWidth <= 768) {
+    const otrosTrackMov = document.getElementById("otros-track-mov");
+    const otrosContainerMov = document.querySelector(".mov-carrusel");
+    const otrosImagenesMov = [
+        "../imagenes/carrusel/1.jpeg",
+        "../imagenes/carrusel/2.jpeg",
+        "../imagenes/carrusel/3.jpeg",
+        "../imagenes/carrusel/4.jpeg",
+        "../imagenes/carrusel/5.jpeg",
+        "../imagenes/carrusel/6.jpeg",
+        "../imagenes/carrusel/7.jpeg",
+        "../imagenes/carrusel/8.jpeg",
+        "../imagenes/carrusel/9.jpeg",
+        "../imagenes/carrusel/10.jpeg",
+        "../imagenes/carrusel/11.jpeg",
+        "../imagenes/carrusel/12.jpeg",
+        "../imagenes/carrusel/13.jpeg",
+        "../imagenes/carrusel/14.jpeg",
+        "../imagenes/carrusel/15.jpeg",
+        "../imagenes/carrusel/16.jpeg",
+        "../imagenes/carrusel/17.jpeg",
+        "../imagenes/carrusel/18.jpeg",
+        "../imagenes/carrusel/19.jpeg",
+        "../imagenes/carrusel/20.jpeg",
+        "../imagenes/carrusel/21.jpeg",
+        "../imagenes/carrusel/22.jpeg"
+    ];
+
+    // Crear items móviles
+    otrosImagenesMov.forEach((img, i) => {
+        const div = document.createElement("div");
+        div.className = "otros-item";
+        div.innerHTML = `
+            <a href="../MODEL${i+1}/${i+1}.html">
+                <img src="${img}">
+            </a>
+        `;
+        otrosTrackMov.appendChild(div);
+    });
+
+    let movIndex = 0;
+    let movTranslate = 0;
+    const itemWidthMov = 140;
+
+    // Flechas móviles
+    window.moverOtrosMov = function(dir){
+        movIndex += dir;
+        if(movIndex < 0) movIndex = otrosTrackMov.children.length - 1;
+        if(movIndex >= otrosTrackMov.children.length) movIndex = 0;
+        movTranslate = -movIndex * itemWidthMov;
+        otrosTrackMov.style.transition = "transform 0.45s ease";
+        otrosTrackMov.style.transform = `translateX(${movTranslate}px)`;
+    }
+
+    // Drag táctil
+    let touchStartX = 0, touchPrev = 0, touchDown = false;
+    otrosTrackMov.addEventListener("touchstart", e => {
+        touchDown = true;
+        touchStartX = e.touches[0].pageX;
+        touchPrev = movTranslate;
+        otrosTrackMov.style.transition = "none";
+    }, {passive:true});
+
+    otrosTrackMov.addEventListener("touchmove", e => {
+        if(!touchDown) return;
+        const x = e.touches[0].pageX;
+        const walk = (x - touchStartX) * 1.4;
+        movTranslate = touchPrev + walk;
+        const maxScroll = otrosContainerMov.offsetWidth - otrosTrackMov.scrollWidth;
+        if(movTranslate > 0) movTranslate = 0;
+        if(movTranslate < maxScroll) movTranslate = maxScroll;
+        otrosTrackMov.style.transform = `translateX(${movTranslate}px)`;
+    }, {passive:true});
+
+    otrosTrackMov.addEventListener("touchend", () => {
+        touchDown = false;
+    });
+}
+
+
 </script>
 
 </body>
