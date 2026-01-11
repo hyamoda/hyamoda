@@ -616,17 +616,41 @@ header {
     text-shadow: 2px 2px 6px rgba(0,0,0,0.8);
 }
 
-.titulo-principal h1 i {
-    color: #c05a8f;              /* mismo color que tus servicios/flechas */
-    font-size: 48px;             /* un poco más grande que el texto */
-    animation: bounce 1.2s infinite; /* efecto para hacerlo más vivo */
+
+/* === HUELLAS CAMINANDO === */
+.pisadas{
+    display:inline-flex;
+    gap:6px;
+    margin-right:12px;
 }
 
-/* Animación de rebote */
-@keyframes bounce {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-8px); }
+.pisadas i{
+    font-size:36px;
+    color:#c05a8f;
+    opacity:0.25;
+    animation: pisar 1.5s infinite;
 }
+
+/* Delay para simular pasos */
+.pisadas i:nth-child(1){ animation-delay:0s; }
+.pisadas i:nth-child(2){ animation-delay:0.5s; }
+.pisadas i:nth-child(3){ animation-delay:1s; }
+
+@keyframes pisar{
+    0%{
+        opacity:0.2;
+        transform: translateY(0) scale(1);
+    }
+    50%{
+        opacity:1;
+        transform: translateY(-8px) scale(1.15);
+    }
+    100%{
+        opacity:0.2;
+        transform: translateY(0) scale(1);
+    }
+}
+
 
 
 </style>
@@ -642,7 +666,14 @@ header {
 
 
 <header class="titulo-principal">
-    <h1><i class="fas fa-shoe-prints"></i> Zapatilla Urbana</h1>
+    <h1>
+        <span class="pisadas">
+            <i class="fas fa-shoe-prints"></i>
+            <i class="fas fa-shoe-prints"></i>
+            <i class="fas fa-shoe-prints"></i>
+        </span>
+        Zapatilla Urbana
+    </h1>
 </header>
 
 
