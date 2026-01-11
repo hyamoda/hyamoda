@@ -369,6 +369,23 @@ header {
         display: none;
     }
 }
+/* Ocultar el texto de WhatsApp solo en móvil */
+@media (max-width: 768px) {
+    .whatsapp-text {
+        display: none;
+    }
+}
+@keyframes whatsappBlink {
+    0%   { transform: scale(1);   box-shadow: 0 0 0 rgba(37,211,102,0.0); }
+    50%  { transform: scale(1.15); box-shadow: 0 0 25px rgba(37,211,102,0.9); }
+    100% { transform: scale(1);   box-shadow: 0 0 0 rgba(37,211,102,0.0); }
+}
+@media (max-width: 768px) {
+    .whatsapp-btn {
+        animation: whatsappBlink 1.2s infinite;
+    }
+}
+
 
 </style>
 </head>
