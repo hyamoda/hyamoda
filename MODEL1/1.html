@@ -385,7 +385,86 @@ header {
         animation: whatsappBlink 1.2s infinite;
     }
 }
+/* ===== OTROS MODELOS ===== */
+.otros-modelos{
+    margin:60px auto 40px;
+    width:100%;
+    max-width:1100px;
+    padding:0 20px;
+    text-align:center;
+}
 
+.otros-modelos h2{
+    font-size:26px;
+    margin-bottom:25px;
+    color:#fff;
+    text-shadow:0 2px 5px rgba(0,0,0,.7);
+}
+
+.otros-slider{
+    position:relative;
+    overflow:hidden;
+}
+
+.otros-track{
+    display:flex;
+    gap:20px;
+    transition:transform .45s ease;
+}
+
+.otros-item{
+    flex:0 0 180px;
+}
+
+.otros-item img{
+    width:100%;
+    border-radius:14px;
+    box-shadow:0 15px 35px rgba(0,0,0,.6);
+    transition:transform .3s ease;
+}
+
+.otros-item img:hover{
+    transform:scale(1.08);
+}
+
+/* Flechas */
+.otros-arrow{
+    position:absolute;
+    top:50%;
+    transform:translateY(-50%);
+    background:rgba(192,90,143,0.25);
+    color:#c05a8f;
+    border:none;
+    font-size:32px;
+    padding:10px 16px;
+    border-radius:12px;
+    cursor:pointer;
+    z-index:20;
+}
+
+.otros-arrow.left{ left:5px; }
+.otros-arrow.right{ right:5px; }
+
+.otros-arrow:hover{
+    background:#c05a8f;
+    color:white;
+}
+
+/* Móvil */
+@media(max-width:768px){
+    .otros-item{ flex:0 0 140px; }
+    .otros-arrow{
+        font-size:40px;
+        padding:14px 20px;
+    }
+}
+
+.otros-item img{
+    -webkit-user-drag: none;
+    user-drag: none;
+    user-select: none;
+    pointer-events: auto;
+}
 
 </style>
 </head>
@@ -444,6 +523,19 @@ header {
     </div>
    
 </div>
+<!-- ================= OTROS MODELOS ================= -->
+<section class="otros-modelos">
+    <h2>Otros modelos</h2>
+
+    <div class="otros-slider">
+        <button class="otros-arrow left" onclick="moverOtros(-1)">‹</button>
+
+        <div class="otros-track" id="otros-track"></div>
+
+        <button class="otros-arrow right" onclick="moverOtros(1)">›</button>
+    </div>
+
+</section>
 <section class="footer-bg pc-footer">
     <footer class="footer">
         <p class="footer-confianza">✔ Compra segura por WhatsApp</p>
@@ -461,6 +553,8 @@ header {
         <p class="footer-copy">© 2026 HYA Moda. Todos los derechos reservados.</p>
     </footer>
 </section>
+
+
 
 
 <!-- VERSIÓN MÓVIL -->
@@ -506,7 +600,6 @@ header {
             <p class="footer-copy">© 2026 HYA Moda. Todos los derechos reservados.</p>
         </footer>
     </section>
-
 </div> <!-- fin de .mov -->
 
 
@@ -694,6 +787,153 @@ if (window.innerWidth <= 768) {
         }, { passive: false });
     }
 }
+// BLOQUEAR clic derecho en visor PC
+const visorPC = document.getElementById("visor-img-pc");
+
+if (visorPC) {
+    visorPC.addEventListener("contextmenu", e => e.preventDefault());
+}
+/* ===== OTROS MODELOS ===== */
+const otrosImagenes = [
+    "../imagenes/carrusel/1.jpeg",
+    "../imagenes/carrusel/2.jpeg",
+    "../imagenes/carrusel/3.jpeg",
+    "../imagenes/carrusel/4.jpeg",
+    "../imagenes/carrusel/5.jpeg",
+    "../imagenes/carrusel/6.jpeg",
+    "../imagenes/carrusel/7.jpeg",
+    "../imagenes/carrusel/8.jpeg",
+    "../imagenes/carrusel/9.jpeg",
+    "../imagenes/carrusel/10.jpeg",
+    "../imagenes/carrusel/11.jpeg",
+    "../imagenes/carrusel/12.jpeg",
+    "../imagenes/carrusel/13.jpeg",
+    "../imagenes/carrusel/14.jpeg",
+    "../imagenes/carrusel/15.jpeg",
+    "../imagenes/carrusel/16.jpeg",
+    "../imagenes/carrusel/17.jpeg",
+    "../imagenes/carrusel/18.jpeg",
+    "../imagenes/carrusel/19.jpeg",
+    "../imagenes/carrusel/20.jpeg",
+    "../imagenes/carrusel/21.jpeg",
+    "../imagenes/carrusel/22.jpeg"
+];
+
+
+const otrosTrack = document.getElementById("otros-track");
+const otrosContainer = document.querySelector(".otros-slider");
+
+const otrosItemWidth = 180; // igual que CSS
+let otrosIndex = 0;
+
+otrosImagenes.forEach((img, i)=>{
+    const div = document.createElement("div");
+    div.className = "otros-item";
+    div.innerHTML = `
+        <a href="../MODEL${i+1}/${i+1}.html">
+            <img src="${img}">
+        </a>
+    `;
+    otrosTrack.appendChild(div);
+});
+
+// ===== Evitar drag de imágenes =====
+document.addEventListener("dragstart", e => {
+    if(e.target.tagName === "IMG") e.preventDefault();
+});
+
+// ===== Flechas =====
+function moverOtros(dir){
+    otrosIndex += dir;
+    if(otrosIndex < 0) otrosIndex = 0;
+
+    const maxIndex = Math.max(0, otrosTrack.children.length - Math.floor(otrosContainer.offsetWidth / otrosItemWidth));
+    if(otrosIndex > maxIndex) otrosIndex = maxIndex;
+
+    otrosTrack.style.transition = "transform 0.45s ease";
+    otrosTrack.style.transform = `translateX(-${otrosIndex * otrosItemWidth}px)`;
+}
+
+/* ===== ARRASTRE PC ===== */
+let isDown = false;
+let startX = 0;
+let scrollLeft = 0;
+let preventClick = false;
+
+otrosTrack.addEventListener("mousedown", e => {
+    isDown = true;
+    preventClick = false;
+    startX = e.pageX - otrosTrack.offsetLeft;
+    scrollLeft = -otrosIndex * otrosItemWidth;
+    otrosTrack.style.transition = "none";
+    otrosTrack.style.cursor = "grabbing";
+});
+
+otrosTrack.addEventListener("mousemove", e => {
+    if(!isDown) return;
+    const x = e.pageX - otrosTrack.offsetLeft;
+    const walk = (x - startX) * 1.8;
+
+    if(Math.abs(walk) > 10) preventClick = true;
+
+    otrosTrack.style.transform = `translateX(${scrollLeft + walk}px)`;
+});
+
+otrosTrack.addEventListener("mouseup", () => {
+    isDown = false;
+    otrosTrack.style.cursor = "grab";
+
+    const moved = -parseInt(otrosTrack.style.transform.replace("translateX(",""));
+    otrosIndex = Math.round(moved / otrosItemWidth);
+
+    const maxIndex = Math.max(0, otrosTrack.children.length - Math.floor(otrosContainer.offsetWidth / otrosItemWidth));
+    if(otrosIndex < 0) otrosIndex = 0;
+    if(otrosIndex > maxIndex) otrosIndex = maxIndex;
+
+    otrosTrack.style.transition = "transform 0.4s ease";
+    otrosTrack.style.transform = `translateX(-${otrosIndex * otrosItemWidth}px)`;
+});
+
+otrosTrack.addEventListener("mouseleave", ()=>{ isDown=false; });
+
+otrosTrack.addEventListener("click", e=>{
+    if(preventClick) e.preventDefault();
+});
+
+/* ===== ARRASTRE MÓVIL ===== */
+let touchStartX = 0;
+let touchScrollLeft = 0;
+let isDragging = false;
+
+otrosTrack.addEventListener("touchstart", e=>{
+    isDragging = false;
+    touchStartX = e.touches[0].pageX;
+    touchScrollLeft = -otrosIndex * otrosItemWidth;
+    otrosTrack.style.transition="none";
+});
+
+otrosTrack.addEventListener("touchmove", e=>{
+    const x = e.touches[0].pageX;
+    const walk = (x - touchStartX) * 2;
+    if(Math.abs(walk) > 3) isDragging = true;
+    otrosTrack.style.transform = `translateX(${touchScrollLeft + walk}px)`;
+});
+
+otrosTrack.addEventListener("touchend", e=>{
+    otrosTrack.style.transition="transform 0.4s ease";
+
+    if(isDragging){
+        const moved = -parseInt(otrosTrack.style.transform.replace("translateX(",""));
+        otrosIndex = Math.round(moved / otrosItemWidth);
+
+        const maxIndex = Math.max(0, otrosTrack.children.length - Math.floor(otrosContainer.offsetWidth / otrosItemWidth));
+        if(otrosIndex < 0) otrosIndex = 0;
+        if(otrosIndex > maxIndex) otrosIndex = maxIndex;
+
+        otrosTrack.style.transform = `translateX(-${otrosIndex * otrosItemWidth}px)`;
+    }
+});
+
 
 </script>
 
