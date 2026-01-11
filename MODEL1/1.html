@@ -801,6 +801,7 @@ function mostrar(version, img) {
 
 
 let indicePC = 0;
+
 const imagenesPC = document.querySelectorAll(".pc .galeria img");
 
 function cambiarFotoPC(direccion){
@@ -834,111 +835,103 @@ if (visorPC) {
 }
 /* ===== OTROS MODELOS ===== */
 // ===== CARRUSEL PC =====
-if (window.innerWidth > 768) {
-    const otrosTrackPC = document.getElementById("otros-track");
-    const otrosContainerPC = document.querySelector(".otros-slider.pc-only");
-    const otrosImagenesPC = [
-        "../imagenes/carrusel/1.jpeg",
-        "../imagenes/carrusel/2.jpeg",
-        "../imagenes/carrusel/3.jpeg",
-        "../imagenes/carrusel/4.jpeg",
-        "../imagenes/carrusel/5.jpeg",
-        "../imagenes/carrusel/6.jpeg",
-        "../imagenes/carrusel/7.jpeg",
-        "../imagenes/carrusel/8.jpeg",
-        "../imagenes/carrusel/9.jpeg",
-        "../imagenes/carrusel/10.jpeg",
-        "../imagenes/carrusel/11.jpeg",
-        "../imagenes/carrusel/12.jpeg",
-        "../imagenes/carrusel/13.jpeg",
-        "../imagenes/carrusel/14.jpeg",
-        "../imagenes/carrusel/15.jpeg",
-        "../imagenes/carrusel/16.jpeg",
-        "../imagenes/carrusel/17.jpeg",
-        "../imagenes/carrusel/18.jpeg",
-        "../imagenes/carrusel/19.jpeg",
-        "../imagenes/carrusel/20.jpeg",
-        "../imagenes/carrusel/21.jpeg",
-        "../imagenes/carrusel/22.jpeg"
-    ];
+// ===== CARRUSEL UNIVERSAL (PC + MÓVIL) =====
+const track = document.querySelectorAll(".otros-track");
+const containers = document.querySelectorAll(".otros-slider");
 
-    // Crear items
-    otrosImagenesPC.forEach((img, i) => {
+const images = [
+    "../imagenes/carrusel/1.jpeg","../imagenes/carrusel/2.jpeg","../imagenes/carrusel/3.jpeg",
+    "../imagenes/carrusel/4.jpeg","../imagenes/carrusel/5.jpeg","../imagenes/carrusel/6.jpeg",
+    "../imagenes/carrusel/7.jpeg","../imagenes/carrusel/8.jpeg","../imagenes/carrusel/9.jpeg",
+    "../imagenes/carrusel/10.jpeg","../imagenes/carrusel/11.jpeg","../imagenes/carrusel/12.jpeg",
+    "../imagenes/carrusel/13.jpeg","../imagenes/carrusel/14.jpeg","../imagenes/carrusel/15.jpeg",
+    "../imagenes/carrusel/16.jpeg","../imagenes/carrusel/17.jpeg","../imagenes/carrusel/18.jpeg",
+    "../imagenes/carrusel/19.jpeg","../imagenes/carrusel/20.jpeg","../imagenes/carrusel/21.jpeg",
+    "../imagenes/carrusel/22.jpeg"
+];
+
+// Crear items dinámicamente
+track.forEach(t=>{
+    t.innerHTML = "";
+    images.forEach((src,i)=>{
         const div = document.createElement("div");
         div.className = "otros-item";
-        div.innerHTML = `
-            <a href="../MODEL${i+1}/${i+1}.html">
-                <img src="${img}">
-            </a>
-        `;
-        otrosTrackPC.appendChild(div);
+        div.innerHTML = `<a href="../MODEL${i+1}/${i+1}.html"><img src="${src}"></a>`;
+        t.appendChild(div);
     });
+});
 
-    let pcIndex = 0;
-    let pcTranslate = 0;
-    const itemWidth = 180;
+// Función universal de carrusel
+track.forEach((t, idx)=>{
+    const container = containers[idx];
+    let translateX = 0;
+    let isDown = false, startX = 0, scrollStart = 0;
 
-    // Mover con flechas
-    window.moverOtros = function(dir){
-        pcIndex += dir;
-        if(pcIndex < 0) pcIndex = otrosTrackPC.children.length - 1;
-        if(pcIndex >= otrosTrackPC.children.length) pcIndex = 0;
-        pcTranslate = -pcIndex * itemWidth;
-        otrosTrackPC.style.transition = "transform 0.45s ease";
-        otrosTrackPC.style.transform = `translateX(${pcTranslate}px)`;
+    const itemWidth = window.innerWidth <= 768 ? 140 : 180;
+
+    // Actualizar posición y límites
+    function update(){
+        const maxScroll = Math.max(t.scrollWidth - container.offsetWidth,0);
+        if(translateX > 0) translateX = 0;
+        if(translateX < -maxScroll) translateX = -maxScroll;
+        t.style.transform = `translateX(${translateX}px)`;
     }
 
-    // Drag PC
-    let isDown = false, startX = 0, scrollX = 0, velocity = 0, lastX = 0, lastTime = 0;
-    otrosTrackPC.style.cursor = "grab";
-
-    otrosTrackPC.addEventListener("mousedown", e => {
-        e.preventDefault();
-        isDown = true;
-        otrosTrackPC.style.transition = "none";
-        otrosTrackPC.style.cursor = "grabbing";
-        startX = e.pageX;
-        scrollX = pcTranslate;
-        lastX = e.pageX;
-        lastTime = Date.now();
+    // Flechas
+    container.querySelectorAll(".otros-arrow").forEach(arrow=>{
+        arrow.addEventListener("click", ()=>{
+            translateX += (arrow.classList.contains("left")?1:-1)*itemWidth;
+            update();
+            t.style.transition = "transform 0.45s ease";
+        });
     });
 
-    document.addEventListener("mousemove", e => {
+    // Drag con mouse
+    t.style.cursor = "grab";
+    t.addEventListener("mousedown", e=>{
+        isDown = true;
+        startX = e.pageX;
+        scrollStart = translateX;
+        t.style.transition = "none";
+        t.style.cursor = "grabbing";
+    });
+    t.addEventListener("mousemove", e=>{
         if(!isDown) return;
         const dx = e.pageX - startX;
-        pcTranslate = scrollX + dx * 1.6;
-        const maxScroll = otrosContainerPC.offsetWidth - otrosTrackPC.scrollWidth;
-        if(pcTranslate > 0) pcTranslate = 0;
-        if(pcTranslate < maxScroll) pcTranslate = maxScroll;
-        otrosTrackPC.style.transform = `translateX(${pcTranslate}px)`;
-        const now = Date.now();
-        velocity = (e.pageX - lastX) / (now - lastTime);
-        lastX = e.pageX;
-        lastTime = now;
+        translateX = scrollStart + dx;
+        update();
+    });
+    t.addEventListener("mouseup", e=>{
+        isDown = false; t.style.cursor = "grab";
+    });
+    t.addEventListener("mouseleave", e=>{
+        if(isDown) { isDown = false; t.style.cursor = "grab"; }
     });
 
-    document.addEventListener("mouseup", () => {
-        if(!isDown) return;
-        isDown = false;
-        otrosTrackPC.style.cursor = "grab";
-        let momentum = velocity * 150;
-        function inertia(){
-            momentum *= 0.92;
-            pcTranslate += momentum;
-            const maxScroll = otrosContainerPC.offsetWidth - otrosTrackPC.scrollWidth;
-            if(pcTranslate > 0) pcTranslate = 0;
-            if(pcTranslate < maxScroll) pcTranslate = maxScroll;
-            otrosTrackPC.style.transform = `translateX(${pcTranslate}px)`;
-            if(Math.abs(momentum) > 0.5){
-                requestAnimationFrame(inertia);
-            }
-        }
-        inertia();
+    // Drag táctil
+    t.addEventListener("touchstart", e=>{
+        startX = e.touches[0].pageX;
+        scrollStart = translateX;
+    }, {passive:true});
+    t.addEventListener("touchmove", e=>{
+        const dx = e.touches[0].pageX - startX;
+        translateX = scrollStart + dx;
+        update();
+    }, {passive:true});
+
+    // Prevenir drag nativo
+    t.addEventListener("dragstart", e=>e.preventDefault());
+
+    // Redimensionar ventana
+    window.addEventListener("resize", ()=>{
+        update();
     });
 
-    // Bloquear drag nativo
-    otrosTrackPC.addEventListener("dragstart", e => e.preventDefault());
-}
+    // Inicializar
+    update();
+});
+
+
 // ===== CARRUSEL MÓVIL =====
 if (window.innerWidth <= 768) {
     const otrosTrackMov = document.getElementById("otros-track-mov");
