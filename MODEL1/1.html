@@ -486,6 +486,24 @@ header {
     .mov-carrusel { display: none; }
 }
 
+/* Flechas móviles debajo del carrusel */
+.otros-flechas-mov {
+    display: flex;
+    justify-content: center;  /* centrarlas horizontalmente */
+    gap: 20px;                /* espacio entre las flechas */
+    margin-top: 10px;         /* separación del carrusel */
+}
+
+/* Cambiar tamaño de flechas solo en móvil */
+@media (max-width: 768px) {
+    .otros-arrow {
+        position: static;     /* quita position absolute */
+        font-size: 36px;
+        padding: 10px 18px;
+        background: rgba(192,90,143,0.25);
+        border-radius: 10px;
+    }
+}
 
 </style>
 </head>
@@ -616,12 +634,15 @@ header {
     <h2>Otros modelos</h2>
 
     <div class="otros-slider">
-        <button class="otros-arrow left" onclick="moverOtrosMov(-1)">‹</button>
-
         <div class="otros-track" id="otros-track-mov"></div>
+    </div>
 
+    <!-- Flechas móviles debajo -->
+    <div class="otros-flechas-mov">
+        <button class="otros-arrow left" onclick="moverOtrosMov(-1)">‹</button>
         <button class="otros-arrow right" onclick="moverOtrosMov(1)">›</button>
     </div>
+
 </section>
     <!-- 👇 Footer del móvil, dejar solo este al final -->
     <section class="footer-bg">
