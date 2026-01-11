@@ -588,6 +588,45 @@ header {
     font-size: 20px;
     color: #c05a8f;
 }
+.descripcion {
+    display: flex;                /* flex para icono + texto si lo agregas luego */
+    align-items: flex-start;      /* alinea arriba si hay icono */
+    gap: 12px;                    /* espacio entre icono y texto */
+    background: rgba(255,255,255,0.08); /* fondo semitransparente */
+    padding: 15px 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.25);
+    font-size: 15px;
+    line-height: 1.5;
+    color: #fff;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+}
+.descripcion p i {
+    color: #c05a8f;  /* mismo color que tus servicios */
+    margin-right: 8px; /* opcional, para que el icono respire un poco */
+}
+
+.titulo-principal h1 {
+    display: flex;                /* icono + texto en línea */
+    align-items: center;          /* centra verticalmente */
+    justify-content: center;      /* centra horizontalmente */
+    gap: 12px;                    /* espacio entre icono y texto */
+    font-size: 42px;              /* más grande porque es título */
+    color: #fff;
+    text-shadow: 2px 2px 6px rgba(0,0,0,0.8);
+}
+
+.titulo-principal h1 i {
+    color: #c05a8f;              /* mismo color que tus servicios/flechas */
+    font-size: 48px;             /* un poco más grande que el texto */
+    animation: bounce 1.2s infinite; /* efecto para hacerlo más vivo */
+}
+
+/* Animación de rebote */
+@keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+}
 
 
 </style>
@@ -602,10 +641,10 @@ header {
 <div id="contenido">
 
 
-<header>
-    <h1>Zapatilla Urbana</h1>
-    <p>Explora cada detalle del modelo</p>
+<header class="titulo-principal">
+    <h1><i class="fas fa-shoe-prints"></i> Zapatilla Urbana</h1>
 </header>
+
 
 <!-- VERSIÓN PC -->
 <div class="pc">
@@ -639,8 +678,13 @@ header {
         </div> 
            
         <div class="descripcion">
-            <h2>Detalles del Modelo</h2>
-            <p>Zapatilla urbana cómoda, ligera y moderna. Ideal para uso diario y disponible en varias tallas.</p>
+           
+            <p>
+                <i class="fas fa-star"></i> Zapatillas urbanas para dama, modernas y súper cómodas.<br>
+                <i class="fas fa-bolt"></i> Ideales para tu día a día con estilo.<br>
+                <i class="fas fa-ruler"></i> Disponibles en tallas 35 al 39.<br>
+                <i class="fas fa-suitcase-rolling"></i> Combina con cualquier outfit urbano.
+            </p>
         </div>
     </div>
 
@@ -727,8 +771,13 @@ header {
     </div>
     <div class="producto-info">
         <div class="descripcion">
-            <h2>Detalles del Modelo</h2>
-            <p>Zapatilla urbana cómoda, ligera y moderna. Ideal para uso diario y disponible en varias tallas.</p>
+            
+            <p>
+                <i class="fas fa-star"></i> Zapatillas urbanas para dama, modernas y súper cómodas.<br>
+                <i class="fas fa-bolt"></i> Ideales para tu día a día con estilo.<br>
+                <i class="fas fa-ruler"></i> Disponibles en tallas 35 al 39.<br>
+                <i class="fas fa-suitcase-rolling"></i> Combina con cualquier outfit urbano.
+            </p>
         </div>
         <div class="video-modelo">
             <video controls>
