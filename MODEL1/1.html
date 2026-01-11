@@ -475,14 +475,6 @@ header {
     user-drag: none;
 }
 
-/* Mostrar solo el carrusel correcto */
-.pc-carrusel{ display:block; }
-.mov-carrusel{ display:none; }
-
-@media (max-width:768px){
-    .pc-carrusel{ display:none; }
-    .mov-carrusel{ display:block; }
-}
 
 </style>
 </head>
@@ -549,14 +541,18 @@ header {
 </div>
 
 <!-- ================= OTROS MODELOS ================= -->
+<section class="otros-modelos">
+    <h2>Otros modelos</h2>
 
-<div class="otros-slider pc-carrusel">
-    <button class="otros-arrow left" onclick="moverOtros(-1)">‹</button>
-    <div class="otros-track" id="otros-track-pc"></div> <!-- ✅ CORRECTO -->
-    <button class="otros-arrow right" onclick="moverOtros(1)">›</button>
-</div>
+    <div class="otros-slider">
+        <button class="otros-arrow left" onclick="moverOtros(-1)">‹</button>
 
+        <div class="otros-track" id="otros-track"></div>
 
+        <button class="otros-arrow right" onclick="moverOtros(1)">›</button>
+    </div>
+
+</section>
 <section class="footer-bg pc-footer">
     <footer class="footer">
         <p class="footer-confianza">✔ Compra segura por WhatsApp</p>
@@ -603,18 +599,18 @@ header {
         </div>
     </div>
 
-    <!-- ========== OTROS MODELOS MÓVIL ========== -->
-    <section class="otros-modelos mov-carrusel">
-        <h2>Otros modelos</h2>
+<!-- ========== OTROS MODELOS MÓVIL ========== -->
+<section class="otros-modelos mov-carrusel">
+    <h2>Otros modelos</h2>
 
-        <div class="otros-slider">
-            <button class="otros-arrow left" onclick="moverOtrosMov(-1)">‹</button>
+    <div class="otros-slider">
+        <button class="otros-arrow left" onclick="moverOtrosMov(-1)">‹</button>
 
-            <div class="otros-track" id="otros-track-mov"></div>
+        <div class="otros-track" id="otros-track-mov"></div>
 
-            <button class="otros-arrow right" onclick="moverOtrosMov(1)">›</button>
-        </div>
-    </section>
+        <button class="otros-arrow right" onclick="moverOtrosMov(1)">›</button>
+    </div>
+</section>
     <!-- 👇 Footer del móvil, dejar solo este al final -->
     <section class="footer-bg">
         <footer class="footer">
@@ -851,8 +847,7 @@ const otrosImagenes = [
 ];
 
 
-const trackPC = document.getElementById("otros-track-pc");
-const trackMov = document.getElementById("otros-track-mov");
+const otrosTrack = document.getElementById("otros-track");
 const otrosContainer = document.querySelector(".otros-slider");
 
 const otrosItemWidth = 180; // igual que CSS
@@ -861,18 +856,15 @@ let pcTranslate = 0;
 let pcIndex = 0;
 
 otrosImagenes.forEach((img, i)=>{
-    const html = `
-        <div class="otros-item">
-            <a href="../MODEL${i+1}/${i+1}.html">
-                <img src="${img}">
-            </a>
-        </div>
+    const div = document.createElement("div");
+    div.className = "otros-item";
+    div.innerHTML = `
+        <a href="../MODEL${i+1}/${i+1}.html">
+            <img src="${img}">
+        </a>
     `;
-
-    if(trackPC) trackPC.insertAdjacentHTML("beforeend", html);
-    if(trackMov) trackMov.insertAdjacentHTML("beforeend", html);
+    otrosTrack.appendChild(div);
 });
-
 
 // ===== Evitar drag de imágenes =====
 document.addEventListener("dragstart", e => {
@@ -883,15 +875,14 @@ document.addEventListener("dragstart", e => {
 function moverOtros(dir){
     pcIndex += dir;
 
-    if(pcIndex < 0) pcIndex = trackPC.children.length - 1;
-    if(pcIndex >= trackPC.children.length) pcIndex = 0;
+    if(pcIndex < 0) pcIndex = otrosTrack.children.length - 1;
+    if(pcIndex >= otrosTrack.children.length) pcIndex = 0;
 
     pcTranslate = -pcIndex * otrosItemWidth;
 
-    trackPC.style.transition = "transform 0.45s ease";
-    trackPC.style.transform = `translateX(${pcTranslate}px)`;
+    otrosTrack.style.transition = "transform 0.45s ease";
+    otrosTrack.style.transform = `translateX(${pcTranslate}px)`;
 }
-
 
 let isDown = false;
 let startX = 0;
@@ -902,17 +893,16 @@ let lastTime = 0;
 
 otrosTrack.style.cursor = "grab";
 
-trackPC.addEventListener("mousedown", e=>{
-    e.preventDefault();
+otrosTrack.addEventListener("mousedown", e=>{
+    e.preventDefault(); // 🔥 evita que el navegador secuestre el drag
     isDown = true;
-    trackPC.style.transition = "none";
-    trackPC.style.cursor = "grabbing";
+    otrosTrack.style.transition = "none";
+    otrosTrack.style.cursor = "grabbing";
     startX = e.pageX;
     scrollX = pcTranslate;
     lastX = e.pageX;
     lastTime = Date.now();
 });
-
 // 🔥 Bloquear drag nativo del navegador
 otrosTrack.addEventListener("dragstart", e => e.preventDefault());
 
