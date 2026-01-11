@@ -880,14 +880,27 @@ track.forEach((t, idx)=>{
     // Flechas
     container.querySelectorAll(".otros-arrow").forEach(arrow=>{
         arrow.addEventListener("click", ()=>{
-            translateX += (arrow.classList.contains("left")?1:-1)*itemWidth;
-            update();
+            if(arrow.classList.contains("left")){
+                translateX += itemWidth;
+                // si ya estamos al principio, ir al final
+                const maxScroll = Math.max(t.scrollWidth - container.offsetWidth,0);
+                if(translateX > 0) translateX = -maxScroll;
+            } else {
+                translateX -= itemWidth;
+                const maxScroll = Math.max(t.scrollWidth - container.offsetWidth,0);
+                if(translateX < -maxScroll) translateX = 0;
+            }
+
             t.style.transition = "transform 0.45s ease";
+            t.style.transform = `translateX(${translateX}px)`;
         });
     });
 
+
     // Drag con mouse
     t.style.cursor = "grab";
+    let isDragging = false; // detecta si hubo arrastre
+
     t.addEventListener("mousedown", e=>{
         isDown = true;
         startX = e.pageX;
@@ -898,15 +911,33 @@ track.forEach((t, idx)=>{
     t.addEventListener("mousemove", e=>{
         if(!isDown) return;
         const dx = e.pageX - startX;
+        if(Math.abs(dx) > 1) isDragging = true; // si se mueve más de 5px, es arrastre
         translateX = scrollStart + dx;
         update();
     });
+    t.querySelectorAll("a").forEach(a => {
+        a.addEventListener("click", e => {
+            if (isDragging) {
+                e.preventDefault();  // cancela el click
+            }
+        });
+    });
+        
+
     t.addEventListener("mouseup", e=>{
-        isDown = false; t.style.cursor = "grab";
+        isDown = false;
+        t.style.cursor = "grab";
+
+        setTimeout(()=>{ isDragging = false; }, 50); // reinicia para el próximo drag
     });
+
+
     t.addEventListener("mouseleave", e=>{
-        if(isDown) { isDown = false; t.style.cursor = "grab"; }
+        if(isDown) { isDown = false; }
+        isDragging = false; // ← reinicia
+        t.style.cursor = "grab";
     });
+
 
     // Drag táctil
     t.addEventListener("touchstart", e=>{
@@ -915,7 +946,7 @@ track.forEach((t, idx)=>{
     }, {passive:true});
     t.addEventListener("touchmove", e=>{
         const dx = e.touches[0].pageX - startX;
-        translateX = scrollStart + dx;
+        translateX = scrollStart + dx * 1.5; // se mueve 1.5 veces más rápido
         update();
     }, {passive:true});
 
