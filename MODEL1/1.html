@@ -778,15 +778,17 @@ if (window.innerWidth <= 768) {
     const visor = document.getElementById("visor-img-mov");
 
     if (visor) {
-        // Bloquea menú "copiar imagen"
+        // Bloquea menú "copiar imagen" (esto no afecta zoom)
         visor.addEventListener("contextmenu", e => e.preventDefault());
 
-        // Bloquea pulsación larga
-        visor.addEventListener("touchstart", e => {
-            e.preventDefault();
-        }, { passive: false });
+        // QUITAR e.preventDefault() en touchstart
+        // para permitir pinch-zoom
+        // visor.addEventListener("touchstart", e => {
+        //     e.preventDefault();
+        // }, { passive: false });
     }
 }
+
 // BLOQUEAR clic derecho en visor PC
 const visorPC = document.getElementById("visor-img-pc");
 
