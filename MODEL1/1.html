@@ -75,11 +75,28 @@ header {
     margin: 30px auto;
 }
 
-.pc .producto-fotos,
-.pc .producto-info {
-    width: 100%;
+.pc .producto-fotos {
+    display: flex;
+    flex-direction: column; /* descripción debajo de visor+miniatura */
+    gap: 15px;
 }
 
+.pc .producto-fotos .visor-y-miniatura {
+    display: flex;           /* visor y miniaturas lado a lado */
+    gap: 15px;
+    align-items: flex-start;
+}
+/* Ajuste ancho del visor y galería */
+.pc .producto-fotos .visor-frame {
+    flex: 1;                 /* visor ocupa el máximo espacio */
+}
+
+.pc .producto-fotos .galeria {
+    display: flex;
+    flex-direction: column;  /* miniaturas en columna */
+    gap: 12px;
+    width: 80px;
+}
 /* ===== VERSIÓN MÓVIL (1 COLUMNA) ===== */
 .mov {
     display: none; /* oculto por defecto, se muestra solo en móvil */
@@ -97,7 +114,7 @@ header {
 /* VISOR Y MINIATURAS */
 .producto-fotos {
     display:flex;
-    flex-direction:row-reverse;  /* ← invierte el orden */
+    flex-direction:row;  /* ← invierte el orden */
     gap:15px;
     width:100%;
     align-items:flex-start;
@@ -543,35 +560,42 @@ header {
 <!-- VERSIÓN PC -->
 <div class="pc">
     <div class="producto-fotos">
-        <div class="visor-frame">
+        <div class="visor-y-miniatura">
 
-            <div class="flecha flecha-izq" onclick="cambiarFotoPC(-1)">
-                <i class="fas fa-chevron-left"></i>
+            <div class="galeria">
+                <img src="IMAGEN/1.jpeg" onclick="mostrar('pc', this)">
+                <img src="IMAGEN/2.jpeg" onclick="mostrar('pc', this)">
+                <img src="IMAGEN/3.jpeg" onclick="mostrar('pc', this)">
+                <img src="IMAGEN/4.jpeg" onclick="mostrar('pc', this)">
+            </div>
+            
+            <div class="visor-frame">
+
+                <div class="flecha flecha-izq" onclick="cambiarFotoPC(-1)">
+                    <i class="fas fa-chevron-left"></i>
+                </div>
+
+                <div class="visor" id="visor-pc">
+                    <img id="visor-img-pc">
+                </div>
+
+                <div class="flecha flecha-der" onclick="cambiarFotoPC(1)">
+                    <i class="fas fa-chevron-right"></i>
+                </div>
+
             </div>
 
-            <div class="visor" id="visor-pc">
-                <img id="visor-img-pc">
-            </div>
 
-            <div class="flecha flecha-der" onclick="cambiarFotoPC(1)">
-                <i class="fas fa-chevron-right"></i>
-            </div>
-
-        </div>
-
-        <div class="galeria">
-            <img src="IMAGEN/1.jpeg" onclick="mostrar('pc', this)">
-            <img src="IMAGEN/2.jpeg" onclick="mostrar('pc', this)">
-            <img src="IMAGEN/3.jpeg" onclick="mostrar('pc', this)">
-            <img src="IMAGEN/4.jpeg" onclick="mostrar('pc', this)">
-        </div>
-    </div>
-
-    <div class="producto-info">
+        </div> 
+           
         <div class="descripcion">
             <h2>Detalles del Modelo</h2>
             <p>Zapatilla urbana cómoda, ligera y moderna. Ideal para uso diario y disponible en varias tallas.</p>
         </div>
+    </div>
+
+    <div class="producto-info">
+
         <div class="video-modelo">
             <video controls>
                 <source src="IMAGEN/1.mp4" type="video/mp4">
