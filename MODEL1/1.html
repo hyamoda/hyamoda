@@ -537,7 +537,7 @@ window.addEventListener("load", ()=>{
         // Mostrar primera imagen móvil
         document.getElementById('visor-img-mov').src = document.querySelector('.mov .galeria img').src;
 
-    },1500);
+    },6 00);
 }); 
 
 function initVisorMovil() {
@@ -680,6 +680,20 @@ function cambiarFotoPC(direccion){
     mostrar("pc", imagenesPC[indicePC]);
 }
 
+// BLOQUEAR menú de mantener presionado SOLO EN MÓVIL
+if (window.innerWidth <= 768) {
+    const visor = document.getElementById("visor-img-mov");
+
+    if (visor) {
+        // Bloquea menú "copiar imagen"
+        visor.addEventListener("contextmenu", e => e.preventDefault());
+
+        // Bloquea pulsación larga
+        visor.addEventListener("touchstart", e => {
+            e.preventDefault();
+        }, { passive: false });
+    }
+}
 
 </script>
 
