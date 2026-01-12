@@ -75,11 +75,28 @@ header {
     margin: 30px auto;
 }
 
-.pc .producto-fotos,
-.pc .producto-info {
-    width: 100%;
+.pc .producto-fotos {
+    display: flex;
+    flex-direction: column; /* descripción debajo de visor+miniatura */
+    gap: 15px;
 }
 
+.pc .producto-fotos .visor-y-miniatura {
+    display: flex;           /* visor y miniaturas lado a lado */
+    gap: 15px;
+    align-items: flex-start;
+}
+/* Ajuste ancho del visor y galería */
+.pc .producto-fotos .visor-frame {
+    flex: 1;                 /* visor ocupa el máximo espacio */
+}
+
+.pc .producto-fotos .galeria {
+    display: flex;
+    flex-direction: column;  /* miniaturas en columna */
+    gap: 12px;
+    width: 80px;
+}
 /* ===== VERSIÓN MÓVIL (1 COLUMNA) ===== */
 .mov {
     display: none; /* oculto por defecto, se muestra solo en móvil */
@@ -97,7 +114,7 @@ header {
 /* VISOR Y MINIATURAS */
 .producto-fotos {
     display:flex;
-    flex-direction:row-reverse;  /* ← invierte el orden */
+    flex-direction:row;  /* ← invierte el orden */
     gap:15px;
     width:100%;
     align-items:flex-start;
@@ -504,6 +521,137 @@ header {
         border-radius: 10px;
     }
 }
+/* Solo en PC */
+@media(min-width:769px){
+    .whatsapp-btn img {
+        animation: parpadear-sutil 1.2s infinite;
+    }
+}
+
+@keyframes parpadear-sutil {
+    0%, 100% { 
+        opacity: 1; 
+        transform: scale(1); 
+    }
+    50% { 
+        opacity: 0.6; 
+        transform: scale(1.15); 
+    }
+}
+
+.servicios {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin-top: 25px;
+    justify-content: center; /* centra en móvil y PC */
+}
+
+.servicio {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(255,255,255,0.1); /* fondo semitransparente */
+    padding: 12px 18px;
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: 500;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.5);
+}
+
+.servicio i {
+    font-size: 20px;
+    color: #c05a8f; /* mismo tono que tus flechas y botones */
+}
+/* BLOQUE DE SERVICIOS SOLO MÓVIL */
+.servicios-mov {
+    display: flex;
+    flex-direction: column; /* columnas apiladas */
+    gap: 15px;
+    margin: 20px 0;
+    padding: 10px;
+}
+
+.servicios-mov .servicio {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: rgba(255, 255, 255, 0.08);
+    padding: 12px 15px;
+    border-radius: 12px;
+    font-size: 14px;
+    color: #fff;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+}
+
+.servicios-mov .servicio i {
+    font-size: 20px;
+    color: #c05a8f;
+}
+.descripcion {
+    display: flex;                /* flex para icono + texto si lo agregas luego */
+    align-items: flex-start;      /* alinea arriba si hay icono */
+    gap: 12px;                    /* espacio entre icono y texto */
+    background: rgba(255,255,255,0.08); /* fondo semitransparente */
+    padding: 15px 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.25);
+    font-size: 15px;
+    line-height: 1.5;
+    color: #fff;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+}
+.descripcion p i {
+    color: #c05a8f;  /* mismo color que tus servicios */
+    margin-right: 8px; /* opcional, para que el icono respire un poco */
+}
+
+.titulo-principal h1 {
+    display: flex;                /* icono + texto en línea */
+    align-items: center;          /* centra verticalmente */
+    justify-content: center;      /* centra horizontalmente */
+    gap: 12px;                    /* espacio entre icono y texto */
+    font-size: 42px;              /* más grande porque es título */
+    color: #fff;
+    text-shadow: 2px 2px 6px rgba(0,0,0,0.8);
+}
+
+
+/* === HUELLAS CAMINANDO === */
+.pisadas{
+    display:inline-flex;
+    gap:6px;
+    margin-right:12px;
+}
+
+.pisadas i{
+    font-size:36px;
+    color:#c05a8f;
+    opacity:0.25;
+    animation: pisar 1.5s infinite;
+}
+
+/* Delay para simular pasos */
+.pisadas i:nth-child(1){ animation-delay:0s; }
+.pisadas i:nth-child(2){ animation-delay:0.5s; }
+.pisadas i:nth-child(3){ animation-delay:1s; }
+
+@keyframes pisar{
+    0%{
+        opacity:0.2;
+        transform: translateY(0) scale(1);
+    }
+    50%{
+        opacity:1;
+        transform: translateY(-8px) scale(1.15);
+    }
+    100%{
+        opacity:0.2;
+        transform: translateY(0) scale(1);
+    }
+}
+
+
 
 </style>
 </head>
@@ -517,47 +665,82 @@ header {
 <div id="contenido">
 
 
-<header>
-    <h1>Zapatilla Urbana</h1>
-    <p>Explora cada detalle del modelo</p>
+<header class="titulo-principal">
+    <h1>
+        <span class="pisadas">
+            <i class="fas fa-shoe-prints"></i>
+            <i class="fas fa-shoe-prints"></i>
+            <i class="fas fa-shoe-prints"></i>
+        </span>
+        Zapatilla Urbana
+    </h1>
 </header>
+
 
 <!-- VERSIÓN PC -->
 <div class="pc">
     <div class="producto-fotos">
-        <div class="visor-frame">
+        <div class="visor-y-miniatura">
 
-            <div class="flecha flecha-izq" onclick="cambiarFotoPC(-1)">
-                <i class="fas fa-chevron-left"></i>
+            <div class="galeria">
+                <img src="IMAGEN/1.jpeg" onclick="mostrar('pc', this)">
+                <img src="IMAGEN/2.jpeg" onclick="mostrar('pc', this)">
+                <img src="IMAGEN/3.jpeg" onclick="mostrar('pc', this)">
+                <img src="IMAGEN/4.jpeg" onclick="mostrar('pc', this)">
             </div>
 
-            <div class="visor" id="visor-pc">
-                <img id="visor-img-pc">
+            <div class="visor-frame">
+
+                <div class="flecha flecha-izq" onclick="cambiarFotoPC(-1)">
+                    <i class="fas fa-chevron-left"></i>
+                </div>
+
+                <div class="visor" id="visor-pc">
+                    <img id="visor-img-pc">
+                </div>
+
+                <div class="flecha flecha-der" onclick="cambiarFotoPC(1)">
+                    <i class="fas fa-chevron-right"></i>
+                </div>
+
             </div>
 
-            <div class="flecha flecha-der" onclick="cambiarFotoPC(1)">
-                <i class="fas fa-chevron-right"></i>
-            </div>
 
-        </div>
-
-        <div class="galeria">
-            <img src="IMAGEN/1.jpeg" onclick="mostrar('pc', this)">
-            <img src="IMAGEN/2.jpeg" onclick="mostrar('pc', this)">
-            <img src="IMAGEN/3.jpeg" onclick="mostrar('pc', this)">
-            <img src="IMAGEN/4.jpeg" onclick="mostrar('pc', this)">
+        </div> 
+           
+        <div class="descripcion">
+           
+            <p>
+                <i class="fas fa-star"></i> Zapatillas urbanas para dama, modernas y súper cómodas.<br>
+                <i class="fas fa-bolt"></i> Ideales para tu día a día con estilo.<br>
+                <i class="fas fa-ruler"></i> Disponibles en tallas 35 al 39.<br>
+                <i class="fas fa-suitcase-rolling"></i> Combina con cualquier outfit urbano.
+            </p>
         </div>
     </div>
 
     <div class="producto-info">
-        <div class="descripcion">
-            <h2>Detalles del Modelo</h2>
-            <p>Zapatilla urbana cómoda, ligera y moderna. Ideal para uso diario y disponible en varias tallas.</p>
-        </div>
+
         <div class="video-modelo">
             <video controls>
                 <source src="IMAGEN/1.mp4" type="video/mp4">
             </video>
+        </div>
+    
+        <!-- NUEVO BLOQUE DE SERVICIOS -->
+        <div class="servicios">
+            <div class="servicio">
+                <i class="fas fa-shipping-fast"></i>
+                <span>Envíos a todo Perú</span>
+            </div>
+            <div class="servicio">
+                <i class="fas fa-lock"></i>
+                <span>Envío seguro</span>
+            </div>
+            <div class="servicio">
+                <i class="fas fa-headset"></i>
+                <span>Atención rápida</span>
+            </div>
         </div>
     </div>
 </div>
@@ -572,7 +755,7 @@ header {
 
 <!-- ================= OTROS MODELOS PC ================= -->
 <section class="otros-modelos pc-only">
-    <h2>Otros modelos</h2>
+    <h2>Mira mas modelos</h2>
 
     <div class="otros-slider">
         <button class="otros-arrow left" onclick="moverOtros(-1)">‹</button>
@@ -586,7 +769,7 @@ header {
 <!-- Footer PC -->
 <section class="footer-bg pc-footer">
     <footer class="footer">
-        <p class="footer-confianza">✔ Compra segura por WhatsApp</p>
+        <p class="footer-confianza">Atención personalizada 📦 Envío confiable</p>
         <div class="footer-redes">
             <a href="https://www.facebook.com/HYAMODA" target="_blank">
                 <i class="fab fa-facebook-f"></i>
@@ -619,19 +802,40 @@ header {
     </div>
     <div class="producto-info">
         <div class="descripcion">
-            <h2>Detalles del Modelo</h2>
-            <p>Zapatilla urbana cómoda, ligera y moderna. Ideal para uso diario y disponible en varias tallas.</p>
+            
+            <p>
+                <i class="fas fa-star"></i> Zapatillas urbanas para dama, modernas y súper cómodas.<br>
+                <i class="fas fa-bolt"></i> Ideales para tu día a día con estilo.<br>
+                <i class="fas fa-ruler"></i> Disponibles en tallas 35 al 39.<br>
+                <i class="fas fa-suitcase-rolling"></i> Combina con cualquier outfit urbano.
+            </p>
         </div>
         <div class="video-modelo">
             <video controls>
                 <source src="IMAGEN/1.mp4" type="video/mp4">
             </video>
         </div>
+        <!-- BLOQUE DE SERVICIOS MÓVIL -->
+        <div class="servicios-mov">
+            <div class="servicio">
+                <i class="fas fa-shipping-fast"></i>
+                <span>Envíos a todo Perú</span>
+            </div>
+            <div class="servicio">
+                <i class="fas fa-lock"></i>
+                <span>Envío seguro</span>
+            </div>
+            <div class="servicio">
+                <i class="fas fa-headset"></i>
+                <span>Atención rápida</span>
+            </div>
+        </div>
+
     </div>
 
 <!-- ========== OTROS MODELOS MÓVIL ========== -->
 <section class="otros-modelos mov-carrusel">
-    <h2>Otros modelos</h2>
+    <h2>Mira mas modelos</h2>
 
     <div class="otros-slider">
         <div class="otros-track" id="otros-track-mov"></div>
@@ -647,7 +851,7 @@ header {
     <!-- 👇 Footer del móvil, dejar solo este al final -->
     <section class="footer-bg">
         <footer class="footer">
-            <p class="footer-confianza">✔ Compra segura por WhatsApp</p>
+            <p class="footer-confianza">Atención personalizada 📦 Envío confiable</p>
             <div class="footer-redes">
                 <a href="https://www.facebook.com/HYAMODA" target="_blank">
                     <i class="fab fa-facebook-f"></i>
