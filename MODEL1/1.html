@@ -55,11 +55,6 @@ header {
     text-align:center;
 }
 
-.descripcion {
-    background: transparent;
-    padding:20px;
-    border-radius:10px;
-}
 
 .descripcion p, header h1, header p {
     text-shadow: 1px 1px 4px rgba(0,0,0,0.7);
@@ -121,26 +116,18 @@ header {
 }
 
 
-.visor {
+.visor{
     position:relative;
     overflow:hidden;
     border-radius:15px;
     cursor:zoom-in;
-    display:inline-flex;
-    justify-content:center;
-    align-items:center;
-}
-
-.visor{
-    width:100%;
-    max-width:600px;
-    position:relative;
-    overflow:hidden;
     display:flex;
     justify-content:center;
     align-items:center;
-    border-radius:15px;
+    width:100%;
+    max-width:600px;
 }
+
 
 /* LA IMAGEN MANDA */
 .visor img{
@@ -367,25 +354,17 @@ header {
     position:relative;
 }
 
-/* Footer PC */
-.pc-footer { display: block; }
-
-/* Ocultar en móvil */
-@media (max-width: 768px) {
-    .pc-footer { display: none; }
-}
-/* Footer PC ocupa todo el ancho */
-.pc-footer {
-    display: block;
-    width: 100%;  /* <--- Esto hace que sea ancho completo */
+.pc-footer{
+    display:block;
+    width:100%;
 }
 
-/* Ocultar en móvil */
-@media (max-width: 768px) {
-    .pc-footer {
-        display: none;
+@media (max-width:768px){
+    .pc-footer{
+        display:none;
     }
 }
+
 /* Ocultar el texto de WhatsApp solo en móvil */
 @media (max-width: 768px) {
     .whatsapp-text {
@@ -439,6 +418,10 @@ header {
     border-radius:14px;
     box-shadow:0 15px 35px rgba(0,0,0,.6);
     transition:transform .3s ease;
+    -webkit-user-drag:none;
+    user-drag:none;
+    user-select:none;
+    pointer-events:auto;
 }
 
 .otros-item img:hover{
@@ -477,12 +460,7 @@ header {
     }
 }
 
-.otros-item img{
-    -webkit-user-drag: none;
-    user-drag: none;
-    user-select: none;
-    pointer-events: auto;
-}
+
 /* 🔥 DRAG REAL EN PC */
 .otros-track,
 .otros-track *{
@@ -895,13 +873,7 @@ header {
 </div> <!-- fin de .mov -->
 
 </div> <!-- CIERRA #contenido -->
-<div class="whatsapp-box">
-    <div class="whatsapp-text">Chatea con nosotros</div>
-    <a href="https://wa.me/51974309455?text=Hola%20HYA%20Moda%20%F0%9F%91%9F%20Estoy%20viendo%20este%20modelo%20en%20su%20web%20y%20me%20gustar%C3%ADa%20recibir%20m%C3%A1s%20informaci%C3%B3n." class="whatsapp-btn" target="_blank">
 
-        <img src="IMAGEN/whatsapp.png" alt="WhatsApp">
-    </a>
-</div>
 </div> <!-- fin de .capa-negra -->
 
 
