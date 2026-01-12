@@ -515,19 +515,27 @@ header {
 
     .otros-track{
         order:1;
+        width:100%;
     }
 
-    .otros-arrow{
-        position:static;
-        margin-top:12px;
-        font-size:36px;
-        padding:10px 18px;
+    /* contenedor de flechas */
+    .otros-slider .otros-arrow{
+        position:relative;   /* ya no flota */
+        top:auto;
+        transform:none;
+        margin:15px 12px 0;
+        font-size:38px;
+        padding:12px 22px;
         background: rgba(192,90,143,0.25);
-        border-radius: 12px;
-        cursor:pointer;
+        border-radius:14px;
     }
 
+    .otros-arrow.left,
+    .otros-arrow.right{
+        display:inline-block;
+    }
 }
+
 
 /* Solo en PC */
 @media(min-width:769px){
@@ -1077,21 +1085,27 @@ track.forEach((t, idx)=>{
     // Flechas
     container.querySelectorAll(".otros-arrow").forEach(arrow=>{
         arrow.addEventListener("click", ()=>{
+            const maxScroll = Math.max(t.scrollWidth - container.offsetWidth,0);
+
             if(arrow.classList.contains("left")){
-                translateX += itemWidth;
-                // si ya estamos al principio, ir al final
-                const maxScroll = Math.max(t.scrollWidth - container.offsetWidth,0);
-                if(translateX > 0) translateX = -maxScroll;
+                if(translateX >= 0){
+                    translateX = -maxScroll;   // vuelve al final
+                } else {
+                    translateX += itemWidth;
+                }
             } else {
-                translateX -= itemWidth;
-                const maxScroll = Math.max(t.scrollWidth - container.offsetWidth,0);
-                if(translateX < -maxScroll) translateX = 0;
+                if(translateX <= -maxScroll){
+                    translateX = 0;           // vuelve al inicio
+                } else {
+                    translateX -= itemWidth;
+                }
             }
 
             t.style.transition = "transform 0.45s ease";
             t.style.transform = `translateX(${translateX}px)`;
         });
     });
+
 
 
     // Drag con mouse
