@@ -55,11 +55,6 @@ header {
     text-align:center;
 }
 
-.descripcion {
-    background: transparent;
-    padding:20px;
-    border-radius:10px;
-}
 
 .descripcion p, header h1, header p {
     text-shadow: 1px 1px 4px rgba(0,0,0,0.7);
@@ -121,26 +116,18 @@ header {
 }
 
 
-.visor {
+.visor{
     position:relative;
     overflow:hidden;
     border-radius:15px;
     cursor:zoom-in;
-    display:inline-flex;
-    justify-content:center;
-    align-items:center;
-}
-
-.visor{
-    width:100%;
-    max-width:600px;
-    position:relative;
-    overflow:hidden;
     display:flex;
     justify-content:center;
     align-items:center;
-    border-radius:15px;
+    width:100%;
+    max-width:600px;
 }
+
 
 /* LA IMAGEN MANDA */
 .visor img{
@@ -367,25 +354,17 @@ header {
     position:relative;
 }
 
-/* Footer PC */
-.pc-footer { display: block; }
-
-/* Ocultar en móvil */
-@media (max-width: 768px) {
-    .pc-footer { display: none; }
-}
-/* Footer PC ocupa todo el ancho */
-.pc-footer {
-    display: block;
-    width: 100%;  /* <--- Esto hace que sea ancho completo */
+.pc-footer{
+    display:block;
+    width:100%;
 }
 
-/* Ocultar en móvil */
-@media (max-width: 768px) {
-    .pc-footer {
-        display: none;
+@media (max-width:768px){
+    .pc-footer{
+        display:none;
     }
 }
+
 /* Ocultar el texto de WhatsApp solo en móvil */
 @media (max-width: 768px) {
     .whatsapp-text {
@@ -439,6 +418,10 @@ header {
     border-radius:14px;
     box-shadow:0 15px 35px rgba(0,0,0,.6);
     transition:transform .3s ease;
+    -webkit-user-drag:none;
+    user-drag:none;
+    user-select:none;
+    pointer-events:auto;
 }
 
 .otros-item img:hover{
@@ -477,12 +460,7 @@ header {
     }
 }
 
-.otros-item img{
-    -webkit-user-drag: none;
-    user-drag: none;
-    user-select: none;
-    pointer-events: auto;
-}
+
 /* 🔥 DRAG REAL EN PC */
 .otros-track,
 .otros-track *{
@@ -503,24 +481,9 @@ header {
     .mov-carrusel { display: none; }
 }
 
-/* Flechas móviles debajo del carrusel */
-.otros-flechas-mov {
-    display: flex;
-    justify-content: center;  /* centrarlas horizontalmente */
-    gap: 40px;                /* espacio entre las flechas */
-    margin-top: 10px;         /* separación del carrusel */
-}
 
-/* Cambiar tamaño de flechas solo en móvil */
-@media (max-width: 768px) {
-    .otros-arrow {
-        position: static;     /* quita position absolute */
-        font-size: 36px;
-        padding: 10px 18px;
-        background: rgba(192,90,143,0.25);
-        border-radius: 10px;
-    }
-}
+
+
 /* Solo en PC */
 @media(min-width:769px){
     .whatsapp-btn img {
@@ -648,6 +611,46 @@ header {
     100%{
         opacity:0.2;
         transform: translateY(0) scale(1);
+    }
+}
+@media (max-width: 768px) {
+
+    .otros-slider{
+        display:grid;
+        grid-template-rows:auto auto;
+        grid-template-columns:1fr 1fr;
+        row-gap:14px;
+        justify-items:center;
+    }
+
+    .otros-track{
+        grid-column:1 / 3;
+        grid-row:1;
+        width:100%;
+    }
+
+    .otros-arrow{
+        position: relative;
+        transform: none;
+        top: auto;     /* ← ESTA ES LA CLAVE */
+        left: auto;
+        right: auto;
+        font-size:40px;
+        padding:14px 22px;
+        border-radius:14px;
+        background: rgba(192,90,143,0.25);
+    }
+
+    .otros-arrow.left{
+        grid-column:1;
+        grid-row:2;
+        justify-self:start;
+    }
+
+    .otros-arrow.right{
+        grid-column:2;
+        grid-row:2;
+        justify-self:end;
     }
 }
 
@@ -839,14 +842,13 @@ header {
     <h2>Mira mas modelos</h2>
 
     <div class="otros-slider">
+        <button class="otros-arrow left">‹</button>
+
         <div class="otros-track" id="otros-track-mov"></div>
+
+        <button class="otros-arrow right">›</button>
     </div>
 
-    <!-- Flechas móviles debajo -->
-    <div class="otros-flechas-mov">
-        <button class="otros-arrow left" onclick="moverOtrosMov(-1)">‹</button>
-        <button class="otros-arrow right" onclick="moverOtrosMov(1)">›</button>
-    </div>
 
 </section>
     <!-- 👇 Footer del móvil, dejar solo este al final -->
@@ -871,13 +873,7 @@ header {
 </div> <!-- fin de .mov -->
 
 </div> <!-- CIERRA #contenido -->
-<div class="whatsapp-box">
-    <div class="whatsapp-text">Chatea con nosotros</div>
-    <a href="https://wa.me/51974309455?text=Hola%20HYA%20Moda%20%F0%9F%91%9F%20Estoy%20viendo%20este%20modelo%20en%20su%20web%20y%20me%20gustar%C3%ADa%20recibir%20m%C3%A1s%20informaci%C3%B3n." class="whatsapp-btn" target="_blank">
 
-        <img src="IMAGEN/whatsapp.png" alt="WhatsApp">
-    </a>
-</div>
 </div> <!-- fin de .capa-negra -->
 
 
@@ -1070,21 +1066,27 @@ track.forEach((t, idx)=>{
     // Flechas
     container.querySelectorAll(".otros-arrow").forEach(arrow=>{
         arrow.addEventListener("click", ()=>{
+            const maxScroll = Math.max(t.scrollWidth - container.offsetWidth,0);
+
             if(arrow.classList.contains("left")){
-                translateX += itemWidth;
-                // si ya estamos al principio, ir al final
-                const maxScroll = Math.max(t.scrollWidth - container.offsetWidth,0);
-                if(translateX > 0) translateX = -maxScroll;
+                if(translateX >= 0){
+                    translateX = -maxScroll;   // vuelve al final
+                } else {
+                    translateX += itemWidth;
+                }
             } else {
-                translateX -= itemWidth;
-                const maxScroll = Math.max(t.scrollWidth - container.offsetWidth,0);
-                if(translateX < -maxScroll) translateX = 0;
+                if(translateX <= -maxScroll){
+                    translateX = 0;           // vuelve al inicio
+                } else {
+                    translateX -= itemWidth;
+                }
             }
 
             t.style.transition = "transform 0.45s ease";
             t.style.transform = `translateX(${translateX}px)`;
         });
     });
+
 
 
     // Drag con mouse
@@ -1154,85 +1156,7 @@ track.forEach((t, idx)=>{
 
 
 // ===== CARRUSEL MÓVIL =====
-if (window.innerWidth <= 768) {
-    const otrosTrackMov = document.getElementById("otros-track-mov");
-    const otrosContainerMov = document.querySelector(".mov-carrusel");
-    const otrosImagenesMov = [
-        "../imagenes/carrusel/1.jpeg",
-        "../imagenes/carrusel/2.jpeg",
-        "../imagenes/carrusel/3.jpeg",
-        "../imagenes/carrusel/4.jpeg",
-        "../imagenes/carrusel/5.jpeg",
-        "../imagenes/carrusel/6.jpeg",
-        "../imagenes/carrusel/7.jpeg",
-        "../imagenes/carrusel/8.jpeg",
-        "../imagenes/carrusel/9.jpeg",
-        "../imagenes/carrusel/10.jpeg",
-        "../imagenes/carrusel/11.jpeg",
-        "../imagenes/carrusel/12.jpeg",
-        "../imagenes/carrusel/13.jpeg",
-        "../imagenes/carrusel/14.jpeg",
-        "../imagenes/carrusel/15.jpeg",
-        "../imagenes/carrusel/16.jpeg",
-        "../imagenes/carrusel/17.jpeg",
-        "../imagenes/carrusel/18.jpeg",
-        "../imagenes/carrusel/19.jpeg",
-        "../imagenes/carrusel/20.jpeg",
-        "../imagenes/carrusel/21.jpeg",
-        "../imagenes/carrusel/22.jpeg"
-    ];
-
-    // Crear items móviles
-    otrosImagenesMov.forEach((img, i) => {
-        const div = document.createElement("div");
-        div.className = "otros-item";
-        div.innerHTML = `
-            <a href="../MODEL${i+1}/${i+1}.html">
-                <img src="${img}">
-            </a>
-        `;
-        otrosTrackMov.appendChild(div);
-    });
-
-    let movIndex = 0;
-    let movTranslate = 0;
-    const itemWidthMov = 140;
-
-    // Flechas móviles
-    window.moverOtrosMov = function(dir){
-        movIndex += dir;
-        if(movIndex < 0) movIndex = otrosTrackMov.children.length - 1;
-        if(movIndex >= otrosTrackMov.children.length) movIndex = 0;
-        movTranslate = -movIndex * itemWidthMov;
-        otrosTrackMov.style.transition = "transform 0.45s ease";
-        otrosTrackMov.style.transform = `translateX(${movTranslate}px)`;
-    }
-
-    // Drag táctil
-    let touchStartX = 0, touchPrev = 0, touchDown = false;
-    otrosTrackMov.addEventListener("touchstart", e => {
-        touchDown = true;
-        touchStartX = e.touches[0].pageX;
-        touchPrev = movTranslate;
-        otrosTrackMov.style.transition = "none";
-    }, {passive:true});
-
-    otrosTrackMov.addEventListener("touchmove", e => {
-        if(!touchDown) return;
-        const x = e.touches[0].pageX;
-        const walk = (x - touchStartX) * 1.4;
-        movTranslate = touchPrev + walk;
-        const maxScroll = otrosContainerMov.offsetWidth - otrosTrackMov.scrollWidth;
-        if(movTranslate > 0) movTranslate = 0;
-        if(movTranslate < maxScroll) movTranslate = maxScroll;
-        otrosTrackMov.style.transform = `translateX(${movTranslate}px)`;
-    }, {passive:true});
-
-    otrosTrackMov.addEventListener("touchend", () => {
-        touchDown = false;
-    });
-}
-
+    
 
 </script>
 
