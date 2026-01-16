@@ -4,7 +4,11 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
 <meta charset="UTF-8">
-<title>Zapatilla Urbana - HYA Moda</title>
+<title>Zapatilla Runner Street - HYA Moda | Zapatillas Urbanas para Dama</title>
+<meta name="description" content="Zapatilla Runner Street para dama, cómodas y modernas. Envíos a todo Perú. Perfectas para tu día a día con estilo urbano.">
+
+<meta name="keywords" content="zapatillas urbanas, zapatillas dama, moda urbana, zapatillas cómodas, HYA Moda, Perú">
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 
@@ -686,10 +690,11 @@ header {
         <div class="visor-y-miniatura">
 
             <div class="galeria">
-                <img src="IMAGEN/1.jpeg" onclick="mostrar('pc', this)">
-                <img src="IMAGEN/2.jpeg" onclick="mostrar('pc', this)">
-                <img src="IMAGEN/3.jpeg" onclick="mostrar('pc', this)">
-                <img src="IMAGEN/4.jpeg" onclick="mostrar('pc', this)">
+                <img src="IMAGEN/1.jpeg" alt="Zapatilla Runner Street modelo 1, color rosa, dama" onclick="mostrar('pc', this)">
+                <img src="IMAGEN/2.jpeg" alt="Zapatilla Runner Street modelo 2, color blanco, dama" onclick="mostrar('pc', this)">
+                <img src="IMAGEN/3.jpeg" alt="Zapatilla Runner Street modelo 3, color negro, dama" onclick="mostrar('pc', this)">
+                <img src="IMAGEN/4.jpeg" alt="Zapatilla Runner Street modelo 4, color azul, dama" onclick="mostrar('pc', this)">
+
             </div>
 
             <div class="visor-frame">
@@ -699,7 +704,8 @@ header {
                 </div>
 
                 <div class="visor" id="visor-pc">
-                    <img id="visor-img-pc">
+                    <img id="visor-img-pc" alt="Vista principal Zapatilla Runner Street para dama">
+
                 </div>
 
                 <div class="flecha flecha-der" onclick="cambiarFotoPC(1)">
@@ -725,10 +731,15 @@ header {
     <div class="producto-info">
 
         <div class="video-modelo">
-            <video controls>
+            <video controls
+                   poster="IMAGEN/1.jpeg"
+                   title="Zapatilla Runner Street para dama, video demostrativo de HYA Moda"
+                   aria-label="Video de zapatilla Runner Street para dama, HYA Moda">
                 <source src="IMAGEN/1.mp4" type="video/mp4">
+                Tu navegador no soporta el video.
             </video>
         </div>
+
     
         <!-- NUEVO BLOQUE DE SERVICIOS -->
         <div class="servicios">
@@ -795,13 +806,15 @@ header {
 <div class="mov">
     <div class="producto-fotos">
         <div class="visor" id="visor-mov">
-            <img id="visor-img-mov">
+            <img id="visor-img-mov" alt="Vista principal Zapatilla Runner Street para dama">
+
         </div>
         <div class="galeria">
-            <img src="IMAGEN/1.jpeg" onclick="cambiarMovil(this)">
-            <img src="IMAGEN/2.jpeg" onclick="cambiarMovil(this)">
-            <img src="IMAGEN/3.jpeg" onclick="cambiarMovil(this)">
-            <img src="IMAGEN/4.jpeg" onclick="cambiarMovil(this)">
+            <img src="IMAGEN/1.jpeg" alt="Zapatilla Runner Street modelo 1, color rosa, dama" onclick="cambiarMovil(this)">
+            <img src="IMAGEN/2.jpeg" alt="Zapatilla Runner Street modelo 2, color blanco, dama" onclick="cambiarMovil(this)">
+            <img src="IMAGEN/3.jpeg" alt="Zapatilla Runner Street modelo 3, color negro, dama" onclick="cambiarMovil(this)">
+            <img src="IMAGEN/4.jpeg" alt="Zapatilla Runner Street modelo 4, color azul, dama" onclick="cambiarMovil(this)">
+
         </div>
     </div>
     <div class="producto-info">
@@ -815,10 +828,15 @@ header {
             </p>
         </div>
         <div class="video-modelo">
-            <video controls>
+            <video controls
+                   poster="IMAGEN/1.jpeg"
+                   title="Zapatilla Runner Street para dama, video demostrativo de HYA Moda"
+                   aria-label="Video de zapatilla Runner Street para dama, HYA Moda">
                 <source src="IMAGEN/1.mp4" type="video/mp4">
+                Tu navegador no soporta el video.
             </video>
         </div>
+
         <!-- BLOQUE DE SERVICIOS MÓVIL -->
         <div class="servicios-mov">
             <div class="servicio">
@@ -1042,7 +1060,8 @@ track.forEach(t=>{
     images.forEach((src,i)=>{
         const div = document.createElement("div");
         div.className = "otros-item";
-        div.innerHTML = `<a href="../MODEL${i+1}/${i+1}.html"><img src="${src}"></a>`;
+        div.innerHTML = `<a href="../MODEL${i+1}/${i+1}.html"><img src="${src}" alt="Zapatilla Runner Street modelo ${i+1}, disponible en HYA Moda"></a>`;
+
         t.appendChild(div);
     });
 });
@@ -1159,6 +1178,10 @@ track.forEach((t, idx)=>{
     
 
 </script>
-
+<div style="display:none;">
+    Zapatillas urbanas para dama, cómodas y modernas. Perfectas para tu estilo diario en Perú. 
+    Compra zapatillas HYA Moda en línea. Modelos exclusivos, envío rápido y seguro.
+    Tallas 35 al 39. Combina con cualquier outfit urbano.
+</div>
 </body>
 </html>
